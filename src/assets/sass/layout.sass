@@ -1,0 +1,83 @@
+section#wrap
+	border-radius: 50px
+	background: #FFF
+	box-shadow: 10px 10px 30px 0px #DADDE5
+	@include mw
+header
+	//@include pw
+	padding: 0 calc(50% - 525px)
+	display: flex
+	justify-content: space-between
+	a.logo
+		text-decoration: none
+		display: flex
+		align-items: center
+		img
+			margin-right: 1rem
+		&:hover
+			opacity: 0.8
+		span
+			font-family: 'Montserrat'
+			font-weight: bold
+			color: $red
+			text-transform: uppercase
+			font-style: normal
+	section
+		display: flex
+		gap: 40px
+		align-items: center
+		padding: 14px 0
+		.icon-tr
+			font-size: 26px
+			cursor: pointer
+		span.head
+			display: flex
+			align-items: center	
+		.tel
+			span.head
+				span.icon-tr
+					border-radius: 50%
+					&:hover
+						background-color: #e7e8e9
+				a
+					text-decoration: none
+					&:hover
+						text-decoration: underline
+			&.open
+				.wrap
+					display: block	
+		.cur
+			span.head
+				color: $red
+				cursor: pointer
+				span.icon-tr
+					&:before
+						color: $red
+
+body.index-page
+	.slide
+		position: relative
+		&::after
+			content: ""
+			background: linear-gradient(180deg, rgba(255, 255, 255, 0.00) 0%, #3F4766 100%)
+			position: absolute
+			bottom: 0
+			width: 100%
+			height: 50%
+		.dsc
+			position: absolute
+			bottom: 0
+			z-index: 2
+			color: #fff
+			padding: 0 calc(50% - 525px)
+			h1,h2
+				text-shadow: 0px 4px 4px $blue
+				font-family: 'Montserrat'
+			h1
+				font-weight: 700
+				font-size: 64px
+				margin-bottom: 0
+			h2
+				font-weight: 600	
+				font-size: 30px
+				margin-top: 0
