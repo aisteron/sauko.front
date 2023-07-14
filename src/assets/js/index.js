@@ -5,5 +5,5 @@ document.readyState !== 'loading' ? init() : document.addEventListener('DOMConte
 function init(){
 	Ui()
 	//Pages()
-  console.log(0)
+  //console.log(0)
 }

@@ -8,6 +8,7 @@ header
 	padding: 0 calc(50% - 525px)
 	display: flex
 	justify-content: space-between
+	margin-top: 95px
 	a.logo
 		text-decoration: none
 		display: flex
@@ -34,8 +35,12 @@ header
 			display: flex
 			align-items: center	
 		.tel
+			position: relative
 			span.head
+				a
+					color: $blue
 				span.icon-tr
+					color: $blue
 					border-radius: 50%
 					&:hover
 						background-color: #e7e8e9
@@ -44,15 +49,73 @@ header
 					&:hover
 						text-decoration: underline
 			&.open
+				.head span.icon-tr
+					transform: rotate(180deg)
 				.wrap
-					display: block	
+					display: block
+			.wrap
+				background-color: #fff
+				box-shadow: -1px 2px 7px 1px rgba(0, 0, 0, 0.25)
+				border-radius: 3px
+				padding: 14px 0
+				position: absolute
+				z-index: 2
+				top: 40px
+				ul
+					li
+						font-size: 14px
+						&:not(:last-child)
+							margin-bottom: 12px
+						a
+							display: flex
+							align-items: center
+							text-decoration: none
+							padding-left: 14px
+							padding-right: 60px
+							&:hover
+								span:nth-of-type(2)
+									text-decoration: underline
+							[class^="icon-"]
+								font-size: 20px
+								display: inline-block
+								margin-right: 5px
+
+								
 		.cur
+			position: relative
 			span.head
 				color: $red
 				cursor: pointer
 				span.icon-tr
 					&:before
 						color: $red
+			&.open
+				.head span.icon-tr
+					transform: rotate(180deg)
+				.wrap
+					display: block
+			.wrap
+				position: absolute
+				top: 40px
+				left: -14px
+				z-index: 2
+				background-color: #fff
+				box-shadow: -1px 2px 7px 1px rgba(0, 0, 0, 0.25)
+				border-radius: 3px
+				padding: 17px 0
+				ul
+					li
+						padding-left: 15px
+						padding-right: 28px
+						cursor: pointer
+						&:hover
+							text-decoration: underline
+						&:not(:last-child)
+							margin-bottom: 13px
+
+
+		span.mail
+			color: $blue
 
 body.index-page
 	.slide
@@ -81,3 +144,58 @@ body.index-page
 				font-weight: 600	
 				font-size: 30px
 				margin-top: 0
+	.content
+		display: grid
+		gap: 20px
+		grid-template-columns: 250px 400px 385px
+		padding: 0 calc(50% - 525px)
+		nav.folder
+			&:nth-of-type(1)
+				grid-row: 1
+				grid-column: 1
+			&:nth-of-type(2)
+				grid-row: 2
+				grid-column: 1
+			&:nth-of-type(3)
+				grid-row: 3
+				grid-column: 1
+		nav.soc
+			grid-row: 4
+			grid-column: 1
+		.box.welcome
+			grid-row: 1
+			grid-column: 2
+		.calendar
+			grid-row: 1
+			grid-column: 3
+		.exlist
+			grid-row: 2
+			grid-column: 3
+	.box.welcome
+		padding: 23px 30px
+		h2
+			font-family: Montserrat
+			font-weight: bold
+			font-size: 20px
+			margin: 0
+			color: $blue
+		p
+			color: #6E7078
+			font-size: 1rem	
+			line-height: 136.5%
+		.sign
+			display: flex
+			gap: 22px
+			align-items: center
+			.name
+				span
+					display: block
+					&:nth-of-type(1)
+						font-family: Montserrat
+						color: $blue
+						font-size: 1rem
+						font-weight: bold
+					&:nth-of-type(2)
+						font-weight: 500
+						color: #6E7078
+						margin-top: 5px
