@@ -104,7 +104,7 @@ nav
 		background-color: #EFF1F7
 		border: 1px solid $border
 		border-radius: 20px
-		padding: 27px
+		padding: 11px 27px
 		ul
 			display: flex
 			gap: 20px
@@ -168,3 +168,51 @@ nav
 			padding: 16px 24px
 			margin: 0
 
+.flatpickr-calendar
+	font-size: 1rem
+	.flatpickr-months
+		height: 34px
+		display: flex
+		align-items: center
+		justify-content: space-between
+		.numInputWrapper
+			display: none
+		.flatpickr-prev-month, .flatpickr-next-month
+			background-color: #D0D0DA
+			border-radius: 50%
+			padding: 10px
+			cursor: pointer
+			transition: all 0.5s ease
+			&:hover
+				opacity: 0.5
+			svg
+				width: 14px
+				height: 14px
+		.flatpickr-current-month
+			display: flex
+	.flatpickr-innerContainer
+		.flatpickr-weekdaycontainer
+			display: grid
+			grid-template-columns: repeat(7, 1fr)
+			justify-content: space-between
+			margin: 10px 0
+			.flatpickr-weekday
+				text-align: center
+				font-weight: 500
+		.dayContainer
+			display: grid
+			grid-template-columns: repeat(7, 1fr)
+			justify-content: space-between
+
+			.flatpickr-day
+				text-align: center
+				border-radius: 50%
+				padding: 8px 0
+				display: block
+				cursor: pointer
+				&:hover
+					background-color: #D0D0DA
+				&.today
+					background-color: #D0D0DA
+				&.prevMonthDay, &.nextMonthDay
+					opacity: 0.5

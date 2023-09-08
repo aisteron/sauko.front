@@ -1,8 +1,59 @@
 import {qs, sw} from '../libs';
 
-export function Ui(){
+export async function Ui(){
 	dropdowns()
 	swipers()
+
+	await calendar.load()
+	calendar.init(qs('.column3 .calendar'))
+
+}
+
+export const calendar = {
+	async load(){
+		return new Promise(resolve => {
+
+			if(qs('[calendar]')){
+				resolve(true)
+				return
+			}
+			let script = document.createElement('script')
+			script.src = "/vendors/flatpickr/flatpickr.js"
+			script.setAttribute('calendar','')
+			qs('.scripts-area').appendChild(script)
+			
+			script.onload = () => {
+				// ru locale
+				let script = document.createElement('script')
+				script.src = "/vendors/flatpickr/ru.js"
+				qs('.scripts-area').appendChild(script)
+				script.onload = () => {
+					resolve(true)
+				}
+
+			}
+		})
+		
+	},
+	init(el){
+		flatpickr(el, {
+			"locale": "ru",
+			"dateFormat": "d.m",
+		  "inline": true,
+
+			onChange: function(selectedDates, dateStr, instance) {
+				console.log(dateStr)
+				console.log(Date.parse(selectedDates))
+			},
+			onDayCreate: function(dObj, dStr, fp, dayElem){
+		
+				//let cd = Date.parse(dayElem.dateObj)
+				
+				
+		}
+	});
+	}
+
 }
 
 function dropdowns(){
@@ -57,10 +108,5 @@ async function swipers(){
 		})
 
 	}
-
-	
-	
-
-
 	
 }
