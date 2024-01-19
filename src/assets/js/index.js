@@ -1,9 +1,9 @@
-import { Ui } from "./ui";
+//import { Ui } from "./ui";
 
 document.readyState !== 'loading' ? init() : document.addEventListener('DOMContentLoaded', init);
 
 function init(){
-	Ui()
+	//Ui()
 	//Pages()
-  //console.log(0)
+  console.log(0)
 }

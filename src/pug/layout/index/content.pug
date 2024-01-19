@@ -1,94 +1,21 @@
-.slide
-	img(src="/assets/img/slide.webp")
-	.dsc
-		h1 Sauko Travel
+#home_widgets
+	.hero
+		h1 sauko <i>travel</i>
 		h2 ваш индивидуальный гид по Беларуси
-.content.mt2
-	.column1
-		nav.folder
-			ul
-				li.active
-					a(href="/exlist.html")
-						span.icon-folder
-						span Экскурсии
-				li
-					a(href="/tourlist.html")
-						span.icon-folder
-						span Туры
-				li
-					a(href="/carlist.html")
-						span.icon-folder
-						span Аренда авто
-		nav.folder
-			ul
-				li
-					a(href="/subexlist.html")
-						span.icon-folder
-						span Для школьников
-				li
-					a(href="/subexlist.html")
-						span.icon-folder
-						span Производственные
-				li
-					a(href="/subexlist.html")
-						span.icon-folder
-						span Новый год
-		nav.folder
-			ul
-				li
-					a(href="/subcarlist.html")
-						span.icon-folder
-						span Премиум
-				li
-					a(href="/subcarlist.html")
-						span.icon-folder
-						span Микроавтобусы
-				li
-					a(href="/subcarlist.html")
-						span.icon-folder
-						span Автобусы
-		nav.soc
-			ul
-				li
-					a(href="#")
-						img(src="/assets/img/icons/viber.svg" width="20" height="22" loading="lazy")
-				li
-					a(href="#")
-						img(src="/assets/img/icons/wa.svg" width="20" height="20" loading="lazy")
-				li
-					a(href="#")
-						img(src="/assets/img/icons/inst.svg" width="20" height="20" loading="lazy")
-				li
-					a(href="#")
-						img(src="/assets/img/icons/tg.svg" width="25" height="20" loading="lazy")
-	.column2
-		.box.welcome
-			h2 Добро пожаловать!
-			p <i>Вiтаю ўсіх</i>, кто заглянул на страничку моего сайта! А раз Вы заглянули — значит, скорее всего, Вы увлекаетесь путешествиями, стремитесь к открытиями и познанию себя и окружающего мира. 
-			p Я – Инна Савко, экскурсовод, работающий в Минске, буду рада рассказать Вам о белорусских городах и местечках в увлекательной форме.
-			.sign
-				img(src="/assets/img/icons/avatar.jpg" srcset="/assets/img/icons/avatar@2x.jpg 2x")
-				.name
-					span Инна Савко
-					span
-						i экскурсовод
-		.box.reviews
-			.head
-				span.prev.icon-tr
-				span Отзывы
-				span.next.icon-tr
-			.swiper.reviews
-				.swiper-wrapper
-					.swiper-slide
-						.cnt
-							p Большое спасибо от коллектива концерна "Беллесбумпром"! Выражаем Вам огромную признательность за прекрасно организованную экскурсию. С радость будем обращаться к вам и в последующем!
-						//span.more.icon-tr
-					.swiper-slide
-						.cnt
-							p Большое спасибо от коллектива концерна "Беллесбумпром"! Выражаем Вам огромную признательность за прекрасно организованную экскурсию. С радость будем обращаться к вам и в последующем!
-							p Большое спасибо от коллектива концерна "Беллесбумпром"! Выражаем Вам огромную признательность
-						//span.more.icon-tr
-	.column3
-		.calendar
-		.exlist
-			p список экскурсий
+	.widget.welcome
+		.head
+			span.title Добро пожаловать!
+	.widget.reviews 
+		.head
+			span.title
+				a(href="/reviews.html") Отзывы
+			.arrows
+				span >	
+				span <
+	.widget.features
+		.head
+			span.title Мои преимущества
+	.widget.rating
+		.stars
+		span.rating 4.8
+		span.desc индекс <br> качества обслуживания
