@@ -1,2 +1,50 @@
 aside
-	p aside
+
+	.search
+		input(type="text" placeholder="Поиск")
+		img(src="/assets/img/icons/search.svg" width="24" height="24")
+	
+	nav.main
+		ul
+			li
+				a(href="/")
+					img(src="/assets/img/icons/home.svg" width="24" height="24")
+					span Главная
+			li.open.active
+				.head
+					img(src="/assets/img/icons/list.svg" width="24" height="24")
+					span Экскурсии
+					img.add(src="/assets/img/icons/add.svg" width="24" height="24")
+				ul.sub
+					li
+						a(href="/exlist.html") Школьные
+					li
+						a.active(href="/exlist.html") Сборные
+					li
+						a(href="/exlist.html") Пешеходные
+					li
+						a(href="/exlist.html") Производственные
+					li
+						a(href="/exlist.html") Масленица
+					li
+						a(href="/exlist.html") Новый год
+			li
+				a(href="/tours.html")
+					img(src="/assets/img/icons/bus.svg" width="24" height="24")
+					span Туры
+			li
+				a(href="/corp.html")
+					img(src="/assets/img/icons/cocktail.svg" width="24" height="24")
+					span Корпоративы
+	nav.service
+		ul
+			li
+				a(href="/about.html") Обо мне
+			li
+				a(href="/pay.html") Как оплатить?
+			li
+				a(href="/order.html") Как заказать?
+			li
+				a(href="/blog.html") Блог
+			li
+				a(href="/contacts.html") Контакты

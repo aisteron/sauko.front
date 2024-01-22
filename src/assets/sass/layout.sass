@@ -7,8 +7,9 @@
 header
 	display: flex
 	align-items: center
-	justify-content: space-between
-	background-color: #E0F1ED
+	//justify-content: space-between
+	gap: 36px
+	background-color: $lg
 	padding-right: 1rem
 	.logo
 		padding: 7px 0
@@ -24,17 +25,234 @@ header
 		ul.nav
 			display: flex
 			gap: 2rem
+			li
+				font-size: 1rem
+				font-weight: 500
+				color: #4B4B4B
+				&.tel a, &.cb
+					color: $green
+					cursor: pointer
+					&:hover
+						text-decoration: underline
+				a
+					text-decoration: none
+					color: #4B4B4B
 		.currency
 			.head
 				display: flex
 				align-items: center
 				gap: 7px
+				font-weight: 500
+				cursor: pointer
+				&:hover
+					color: $green
+					img
+						filter: $green_hover
 			ul
 				display: none	
 main
 	display: flex
+	gap: 2rem
 	article
 		flex-grow: 1
 aside
-	width: 350px
+	min-width: 350px
+	padding-left: 36px
+	
+	.search
+		position: relative
+		margin-top: 54px
+		img
+			filter: $grey_hover
+			position: absolute
+			top: 12px
+			left: 20px
+		input
+			width: 100%
+			height: 50px
+			border: 1px solid #A9A9A9
+			border-radius: 4px
+			padding-left: 56px
+			font-weight: 500
+			font-family: Roboto
+			font-size: 17px
+			&:focus
+				outline: none
+				background-color: #f5fefb
+				border-color: $green
+				~ img
+					filter: $green_hover
+			&::placeholder
+				font-family: Roboto
+				font-size: 17px
+				font-weight: 500
+				color: #6A707C
+	nav
+		a
+			text-decoration: none
+			color: #394253
+		>ul
+			>li >a, li .head span
+				font-weight: 500
+				font-size: 19px	
+		&.main
+			margin: 36px 0
+			.sub
+				display: none
+			ul
+				display: flex
+				flex-direction: column
+				gap: 10px
+				li
+					a
+						display: flex
+						align-items: center
+						gap: 1rem
+						padding: 10px
+						border-radius: 3px
+						color: #394253
+					.head
+						display: flex
+						align-items: center
+						gap: 1rem
+						padding: 10px
+						//padding-left: 10px
+						span
+							flex-grow: 1
+					&.open
+						ul.sub
+							display: block
+							background-color: #F5FEFB
+							padding: 1rem
+							padding-left: 52px
+							font-size: 18px
+							a
+								padding: 8px
+								&.active
+									color: $green
+								&:hover
+									color: $green
+					&.active
+						background-color: #E0F1ED
+						.head
+							span
+								color: $green
+							>img
+								filter: $green_hover
+		&.service
+			border-top: 1px solid #E8E9ED
+			padding-top: 36px
+			ul
+				display: flex
+				flex-direction: column
+				gap: 1rem
+				li
+					a
+						font-size: 18px
+						font-weight: 500
+						color: #394253
+						padding: 10px
+						&:hover, &.active
+							color: $green
+.widget
+	border-radius: 6px
+	.head
+		display: flex
+		justify-content: space-between
+		border-top-left-radius: 6px
+		border-top-right-radius: 6px
+		padding: 13px 21px
+		align-items: center
+		.title
+			font-weight: 500
+			font-size: 15px
+	.body
+		padding: 1rem 21px
+
+	&.welcome
+		.head
+			background-color: #F1E9E0
+		.body
+			background-color: #F9F6F2
+			p:first-of-type
+				margin-top: 0
+			.signature
+				img
+					border-radius: 50%
+	&.reviews
+		.head
+			background-color: #E0F1ED
+
+			.title
+				a
+					color: $green
+					text-decoration: none
+					position: relative
+					&:hover
+						text-decoration: underline
+					&:after
+						content: url(/assets/img/icons/outer.svg)
+						width: 12px
+						height: 12px
+						display: block
+						position: absolute
+						right: -15px
+						top: -6px
+			.arrows
+				display: flex
+				gap: 10px
+				img
+					border: 1px solid #333
+					border-radius: 4px
+					box-sizing: content-box
+					padding: 5px
+					cursor: pointer
+					filter: $green_hover
+					transition: all 0.3s ease
+					&:hover
+						filter: invert(96%) sepia(10%) saturate(190%) hue-rotate(109deg) brightness(99%) contrast(91%)
+						background-color: #fff
+					&.prev
+						transform: rotate(180deg)
+					&.swiper-button-disabled	
+body.index-page
+	#home_widgets
+		background-image: url(/assets/img/pages/index/bg.jpg)
+		background-repeat: no-repeat
+		background-size: cover
+		gap: 21px
+		display: grid
+		grid-template-columns: 1fr 1fr 240px
+		.hero
+			grid-row: 1
+			grid-column: 1/4
+			h1
+				font-weight: 900
+				font-size: 64px
+				text-transform: uppercase
+				margin-bottom: 0
+				margin-top: 40px
+				i
+					color: $green
+					font-style: normal
+			h2
+				font-size: 24px
+				font-weight: normal
+				margin-top: 10px
+				
+		.widget
+			&.welcome
+				grid-row: 2/4
+				grid-column: 1
+			&.reviews
+				grid-row: 2
+				grid-column: 2
+			&.rating
+				grid-row: 3
+				grid-column: 2
+			&.features
+				grid-column: 3
+				grid-row: 2/4
+
+
 
