@@ -12,10 +12,12 @@ header
 	background-color: $lg
 	padding-right: 1rem
 	.logo
-		padding: 7px 0
+
+		padding-left: 34px
+		padding-top: 14px
+		padding-bottom: 2px
 		background-color: #fff
 		width: 350px
-		padding-left: 34px
 		border-top-left-radius: 4px
 	.green
 		display: flex
@@ -49,7 +51,7 @@ header
 					img
 						filter: $green_hover
 			ul
-				display: none	
+				display: none
 main
 	display: flex
 	gap: 2rem
@@ -58,7 +60,7 @@ main
 aside
 	min-width: 350px
 	padding-left: 36px
-	
+
 	.search
 		position: relative
 		margin-top: 54px
@@ -94,7 +96,7 @@ aside
 		>ul
 			>li >a, li .head span
 				font-weight: 500
-				font-size: 19px	
+				font-size: 19px
 		&.main
 			margin: 36px 0
 			.sub
@@ -156,7 +158,7 @@ aside
 							color: $green
 .widget
 	border-radius: 6px
-	.head
+	>.head
 		display: flex
 		justify-content: space-between
 		border-top-left-radius: 6px
@@ -166,7 +168,7 @@ aside
 		.title
 			font-weight: 500
 			font-size: 15px
-	.body
+	>.body
 		padding: 1rem 21px
 
 	&.welcome
@@ -174,15 +176,40 @@ aside
 			background-color: #F1E9E0
 		.body
 			background-color: #F9F6F2
+			color: #484848
+			font-size: 15px
+			line-height: 140%
 			p:first-of-type
 				margin-top: 0
+				margin-bottom: 20px
 			.signature
+				display: grid
+				grid-template-columns: 64px 1fr
+				column-gap: 22px
+				align-items: center
+				margin-top: 20px
 				img
 					border-radius: 50%
+					grid-column: 1
+					grid-row: 1/3
+				span.name
+					grid-row: 1
+					grid-column: 2
+					color: #2E323D
+					font-size: 14px
+					font-weight: 500
+					align-self: flex-end
+				span.role
+					grid-row: 2
+					grid-column: 2
+					color: #484848
+					font-size: 15px
+					align-self: flex-start
 	&.reviews
+		overflow: hidden
 		.head
 			background-color: #E0F1ED
-
+			padding: 8px 21px
 			.title
 				a
 					color: $green
@@ -201,20 +228,66 @@ aside
 			.arrows
 				display: flex
 				gap: 10px
-				img
-					border: 1px solid #333
+				.prev img
+					transform: rotate(180deg)
+				.prev, .next
+					border: 1px solid $green
 					border-radius: 4px
-					box-sizing: content-box
 					padding: 5px
 					cursor: pointer
-					filter: $green_hover
-					transition: all 0.3s ease
+					img
+						filter: $green_hover
 					&:hover
-						filter: invert(96%) sepia(10%) saturate(190%) hue-rotate(109deg) brightness(99%) contrast(91%)
-						background-color: #fff
-					&.prev
-						transform: rotate(180deg)
-					&.swiper-button-disabled	
+						background-color: $green
+						img
+							filter: invert(96%) sepia(10%) saturate(190%) hue-rotate(109deg) brightness(99%) contrast(91%)
+					&.swiper-button-disabled
+						border-color: #ADADAD
+						cursor: not-allowed
+						img
+							filter: invert(79%) sepia(0%) saturate(0%) hue-rotate(6deg) brightness(89%) contrast(90%)
+						&:hover
+							background-color: transparent
+							img
+								filter: $green
+		.body
+			color: #484848
+			font-size: 15px
+			line-height: 140%
+			padding-right: 0
+			margin-right: 1px
+			background-color: #F2F9F8
+			.swiper-slide
+				.header
+					color: #2E323D
+					font-weight: 500
+					font-size: 15px
+					display: flex
+					align-items: center
+					justify-content: space-between
+					margin-bottom: 1rem
+					padding-right: 21px
+	&.rating
+		background: linear-gradient(245deg, #F8F2F9 18.57%, rgba(249, 242, 247, 0.00) 95.67%)
+		display: flex
+		flex-direction: column
+		gap: 0
+		padding: 14px
+		text-align: right
+		.stars
+			display: flex
+			gap: 5px
+			margin-left: auto
+			img
+				filter: invert(60%) sepia(41%) saturate(419%) hue-rotate(245deg) brightness(96%) contrast(97%)
+		span.rating
+			font-weight: 900
+			color: #CC89D8
+			font-size: 64px
+		span.desc
+			color: #9D31AF
+			font-size: 1rem
+			font-weight: 400
 body.index-page
 	#home_widgets
 		background-image: url(/assets/img/pages/index/bg.jpg)
@@ -239,7 +312,7 @@ body.index-page
 				font-size: 24px
 				font-weight: normal
 				margin-top: 10px
-				
+
 		.widget
 			&.welcome
 				grid-row: 2/4
@@ -253,6 +326,3 @@ body.index-page
 			&.features
 				grid-column: 3
 				grid-row: 2/4
-
-
-
