@@ -93,6 +93,7 @@ aside
 		a
 			text-decoration: none
 			color: #394253
+
 		>ul
 			>li >a, li .head span
 				font-weight: 500
@@ -113,6 +114,8 @@ aside
 						padding: 10px
 						border-radius: 3px
 						color: #394253
+						&:hover
+							color: $green
 					.head
 						display: flex
 						align-items: center
@@ -288,6 +291,27 @@ aside
 			color: #9D31AF
 			font-size: 1rem
 			font-weight: 400
+	&.features
+		background-image: linear-gradient(248deg, #FFF8E0 2.83%, rgba(242, 243, 249, 0.00) 60.78%), url(/assets/img/icons/features/bg.jpg)
+		.head
+			background-color: #FFEAD2
+		.body
+			padding-top: 21px
+			ul
+				display: flex
+				flex-direction: column
+				gap: 21px
+				width: 80%
+				li
+					font-size: 15px
+					font-weight: 500
+					color: #2E323D
+					display: flex
+					align-items: center
+					gap: 1rem
+					img
+						filter: invert(68%) sepia(93%) saturate(3776%) hue-rotate(359deg) brightness(104%) contrast(107%)
+
 body.index-page
 	#home_widgets
 		background-image: url(/assets/img/pages/index/bg.jpg)
@@ -296,6 +320,7 @@ body.index-page
 		gap: 21px
 		display: grid
 		grid-template-columns: 1fr 1fr 240px
+		padding-right: 1rem
 		.hero
 			grid-row: 1
 			grid-column: 1/4
@@ -311,7 +336,7 @@ body.index-page
 			h2
 				font-size: 24px
 				font-weight: normal
-				margin-top: 10px
+				margin-top: 0px
 
 		.widget
 			&.welcome
