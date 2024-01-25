@@ -1,8 +1,8 @@
-section.table.mt2
+section.table.mt2.mb2
 	span.h1 Школьные экскурсии
 	.tabs
 
-		.ex(href="/ex.html")
+		.ex.active(href="/ex.html")
 			img(src="/assets/img/icons/list.svg" width="24" height="24")
 			a(href="/ex.html") Экскурсии
 		
@@ -13,16 +13,16 @@ section.table.mt2
 		.corp(href="/corp.html")
 			img(src="/assets/img/icons/cocktail.svg" width="24" height="24")
 			a(href="/corp.html") Корпоративы
-	ul.tags
-		li.active.new
-			a(href="/ex/school.html" rel="school") Школьные 
-		li.new
-			a(href="/ex/school.html" rel="sbor") Сборные
+	ul.tags.mt2.mb2
 		li
+			a(href="/ex/school.html" rel="school") Школьные 
+		li
+			a(href="/ex/school.html" rel="sbor") Сборные
+		li.new
 			a(href="/ex/school.html" rel="ny") Новый год
 		li
 			a(href="/ex/school.html" rel="pan") Масленица
-		li
+		li.active.new
 			a(href="/ex/school.html" rel="factory") Производственные
 		li
 			a(href="/ex/school.html" rel="walk") Пешеходные
@@ -35,7 +35,7 @@ section.table.mt2
 	.table
 		.thead
 			.name
-				span Название
+				input(type="text" placeholder="Название экскурсии" required)
 				img(src="/assets/img/icons/search.svg" width="24" height="24")
 			span.duration Продолжительность, часов
 			span.distance Расстояние, км

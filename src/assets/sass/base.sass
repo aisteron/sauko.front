@@ -110,19 +110,144 @@ section.table
 		margin-bottom: 1rem
 	.tabs
 		display: flex
-		gap: 1rem
+		//gap: 1rem
 		margin-bottom: 1rem
+		.active
+			background-color: #E0F1ED
+			border-color: #BDEDE2
+			a
+				color: $green
+			img
+				filter: $green_hover	
+		a
+			text-decoration: none
+			color: #484848
+			font-size: 19px
+			font-weight: 500
+			&:before
+				content: ''
+				position: absolute
+				inset: 0
 		>*
+			border: 1px solid #E2E2E2
 			display: flex
 			align-items: center
 			gap: 1rem
+			padding: 12px 30px
+			position: relative
+			&:hover
+				background-color: #E0F1ED
+		.ex
+			border-top-left-radius: 6px
+			border-bottom-left-radius: 6px
+		.corp
+			border-top-right-radius: 6px
+			border-bottom-right-radius: 6px
+		.tours
+			border-right: 0	
+			border-left: 0	
+
 	ul.tags
 		display: flex
-		gap: 2rem
+		gap: 1rem
 		flex-wrap: wrap
-		color: #69686A
+
 		font-size: 15px
 		font-weight: 500
+		li
+			position: relative
+			a
+				text-decoration: none
+				color: #69686A
+				border: 1px solid transparent
+				padding: 7px 15px
+				border-radius: 4px
+				&:hover
+					color: $green
+					background-color: #e0f1ed
+			&.active
+				a
+					border-color: #028F68
+					color: $green
+					background-color: #e0f1ed
+			&.new
+				a:after
+						content: url(/assets/img/icons/exclamation.svg)
+						position: absolute
+						top: -6px
+						right: 0
+				&.active
+					a:after
+						top: -10px
+						right: -6px
 	.table
-		.thead
+		border: 1px solid #E8E9ED
+		border-top-right-radius: 6px	
+		border-top-left-radius: 6px
+		.thead, .tbody .row
 			display: grid
+			grid-template-columns: 1fr 200px 120px
+			align-items: center
+			gap: 1rem
+		.thead
+			background-color: #F9FAFC
+			border-top-right-radius: 6px	
+			border-top-left-radius: 6px
+			border-bottom: 1px solid #E8E9ED
+			font-weight: 500
+			font-size: 15px
+			color: #696F7B	
+			padding: 0 20px
+			span.duration, span.distance
+				text-align: right
+			.name
+				position: relative
+				margin-left: -20px
+				input
+					border: none
+					border-right: 1px solid #E8E9ED
+					border-bottom: 1px solid transparent	
+					background-color: #fff
+					border-top-left-radius: 6px
+					font-family: Roboto
+					font-weight: 500
+					padding-left: 50px
+					padding-top: 10px
+					padding-bottom: 10px
+					font-size: 15px
+					&::placeholder
+						font-size: 15px
+						font-weight: 500
+						font-family: Roboto
+						color: #696f7b
+					&:focus, &:valid
+						outline: none
+						border-bottom: 1px solid $green
+						~ img
+							filter: $green_hover
+				img
+					position: absolute
+					left: 13px
+					top: 7px
+					filter: invert(45%) sepia(7%) saturate(1007%) hue-rotate(186deg) brightness(95%) contrast(86%)
+		.tbody
+			padding: 20px
+			display: flex
+			flex-direction: column
+			gap: 20px
+			.row
+				font-size: 1rem
+				font-weight: 500
+				color: #111723
+				span.duration, span.distance
+					text-align: right
+				.name
+					display: flex
+					align-items: center
+					gap: 1rem
+					a
+						color: #111723
+						text-decoration: none
+						&:hover
+							text-decoration: underline
+							
