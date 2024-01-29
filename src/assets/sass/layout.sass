@@ -57,6 +57,7 @@ footer
 	color: #fff
 	margin-bottom: 1rem
 	padding: 1rem
+	padding-top: 23px
 	a
 		color: #fff
 		text-decoration: none
@@ -141,6 +142,7 @@ footer
 main
 	display: flex
 	gap: 2rem
+	margin-bottom: 2rem
 	article
 		flex-grow: 1
 		h1
@@ -402,6 +404,12 @@ aside
 					gap: 1rem
 					img
 						filter: invert(68%) sepia(93%) saturate(3776%) hue-rotate(359deg) brightness(104%) contrast(107%)
+	&.review_form
+		border-radius: 6px
+		background-color: rgba(224, 241, 237, 0.41)
+		.head
+			background-color: #E0F1ED
+			color: $green
 nav.bread
 	ol
 		list-style: none
@@ -424,7 +432,6 @@ nav.bread
 			&:not(:last-child):after
 				content: '/'
 				margin-left: 20px
-
 body.index-page
 	article
 		padding-right: 1rem
@@ -467,16 +474,38 @@ body.index-page
 				grid-column: 3
 				grid-row: 2/4
 body.contacts-page
+	article
+		padding-right: 1rem
 	.fake-masonry
 		--gap: clamp(1rem,5vmin,1rem)
 		columns: 400px
 		gap: var(--gap)
-		//width: 96%
 		max-width: 960px
-		margin: 1rem auto
 
-		> *
+		.item
 			break-inside: avoid
 			margin-bottom: var(--gap)
 			background-color: #F2F9F8
-			padding: 1rem
+			padding: 1.5rem
+			font-weight: 500
+			a
+				text-decoration: none
+				color: #4B4B4B
+			ul
+				li
+					line-height: 200%
+					&.tel a, &.cb
+						color: $green
+						cursor: pointer
+						&:hover
+							text-decoration: underline
+					&.ur
+						span
+							font-weight: 400
+							display: block
+							margin-top: 5px
+							line-height: 120%
+
+			&:nth-of-type(3)
+				padding: 0
+				height: 330px
