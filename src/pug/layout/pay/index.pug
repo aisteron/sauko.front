@@ -1,0 +1,21 @@
+
+block variables
+
+doctype html
+html(lang='ru')
+	head
+		meta(charset='utf-8')
+		title #{title}
+		meta(name="viewport" content="width=device-width, initial-scale=1")
+		block head
+
+	body(class=pageClass)
+		include ../../ui/edit_panel
+		#wrapper
+			include ../../ui/header
+			main
+				include ../../ui/aside
+				article
+					include ./content
+
+			include ../../ui/footer
