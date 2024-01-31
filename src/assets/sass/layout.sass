@@ -18,10 +18,8 @@ header
 		background-color: #fff
 		min-width: 350px
 		border-top-left-radius: 4px
-		a img
-			transition: all 0.3s ease
+		transition: all 0.3s ease
 		&:hover a img
-
 			opacity: 0.7
 	.green
 		display: flex
@@ -464,9 +462,9 @@ aside
 						background-color: darken(#F9FAFC, 5%)
 						border-color: darken(#E8E9ED,5%)
 					&.y
-						background-image:  url(/assets/img/icons/y.svg)
+						background-image: url(/assets/img/icons/y.svg)
 					&.g
-						background-image:  url(/assets/img/icons/g.svg)
+						background-image: url(/assets/img/icons/g.svg)
 				input
 					margin-left: auto
 					background-color: #E0F1ED
@@ -477,10 +475,10 @@ aside
 					font-weight: 500
 					font-family: Roboto
 					border-radius: 4px
-					background-image:  url(/assets/img/icons/hut.svg)
+					background-image: url(/assets/img/icons/hut.svg)
 					background-repeat: no-repeat
 					transition: all 0.3s ease
-					cursor: pointer		
+					cursor: pointer
 					padding: 12px 17px 10px 51px
 					background-position: 1rem 12px
 					&:hover
@@ -489,7 +487,7 @@ aside
 						cursor: not-allowed
 						background-color: #ff000026
 						color: #8d8d8d
-						filter: invert(60%) sepia(0%) saturate(6%) hue-rotate(141deg) brightness(93%) contrast(96%)	
+						filter: invert(60%) sepia(0%) saturate(6%) hue-rotate(141deg) brightness(93%) contrast(96%)
 nav.bread
 	ol
 		list-style: none
@@ -602,7 +600,7 @@ body.reviews-page
 			border-radius: 6px
 			&:nth-of-type(2n)
 				background-color: #F9F6F2
-		.item		
+		.item
 			padding: 2rem
 			color: #2E323D
 			font-size: 15px
@@ -612,7 +610,7 @@ body.reviews-page
 				justify-content: space-between
 				font-weight: 500
 			.body
-				line-height: 140%	
+				line-height: 140%
 body.blog-page
 	ul.table
 		border: 1px solid #E8E9ED
@@ -634,7 +632,7 @@ body.blog-page
 					text-decoration: underline
 			span.date
 				display: inline-block
-				margin-left: auto		
+				margin-left: auto
 				font-size: 15px
 	ul.pagination
 		display: flex
@@ -706,4 +704,34 @@ body.pay-page
 						font-size: 20px
 						font-weight: 500
 						left: -1rem
-						position: absolute	
+						position: absolute
+body.about-page
+	.columns
+		display: flex
+		gap: 20px
+		.column
+			display: flex
+			flex-direction: column
+			gap: 20px
+			&:first-of-type
+				width: 570px
+				.content, .reviews
+					background-color: #F2F9F8
+					color: #484848
+					line-height: 140%
+					font-size: 15px
+					padding: 1.5rem 2rem
+					border-radius: 4px
+					p:first-child
+						margin-top: 0
+				.reviews
+					picture, img
+						&:not(:last-child)
+							margin-bottom: 1rem
+			&:last-of-type
+				width: 237px
+				.person-swiper
+					position: relative
+					margin-bottom: 1rem
+					.swiper-pagination
+						bottom: -25px

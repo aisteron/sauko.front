@@ -1,0 +1,34 @@
+include ../../ui/bread
+h1 Обо мне
+.columns
+	.column
+		.content
+			p Еще в школе мне очень нравилось путешествовать по Беларуси. В рамках школьных экскурсий мы ежегодно посещали различные города.
+			p Помню отчетливо, когда мы были на экскурсии в Бресте, я «наблюдала» за нашим экскурсоводом и мысленно «примеряла» на себя образ гида и «организатора какого-нибудь путешествия». С этого момента я серьезно задумалась о профессии экскурсовода и постепенно начала развиваться в этом направлении. Как оказалось, процесс этот бесконечен, потому что каждая экскурсия помогает развиваться, совершенствовать свои профессиональные качества, узнавать что-то новое и, конечно, знакомиться и общаться с людьми. Это здорово!
+			p С удовольствием проведу для Вас и Ваших близких экскурсию по Беларуси!
+			p Также у меня есть опыт организации «туров под ключ» с проживанием, питанием, посещением музеев, аквапарков, театров, агроусадеб и т.д.
+		iframe(width="100%" height="315" src="https://www.youtube.com/embed/s6RYFFnJJ7E?si=ene960bOTWzAmz0x" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy")
+		.reviews
+			picture
+				source(srcset="/assets/img/pages/about/01.avif" type="image/avif")
+				img(src="/assets/img/pages/about/01.jpg" alt="Отзыв 1")
+			picture
+				source(srcset="/assets/img/pages/about/02.avif" type="image/avif")
+				img(src="/assets/img/pages/about/02.jpg" alt="Отзыв 2")
+	.column
+		.person-swiper
+			.swiper
+				.swiper-wrapper
+					.swiper-slide
+						picture
+							source(srcset="/assets/img/pages/about/03.avif" type="image/avif")
+							img(src="/assets/img/pages/aobut/03.jpg" loading="lazy" alt="Гид Инна Савко")
+					.swiper-slide
+						picture
+							source(srcset="/assets/img/pages/about/04.avif" type="image/avif")
+							img(src="/assets/img/pages/aobut/04.jpg" loading="lazy" alt="Гид Инна Савко")
+			.swiper-pagination
+		include ../../ui/widgets/features
+		include ../../ui/widgets/reviews
+
+
