@@ -706,32 +706,91 @@ body.pay-page
 						left: -1rem
 						position: absolute
 body.about-page
-	.columns
-		display: flex
-		gap: 20px
-		.column
-			display: flex
-			flex-direction: column
-			gap: 20px
-			&:first-of-type
-				width: 570px
-				.content, .reviews
-					background-color: #F2F9F8
-					color: #484848
-					line-height: 140%
-					font-size: 15px
-					padding: 1.5rem 2rem
-					border-radius: 4px
-					p:first-child
-						margin-top: 0
-				.reviews
-					picture, img
-						&:not(:last-child)
+	main
+		article
+			.columns
+				display: flex
+				gap: 20px
+				.column
+					display: flex
+					flex-direction: column
+					gap: 20px
+					&:first-of-type
+						width: 570px
+						.content, .reviews
+							background-color: #F2F9F8
+							color: #484848
+							line-height: 140%
+							font-size: 15px
+							padding: 1.5rem 2rem
+							border-radius: 4px
+							p:first-child
+								margin-top: 0
+						.reviews
+							picture, img
+								&:not(:last-child)
+									margin-bottom: 1rem
+					&:last-of-type
+						width: 237px
+						.person-swiper
+							position: relative
 							margin-bottom: 1rem
-			&:last-of-type
-				width: 237px
-				.person-swiper
-					position: relative
-					margin-bottom: 1rem
+							.swiper-pagination
+								bottom: -25px
+						.cert
+							span
+								font-size: 15px
+								color: #484848
+								display: inline-block
+								margin-top: 1rem
+body.ex-page
+	article
+		padding-right: 0
+		display: flex
+		gap: 40px
+		overflow: hidden
+		section.sidebar
+			width: 310px
+			background-color: #fafafa
+		section.content
+			flex: 1
+			min-width: 0
+			.ex-swiper
+				.swiper-slide
+					border-radius: 6px
+					// &:has([data-src]):has([width])
+					// 	position: relative
+					// 	&:after
+					// 		content: 'Loading...'
+					// 		position: absolute
+					// 		top: 50%
+					// 		left: calc(50% - 35px)
+							
+					img
+						background-color: #f5fefb
+						border-radius: 6px
+				.row
+					display: flex
+					gap: 2rem
+					align-items: center
+					margin-top: 1rem
 					.swiper-pagination
-						bottom: -25px
+						position: static
+						width: auto
+						border: 1px solid #E8E9ED
+						background-color: #F9FAFC
+						padding: 4px 8px
+						border-radius: 4px
+					ul
+						display: flex
+						gap: 1.5rem
+						font-size: 14px
+						color: #8A8A8A
+						li
+							display: flex
+							align-items: center
+							gap: 5px
+
+
+						
+						

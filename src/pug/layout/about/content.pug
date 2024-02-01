@@ -12,9 +12,10 @@ h1 Обо мне
 			picture
 				source(srcset="/assets/img/pages/about/01.avif" type="image/avif")
 				img(src="/assets/img/pages/about/01.jpg" alt="Отзыв 1")
-			picture
-				source(srcset="/assets/img/pages/about/02.avif" type="image/avif")
-				img(src="/assets/img/pages/about/02.jpg" alt="Отзыв 2")
+			a(href="/assets/img/pages/about/02b.jpg" data-fancybox="i02")
+				picture
+					source(srcset="/assets/img/pages/about/02.avif" type="image/avif")
+					img(src="/assets/img/pages/about/02.jpg" alt="Отзыв 2")
 	.column
 		.person-swiper
 			.swiper
@@ -30,5 +31,10 @@ h1 Обо мне
 			.swiper-pagination
 		include ../../ui/widgets/features
 		include ../../ui/widgets/reviews
+
+		.cert
+			a(href="/assets/img/pages/about/cert.avif" data-fancybox="gallery")
+				img(src="/assets/img/pages/about/cert_thumb.jpg" width="236" height="346")
+			span Свидетельство об аттестации экскурсовода №003471 от 21.10.2021 до 21.10.2026	
 
 

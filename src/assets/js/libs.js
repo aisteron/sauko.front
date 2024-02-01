@@ -81,3 +81,32 @@ export const sw = {
 
 	init(el,options){ new Swiper(el, options) }
 }
+
+export const fancy = {
+
+	async load(){
+		
+		return new Promise(resolve =>{
+			if(qs(['fancy'])){resolve(true); return}
+			let script = document.createElement("script")
+			script.src="/vendors/fancy/fancybox.umd.js"
+			script.setAttribute("fancy","")
+			qs(".scripts-area").appendChild(script)
+			
+			script.onload = () => {
+				let style = loadCSS("/vendors/fancy/fancybox.css")
+				onloadCSS(style, () =>  resolve(true))
+			}
+		})
+	},
+	async init(){
+		
+		if(!qs('[data-fancybox]')) return
+		await this.load()
+
+		Fancybox.bind("[data-fancybox]", {
+			// Your custom options
+		});
+	}
+
+}

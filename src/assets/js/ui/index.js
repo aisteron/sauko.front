@@ -1,7 +1,8 @@
-import { qs, sw } from "../libs";
+import { qs, sw,fancy } from "../libs";
 
 export function Ui(){
 	swipes()
+	fancy.init()
 }
 
 async function swipes(){
@@ -14,7 +15,6 @@ async function swipes(){
 
 		let options = {
 			slidesPerView: 1,
-
 			navigation: {
 				nextEl: qs(".next", reviews_swiper),
 				prevEl: qs(".prev", reviews_swiper)
@@ -28,7 +28,6 @@ async function swipes(){
 
 		let options = {
 			slidesPerView: 1,
-
 			pagination: {
         el: qs(".swiper-pagination", person_swiper),
       },
