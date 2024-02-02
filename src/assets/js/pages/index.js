@@ -20,6 +20,7 @@ async function ex_page_swiper() {
 
 		pagination: {
 			el: qs(".swiper-pagination", ex_swiper),
+			clickable: true
 		},
 	};
 

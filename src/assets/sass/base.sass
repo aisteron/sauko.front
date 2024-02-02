@@ -267,3 +267,74 @@ section.table
 		display: flex
 		gap: 1rem
 		margin-left: 2rem
+button.get_to_know_price
+	background-color: #fff
+	color: #FF0707
+	padding: 9px 1.5rem 10px 1.5rem
+	font-weight: 600
+	font-size: 14px
+	border: 1px solid #FF0707
+	border-radius: 6px
+	border-left-width: 4px
+	cursor: pointer
+	transition: all 0.3s ease
+	&:hover
+		background-color: #ff070712
+#similar_ex
+	span.title
+		font-weight: 500
+		display: block
+		color: #000
+		margin-bottom: 1rem
+	ul
+		padding: 1rem
+		border-left: 4px solid $green
+		background-color: #F2F9F8
+		border-top-left-radius: 6px
+		border-bottom-left-radius: 6px
+		display: flex
+		flex-direction: column
+		gap: 7px
+		padding-left: calc(1rem + 10px)
+		li
+			color: #484848
+			font-size: 15px
+			position: relative
+			&:before
+				content: "\2022"
+				font-size: 20px
+				font-weight: 500
+				color: $green
+				left: -16px
+				position: absolute
+				top: -1px
+		a
+			color: $green
+			&:hover
+				text-decoration: none		
+section#content
+	font-size: 15px
+	color: #484848
+	ul
+		padding-left: calc(1rem + 10px)
+		li
+			position: relative
+			line-height: 150%
+			&:before
+				content: '\2022'
+				font-weight: bold
+				color: $green
+				font-size: 21px
+				left: -1rem
+				top: 0
+				position: absolute
+
+	h2,h3
+		font-weight: 500
+	p, ul
+		line-height: 130%
+		margin: 1rem 0
+	a
+		color: $green
+		&:hover
+			text-decoration: none				

@@ -1,16 +1,7 @@
 include ../../ui/bread
 h1 Отзывы
 .fake-masonry
-	.widget.review_form 
-		.head
-			span.title Оставить отзыв обо мне
-		form.body
-			input(type="text" required placeholder="Ваше имя")
-			textarea(placeholder="Текст отзыва")
-			.row
-				a.y(href="#" target="_blank")
-				a.g(href="#" target="_blank")
-				input(type="submit" value="Отправить" disabled)
+	include ../../ui/widgets/review_form
 	.item.review
 		.head
 			span.name Светлана
