@@ -588,6 +588,44 @@ aside
 									text-overflow: ellipsis
 									white-space: nowrap
 									overflow: hidden
+	&.org
+		.head
+			background-color: #F1E0E0
+			color: #CD0202
+		.body
+			background-color: #F9F2F2
+			ul
+				li
+					position: relative
+					display: flex
+					gap: 22px
+					&:not(:last-child)
+						margin-bottom: 20px
+					picture, img
+						min-width: 60px
+						border-radius: 4px
+					.dsc
+						display: flex
+						flex-direction: column
+						justify-content: space-between
+						.chars
+							display: flex
+							gap: 1rem
+							color: #CD0202
+							font-size: 13
+							font-weight: 500
+					a
+						color: #111723
+						font-weight: 500
+						font-size: 1rem
+						text-decoration: none
+						&:hover
+							text-decoration: underline
+							color: #CD0202
+						&:after
+							position: absolute
+							content: ''
+							inset: 0
 
 nav.bread
 	ol
