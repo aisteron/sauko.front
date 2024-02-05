@@ -64,6 +64,8 @@ $notebook: 100%
 		margin: 0 calc(50% - $desktop/2)
 	@media(max-width: 1899px)
 		margin: 0 1rem
+	@media(max-width: 1000px)
+		margin: 0
 
 @mixin pw()
 	@media(min-width: 1900px)
@@ -259,6 +261,9 @@ section.table
 	background-color: #fff
 	display: flex
 	padding: 1rem
+	@media(max-width:1000px)
+		margin-top: 0
+		margin-bottom: 1rem !important
 	a.edit
 		font-weight: 500
 		color: #4B4B4B
@@ -268,6 +273,7 @@ section.table
 		display: flex
 		gap: 1rem
 		margin-left: 2rem
+		flex-wrap: wrap
 button.get_to_know_price
 	background-color: #fff
 	color: #FF0707
