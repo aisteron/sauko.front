@@ -218,8 +218,9 @@ aside
 						display: flex
 						align-items: center
 						gap: 1rem
-						padding: 10px
-						//padding-left: 10px
+						padding: 12px 10px
+						border-radius: 4px
+						cursor: pointer
 						span
 							flex-grow: 1
 					&.open
@@ -237,6 +238,7 @@ aside
 									color: $green
 					&.active
 						background-color: #E0F1ED
+						border-radius: 4px
 						.head
 							span
 								color: $green
@@ -626,7 +628,62 @@ aside
 							position: absolute
 							content: ''
 							inset: 0
-
+	&.star
+		background-image: url(/assets/img/widgets/star/bg.webp)
+		background-repeat: no-repeat
+		background-cover: size
+		padding: 1rem 20px
+		.meta
+			display: none
+		.digit
+			font-weight: 600
+			color: #CC89D8
+			font-size: 2rem
+			display: block
+			margin: 5px 0 2px
+		.count
+			display: block
+			font-size: 14px
+			color: #CC89D8
+			line-height: 130%
+		.rating
+			position: relative
+			width: 75px
+			height: 15px
+			background-image: url(/assets/img/widgets/star/out.svg)
+			background-size: 15px auto 
+			input
+				appearance: none
+				position: absolute
+				top: 0
+				left: 0
+				margin: 0
+				height: 15px
+				background-size: 15px auto
+				background-repeat: repeat-x
+				font-size: inherit
+				&:focus
+					outline: none
+				&:checked, &:hover
+					background-image:  url(/assets/img/widgets/star/fill.svg)
+					background-repeat: repeat-x
+				&:hover ~ input
+					background-image: url(/assets/img/widgets/star/out.svg)
+				&:nth-of-type(1)
+					width: 15px
+					z-index: 5
+				&:nth-of-type(2)
+					width: 30px
+					z-index: 4
+				&:nth-of-type(3)
+					width: 45px
+					z-index: 3
+				&:nth-of-type(4)
+					width: 60px
+					z-index: 2
+				&:nth-of-type(5)
+					z-index: 1
+					width: 75px
 nav.bread
 	ol
 		list-style: none
@@ -659,7 +716,8 @@ body.index-page
 		gap: 21px
 		display: grid
 		grid-template-columns: 1fr 1fr 240px
-		//padding-right: 1rem
+		padding-right: 1rem
+		margin-right: -1rem
 		.hero
 			grid-row: 1
 			grid-column: 1/4

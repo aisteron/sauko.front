@@ -1,4 +1,5 @@
 import "regenerator-runtime/runtime.js";
+Node.prototype.listen = Node.prototype.addEventListener;
 
 export let doc=document,
     qsa=(s,o=doc)=>o?.querySelectorAll(s),

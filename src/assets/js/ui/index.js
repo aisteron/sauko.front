@@ -3,6 +3,7 @@ import { qs, sw,fancy } from "../libs";
 export function Ui(){
 	swipes()
 	fancy.init()
+	toggle_aside_nav()
 }
 
 async function swipes(){
@@ -35,4 +36,11 @@ async function swipes(){
 		sw.init(qs(".swiper", person_swiper), options);
 		
 	}
+}
+
+function toggle_aside_nav(){
+	// слева аккордион навигации
+	qs('nav.main .head').listen("click", e => {
+		e.target.closest('li').classList.toggle('open')
+	})
 }
