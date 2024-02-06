@@ -1,7 +1,11 @@
 header
 	.logo
 		a(href="/")
-			img(src="/assets/img/icons/logo.svg" width="195" height="34")
+			picture
+				
+				img(
+					srcset="/assets/img/icons/logo_mobile.svg 2x, /assets/img/icons/logo.svg 1x"
+					width="195" height="34")
 	.green
 		ul.nav
 			li.tel
