@@ -1,0 +1,97 @@
+section.table.sbor
+	.tabs
+
+		.ex.active(href="/ex.html")
+			img(src="/assets/img/icons/list.svg" width="24" height="24")
+			a(href="/ex.html") Экскурсии
+		
+		.tours
+			img(src="/assets/img/icons/bus.svg" width="24" height="24")
+			a(href="/tours.html") Туры
+		
+		.corp(href="/corp.html")
+			img(src="/assets/img/icons/cocktail.svg" width="24" height="24")
+			a(href="/corp.html") Корпоративы
+
+	ul.tags.mt2.mb2
+		li
+			a(href="/ex/school.html" rel="school") Школьные 
+		li.active
+			a(href="/ex/school.html" rel="sbor") Сборные
+		li.new
+			a(href="/ex/school.html" rel="ny") Новый год
+		li
+			a(href="/ex/school.html" rel="pan") Масленица
+		li
+			a(href="/ex/school.html" rel="factory") Производственные
+		li
+			a(href="/ex/school.html" rel="walk") Пешеходные
+		li
+			a(href="/ex/school.html" rel="castle") Замки
+		li
+			a(href="/ex/school.html" rel="graduate") Выпускные
+		li
+			a(href="/ex/school.html" rel="history") Исторические
+
+	.filter.mb1
+		.item.today
+			span.label Сегодня
+			span.count 5
+		.item.tm.active
+			span.label Завтра
+			span.count 1
+		.item.week.disabled
+			span.label Эта неделя
+			span.count 0
+		.item.month
+			img.prev.disabled(src="/assets/img/icons/arrow.svg" width="16" height="16")
+			span.label Январь, 2024
+			img.next(src="/assets/img/icons/arrow.svg" width="16" height="16")
+		
+		.reset
+			span Сброс
+			img(src="/assets/img/icons/restart.svg" width="24" height="24")
+.table
+	.thead
+		span.date Дата
+		span.time Время
+		.name
+			input(type="text" placeholder="Название экскурсии" required)
+			img(src="/assets/img/icons/search.svg" width="24" height="24")
+			img.close(src="/assets/img/icons/close.svg" width="14" height="14")
+		span.seats Мест осталось	
+		.price
+			span Цена,
+			.head
+				span BYN
+				img(src="/assets/img/icons/tr.svg" width="10" height="5")
+			ul
+				li byn
+				li rub
+				li eur
+				li usd
+
+	.tbody
+		.row
+			span.date 3 дек
+			.record
+				span.time 10:00
+				a(href="/ex.html") Обзорная экскурсия по Минску
+				span.seats много
+				span(byn="60") 60
+				span.book Бронь
+			.record
+				span.time 12:00
+				a(href="/ex.html") Экскурсия в Брест и Брестскую крепость
+				span.seats 12
+				span(byn="60") 760
+				span.book Бронь
+		.row
+			span.date 4 дек
+			.record
+				span.time 10:00
+				a(href="/ex.html") Обзорная экскурсия по Минску
+				span.seats много
+				span(byn="60") 60
+				span.book Бронь
+

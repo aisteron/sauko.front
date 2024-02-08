@@ -159,7 +159,6 @@ section.table
 		display: flex
 		gap: 1rem
 		flex-wrap: wrap
-
 		font-size: 15px
 		font-weight: 500
 		li
@@ -188,6 +187,63 @@ section.table
 					a:after
 						top: -10px
 						right: -6px
+	.filter
+		display: flex
+		gap: 34px
+		border: 1px solid #E8E9ED
+		background-color: #F9FAFC
+		padding: 7px 21px
+		border-radius: 4px
+		.item, .reset
+			font-size: 15px
+			font-weight: 500
+			color: #696F7B
+			display: flex
+			gap: 7px
+			align-items: center
+			cursor: pointer
+			.count
+				background-color: #fff
+				border-radius: 4px
+				padding: 4px 8px
+				border: 1px solid #696F7B
+			&:hover, &.active
+				color: $green
+				.count
+					border-color: $green
+			&.disabled
+				color: #ADADAD
+				cursor: not-allowed
+				.count
+					border-color: #C6C6C6
+		.item
+
+			&.month
+				cursor: auto
+				&:hover
+					color: #696f7b
+				img
+					border-radius: 4px
+					border: 1px solid #696F7B
+					padding: 4px
+					box-sizing: content-box
+					cursor: pointer
+					&.prev
+						transform: rotate(180deg)
+					&.disabled
+						cursor: not-allowed
+						border-color: #000000cf
+						filter: invert(76%) sepia(2%) saturate(0%) hue-rotate(10deg) brightness(92%) contrast(89%)
+					&:hover
+						filter: invert(38%) sepia(97%) saturate(646%) hue-rotate(122deg) brightness(87%) contrast(98%)
+		.reset
+			margin-left: auto
+			img
+				filter: invert(45%) sepia(28%) saturate(171%) hue-rotate(182deg) brightness(89%) contrast(91%)
+			&:hover
+				color: #D35048
+				img
+					filter: invert(38%) sepia(96%) saturate(656%) hue-rotate(322deg) brightness(88%) contrast(87%)
 	.table
 		border: 1px solid #E8E9ED
 		border-top-right-radius: 6px
