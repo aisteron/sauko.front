@@ -51,47 +51,47 @@ section.table.sbor
 		.reset
 			span Сброс
 			img(src="/assets/img/icons/restart.svg" width="24" height="24")
-.table
-	.thead
-		span.date Дата
-		span.time Время
-		.name
-			input(type="text" placeholder="Название экскурсии" required)
-			img(src="/assets/img/icons/search.svg" width="24" height="24")
-			img.close(src="/assets/img/icons/close.svg" width="14" height="14")
-		span.seats Мест осталось	
-		.price
-			span Цена,
-			.head
-				span BYN
-				img(src="/assets/img/icons/tr.svg" width="10" height="5")
-			ul
-				li byn
-				li rub
-				li eur
-				li usd
-
-	.tbody
-		.row
-			span.date 3 дек
-			.record
-				span.time 10:00
-				a(href="/ex.html") Обзорная экскурсия по Минску
-				span.seats много
-				span(byn="60") 60
-				span.book Бронь
-			.record
-				span.time 12:00
-				a(href="/ex.html") Экскурсия в Брест и Брестскую крепость
-				span.seats 12
-				span(byn="60") 760
-				span.book Бронь
-		.row
-			span.date 4 дек
-			.record
-				span.time 10:00
-				a(href="/ex.html") Обзорная экскурсия по Минску
-				span.seats много
-				span(byn="60") 60
-				span.book Бронь
+	.table
+		.thead
+			span.date Дата
+			span.time Время
+			.name
+				img.search(src="/assets/img/icons/search.svg" width="24" height="24")
+				input(type="text" placeholder="Название экскурсии" required)
+				img.close(src="/assets/img/icons/close.svg" width="14" height="14")
+			span.seats Мест осталось	
+			.price
+				span Цена,
+				.head
+					span BYN
+					img(src="/assets/img/icons/tr.svg" width="10" height="5")
+				ul
+					li byn
+					li rub
+					li eur
+					li usd
+			.actions
+		.tbody
+			.row
+				span.date 3 дек
+				.record
+					span.time 10:00
+					a(href="/ex.html") Обзорная экскурсия по Минску
+					span.seats много
+					span(byn="60") 60
+					span.book Бронь
+				.record
+					span.time 12:00
+					a(href="/ex.html") Экскурсия в Брест и Брестскую крепость
+					span.seats 12
+					span(byn="60") 760
+					span.book Бронь
+			.row
+				span.date 4 дек
+				.record
+					span.time 10:00
+					a(href="/ex.html") Обзорная экскурсия по Минску
+					span.seats много
+					span(byn="60") 60
+					span.book Бронь
 
