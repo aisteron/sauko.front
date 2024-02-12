@@ -2,6 +2,7 @@ $green: #028F68
 $lg: #e0f1ed
 $grey_hover: invert(52%) sepia(14%) saturate(329%) hue-rotate(182deg) brightness(80%) contrast(87%)
 $green_hover: invert(38%) sepia(97%) saturate(646%) hue-rotate(122deg) brightness(87%) contrast(98%)
+$red_hover: invert(38%) sepia(96%) saturate(656%) hue-rotate(322deg) brightness(88%) contrast(87%)
 $tr: all 0.3s ease
 @font-face
 	font-family: 'Roboto'
@@ -115,6 +116,14 @@ section.table
 		display: flex
 		margin-bottom: 1rem
 		container-type: inline-size
+		@media(max-width:410px)
+			margin: 0 -1rem
+			margin-bottom: 1rem
+			>*
+				border-radius: 0 !important
+				border-right: 0
+				border-left: 0
+
 		.active
 			background-color: #E0F1ED
 			border-color: #BDEDE2
@@ -139,7 +148,7 @@ section.table
 			padding: 12px 30px
 			position: relative
 			@container(max-width: 511px)
-				padding: 12px 15px
+				padding: 12px 1rem
 				img
 					display: none
 			&:hover
@@ -161,6 +170,9 @@ section.table
 		flex-wrap: wrap
 		font-size: 15px
 		font-weight: 500
+		@media(max-width:440px)
+			margin-top: 1rem
+			margin-bottom: 1rem
 		li
 			position: relative
 			a
@@ -194,6 +206,17 @@ section.table
 		background-color: #F9FAFC
 		padding: 7px 21px
 		border-radius: 4px
+		@media(max-width:1100px)
+			flex-wrap: wrap
+			row-gap: 1rem
+			.reset
+				margin-left: 0
+		@media(max-width:410px)
+			margin-left: -1rem
+			margin-right: -1rem
+			border-radius: 0
+			border-right: 0
+			border-left: 0
 		.item, .reset
 			font-size: 15px
 			font-weight: 500
@@ -243,7 +266,7 @@ section.table
 			&:hover
 				color: #D35048
 				img
-					filter: invert(38%) sepia(96%) saturate(656%) hue-rotate(322deg) brightness(88%) contrast(87%)
+					filter: $red_hover
 	&.org
 		.table
 			border: 1px solid #E8E9ED
@@ -355,6 +378,11 @@ section.table
 			border-top-right-radius: 6px
 			border-top-left-radius: 6px
 			container-type: inline-size
+			@media(max-width:780px)
+				border-left: none
+				border-right: none
+			@media(max-width:410px)
+				margin: 0 -1rem
 			.thead
 				background-color: #F9FAFC
 				border-top-right-radius: 6px
@@ -368,9 +396,23 @@ section.table
 				grid-template-columns: 50px 50px 1fr 112px 90px 50px
 				gap: 1rem
 				align-items: center
+				@media(max-width:780px)
+					gap: 5px
+					padding: 0 1rem
+					border-radius: 0
+					border: none
+				@media(max-width:1024px)
+					grid-template-columns: 50px 50px 1fr
+					.seats, .price, .actions
+						display: none
+					.name
+						max-width: 230px
+						border-bottom: 1px solid #e8e9ed
 				.name
 					display: flex
 					align-items: center
+					@media(max-width:1190px)
+						margin-left: -23px
 					img
 						&.search
 							pointer-events: none
@@ -382,16 +424,22 @@ section.table
 							left: -35px
 							display: none
 							cursor: pointer
+							&:hover
+								filter: $red_hover
 							
 					input
 						padding: 10px 60px 9px 50px
 						border: none
 						border-right: 1px solid #E8E9ED
 						border-left: 1px solid #E8E9ED
+						border-bottom: 1px solid transparent
 						font-family: Roboto
 						font-size: 15px
 						font-weight: 500
 						color: #333
+						@media(max-width:1190px)
+							width: 100%
+							padding-right: 10px
 						&::placeholder
 							font-family: inherit
 							font-size: inherit
@@ -402,8 +450,7 @@ section.table
 						&:focus, &:valid
 							outline: none
 							background-color: #f5fefb
-							~ img.search
-								filter: $green_hover
+							border-bottom-color: $green
 				.price
 					.head
 						display: inline-flex
@@ -416,8 +463,13 @@ section.table
 					display: grid
 					grid-template-columns: 50px 1fr
 					padding: 20px
-					column-gap: 26px
-					row-gap: 1rem
+					gap: 1rem
+					row-gap: 2rem
+					@media(max-width:780px)
+						padding: 1rem
+						column-gap: 5px
+						a
+							font-size: 17px
 					&:nth-of-type(2n)
 						background-color: #EFF8F6
 					span.date
@@ -437,6 +489,39 @@ section.table
 						grid-template-columns: 50px 1fr 112px 90px 50px
 						font-size: 15px
 						align-items: center
+						@media(max-width:1024px)
+							grid-template-columns: 50px 100px 70px 50px
+							row-gap: 10px
+							.time
+								grid-column: 1
+								grid-row: 1
+								align-self: baseline
+								padding-top: 1.5px
+							a
+								grid-row: 1
+								grid-column: 2/5
+							.seats
+								grid-column: 2
+								grid-row: 2
+								color: #69686A
+								&:before
+									content: 'мест'
+									margin-right: 5px
+							.price
+								grid-row: 2
+								grid-column: 3
+								color: #69686A
+								.cur
+									display: inline-block !important
+									margin-left: 7px
+							.book
+								grid-row: 2
+								grid-column: 4	
+						@media(max-width:780px)
+							column-gap: 5px
+						.price
+							span.cur
+								display: none
 						.book
 							font-weight: 500
 							cursor: pointer

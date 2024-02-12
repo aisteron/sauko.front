@@ -1063,6 +1063,7 @@ body.ex-page
 		display: flex
 		gap: 20px
 		overflow: hidden
+		flex-wrap: wrap
 		section.sidebar
 			width: 330px
 			//background-color: #f2fbf7
@@ -1074,22 +1075,15 @@ body.ex-page
 			padding-left: 1rem
 		section.content
 			flex: 1
-			min-width: 0
+			min-width: 410px
 			.ex-swiper
 				.swiper-slide
 					border-radius: 6px
-					// &:has([data-src]):has([width])
-					// 	position: relative
-					// 	&:after
-					// 		content: 'Loading...'
-					// 		position: absolute
-					// 		top: 50%
-					// 		left: calc(50% - 35px)
-
 					img
 						background-color: #f5fefb
 						border-radius: 6px
 						width: 100%
+						object-fit: cover
 				.row
 					display: flex
 					gap: 2rem
@@ -1150,3 +1144,9 @@ body.ex-page
 						&:hover
 							color: $green
 							text-decoration: underline
+body.exlist-page
+	@media(max-width:760px)
+		aside
+			display: none
+		article
+			padding-left: 1rem	
