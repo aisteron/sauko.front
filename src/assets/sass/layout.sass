@@ -343,6 +343,8 @@ aside
 		.title
 			font-weight: 500
 			font-size: 15px
+			@media(max-width:480px)
+				font-size: 18px
 	>.body
 		padding: 1rem 21px
 	&.welcome
@@ -384,6 +386,7 @@ aside
 					align-self: flex-start
 	&.reviews
 		overflow: hidden
+		container-type: inline-size
 		.head
 			background-color: #E0F1ED
 			padding: 8px 21px
@@ -434,6 +437,9 @@ aside
 			padding-right: 0
 			margin-right: 1px
 			background-color: #F2F9F8
+			//@container(max-width: 430px)
+			@media(max-width:430px)
+				font-size: 17px
 			.swiper-slide
 				.header
 					color: #2E323D
@@ -497,6 +503,7 @@ aside
 	&.review_form
 		border-radius: 6px
 		background-color: rgba(224, 241, 237, 0.41)
+		container-type: inline-size
 		.head
 			background-color: #E0F1ED
 			color: $green
@@ -504,6 +511,7 @@ aside
 			display: flex
 			flex-direction: column
 			gap: 1rem
+			
 			input[type="text"]
 				border: none
 				padding: 10px
@@ -511,6 +519,7 @@ aside
 				font-size: 15px
 				color: #000
 				font-weight: 400
+				
 				&:focus, &:valid
 					outline: none
 					border-bottom: 1px solid $green
@@ -526,16 +535,22 @@ aside
 				font-family: Roboto
 				font-size: 15px
 				color: #000
+				resize: none
+
 				&:placeholder
 					color: #939393
 				&:focus
 					outline: none
 					border-color: darken(#D6E4E1, 15%)
+			@container(max-width: 430px)
+				input[type="text"], textarea
+					font-size: 18px
 			.row
 				display: flex
 				gap: 1rem
 				a
 					width: 41px
+					min-width: 41px
 					height: 38px
 					background-color: #F9FAFC
 					border: 1px solid #E8E9ED
@@ -866,8 +881,13 @@ body.index-page
 				grid-column: 3
 				grid-row: 2/4
 body.contacts-page
-	article
-		//padding-right: 1rem
+	main
+		@media (width < 720px)
+			aside
+				display: none
+			article
+				padding-left: 1rem	
+
 	.fake-masonry
 		--gap: clamp(1rem,5vmin,1rem)
 		columns: 400px
@@ -880,6 +900,8 @@ body.contacts-page
 			background-color: #F2F9F8
 			padding: 1.5rem
 			font-weight: 500
+			@media(max-width:720px)
+				font-size: 18px
 			a
 				text-decoration: none
 				color: #4B4B4B
@@ -902,6 +924,11 @@ body.contacts-page
 				padding: 0
 				height: 330px
 body.reviews-page
+	@media(max-width:720px)
+		aside
+			display: none
+		article
+			padding-left: 1rem
 	.fake-masonry
 		--gap: clamp(1rem,5vmin,1rem)
 		columns: 300px
@@ -918,6 +945,8 @@ body.reviews-page
 			padding: 2rem
 			color: #2E323D
 			font-size: 15px
+			@media(max-width:720px)
+				font-size: 18px
 			.head
 				display: flex
 				align-items: center
@@ -926,6 +955,12 @@ body.reviews-page
 			.body
 				line-height: 140%
 body.blog-page
+	main
+		@media(max-width:720px)
+			aside
+				display: none
+			article
+				padding-left: 1rem	
 	ul.table
 		border: 1px solid #E8E9ED
 		padding: 20px
@@ -984,6 +1019,17 @@ body.blog-page
 				img
 					transform: rotate(180deg)
 body.pay-page
+	main
+		@media(max-width:720px)
+			article
+				padding-left: 1rem
+			aside
+				display: none
+			.fake-masonry	
+				p, ul
+					font-size: 18px
+				.head
+					font-size: 20px
 	.fake-masonry
 		--gap: clamp(20px,5vmin,1rem)
 		columns: 400px
@@ -1021,6 +1067,26 @@ body.pay-page
 						position: absolute
 body.about-page
 	main
+		@media(max-width:720px)
+			aside
+				display: none
+			article
+				padding: 1rem	
+			.columns
+				.column
+					&:first-of-type
+						.content
+							padding: 1rem !important
+							font-size: 18px !important	
+							
+		@media(max-width:1240px)
+			article
+				.columns
+					flex-wrap: wrap
+					.column
+						&:first-of-type
+							@media(max-width:940px)
+								width: 100%
 		article
 			.columns
 				display: flex
@@ -1046,6 +1112,8 @@ body.about-page
 									margin-bottom: 1rem
 					&:last-of-type
 						width: 237px
+						@media(max-width:480px)
+							width: 86vw
 						.person-swiper
 							position: relative
 							margin-bottom: 1rem
@@ -1084,7 +1152,9 @@ body.ex-page
 				flex-wrap: wrap
 				>*
 					width: 45%
-					min-width: 280px
+					min-width: 300px
+					@media(max-width:480px)
+						width: 100%
 		section.content
 			flex: 1
 			min-width: 410px
