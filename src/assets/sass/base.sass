@@ -101,10 +101,22 @@ $notebook: 100%
 
 		&:nth-child(2)
 			top: 6px
-			//height: 2.2px
 
 		&:nth-child(3)
 			top: 12px
+
+	&.open span
+		&:nth-child(1)
+			top: 6px
+			transform: rotate(135deg)
+
+		&:nth-child(2)
+			opacity: 0
+			left: -60px
+
+		&:nth-child(3)
+			top: 6px
+			transform: rotate(-135deg)
 
 section.table
 	.h1

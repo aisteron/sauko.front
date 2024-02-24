@@ -32,6 +32,25 @@ export async function load_toast(){
 	})
 }
 
+export async function load_swiped(){
+
+	// https://github.com/john-doherty/swiped-events/tree/master
+
+	// document.addEventListener('swiped-left', function(e) {
+	// 	console.log(e.target); // element that was swiped
+	// 	console.log(e.detail); // see event data below
+	// });
+
+	return new Promise(resolve => {
+		let script = document.createElement('script')
+		script.src = '/vendors/swiped-events.min.js'
+		qs('.scripts-area').appendChild(script)
+		script.onload = () => {
+			resolve('swipe assets loaded')
+		}
+	})
+}
+
 export async function xml(action, data, path){
   
   data && (data = JSON.stringify(data))
