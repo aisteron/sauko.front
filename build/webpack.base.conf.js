@@ -26,6 +26,7 @@ module.exports = {
   },
   entry: {
     app: PATHS.src,
+		react: `${PATHS.src}/react.jsx`,
     // module: `${PATHS.src}/your-module.js`,
   },
   output: {
@@ -73,6 +74,18 @@ module.exports = {
       loader: 'babel-loader',
       exclude: '/node_modules/'
     },
+		{
+			test: /\.jsx?$/,
+			exclude: /node_modules/,
+			use: [
+				{
+					loader: 'babel-loader',
+					options: {
+						presets: ['@babel/preset-react']
+					}
+				}
+			],
+		},
 		{
       test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
       loader: 'file-loader',

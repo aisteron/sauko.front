@@ -1,0 +1,50 @@
+$green: #028F68
+.underlay.wrap
+	position: absolute
+	top: 0
+	left: 0
+	width: 100%
+	height: 100%
+	background-color: #0000005e
+	display: flex
+	align-items: center
+	justify-content: center
+	color: #111
+	.orderform
+		width: 360px
+		background-color: #fff
+		border-radius: 6px
+		border: 1px solid $green
+		>.header
+			background-color: #E0F1ED
+			font-size: 18px
+			color: #2D2D2D
+			border-top-left-radius: 6px
+			border-top-right-radius: 6px
+			display: flex
+			padding: 13px 21px
+			.close
+				margin-left: 10px
+				@media(hover:hover)
+					&:hover
+						filter: invert(13%) sepia(85%) saturate(5419%) hue-rotate(357deg) brightness(102%) contrast(115%)
+			>span
+				width: 309px	
+			.name
+				color: $green
+				width: 220px
+				overflow: hidden
+				white-space: nowrap
+				text-overflow: ellipsis
+				display: inline-block
+		>.tabs
+			display: flex
+			gap: 1rem
+			background-color: #EFF8F6
+		>.schedule
+			.head
+				display: flex
+				gap: 1rem
+				.currency
+					ul
+						display: none			
