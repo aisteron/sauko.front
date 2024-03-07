@@ -1,4 +1,5 @@
 $green: #028F68
+$green_hover: invert(38%) sepia(97%) saturate(646%) hue-rotate(122deg) brightness(87%) contrast(98%)
 .underlay.wrap
 	position: absolute
 	top: 0
@@ -15,6 +16,7 @@ $green: #028F68
 		background-color: #fff
 		border-radius: 6px
 		border: 1px solid $green
+		box-shadow: 2px 2px 46px #03433182
 		>.header
 			background-color: #E0F1ED
 			font-size: 18px
@@ -29,7 +31,7 @@ $green: #028F68
 					&:hover
 						filter: invert(13%) sepia(85%) saturate(5419%) hue-rotate(357deg) brightness(102%) contrast(115%)
 			>span
-				width: 309px	
+				width: 309px
 			.name
 				color: $green
 				width: 220px
@@ -39,12 +41,102 @@ $green: #028F68
 				display: inline-block
 		>.tabs
 			display: flex
-			gap: 1rem
+			justify-content: space-between
 			background-color: #EFF8F6
+			span
+				padding: 11px 20px
+				border-bottom: 1px solid #74C2AC
+				width: 100%
+				cursor: pointer
+				@media(hover:hover)
+					&:hover
+						background-color: #daf1eb
+				&.active
+					background-color: #fff
+					border: 1px solid #74C2AC
+					border-bottom: none
+					color: $green
+					&:hover
+						background-color: #fff
+				&:first-of-type
+					border-left: none
+
 		>.schedule
-			.head
-				display: flex
-				gap: 1rem
+
+			>.head
+				display: grid
+				grid-template-columns: 80px 47px 50px 80px
+				justify-content: space-between
+				border-bottom: 1px solid #74C2AC
+				padding: 11px 0
+				>span
+					font-size: 1rem
+					color: #5F606B
+					//&:first-of-type
+					text-align: right
+
 				.currency
+					cursor: pointer
+					&.open
+						.head img
+							transform: rotate(180deg)
+						ul
+							display: block
+					.head
+						display: flex
+						gap: 10px
+						align-items: center
+						font-weight: 500
+						color: $green
+						img
+							filter: $green_hover
+							margin-right: 1rem
+						span
+							display: block
+							margin-left: auto
 					ul
-						display: none			
+						display: none
+
+			.body
+				padding: 20px 0
+				display: flex
+				flex-direction: column
+				gap: 20px
+				.row
+					display: grid
+					grid-template-columns: 80px 47px 50px 80px
+					justify-content: space-between
+					font-size: 16px
+					color: #5F606B
+					align-items: center
+					.date
+						display: flex
+						align-items: center
+						gap: 10px
+						margin-left: auto
+						.radio
+							input
+								display: none
+								&:checked ~ span
+									&:after
+										content: ''
+										width: 10px
+										height: 10px
+										background-color: $green
+										position: absolute
+										border-radius: 50%
+										left: 4px
+										top: 4px
+							span
+								border: 1px solid $green
+								width: 20px
+								height: 20px
+								border-radius: 50%
+								display: block
+								position: relative
+					>span
+						text-align: right
+						&:last-of-type
+							font-weight: 500
+							color: #F0572C
+							padding-right: 1rem

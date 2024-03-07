@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { store,switch_tab } from './store';
+import { v4 as uuidv4 } from 'uuid';
 import './OrderForm.sass'
-import { useDispatch } from 'react-redux';
-import { switch_tab } from './store';
 
 export const OrderForm = () => {
+
+	store.subscribe(_ => {
+		console.log(store.getState())
+	
+	})
+
 	return(
 		<div className="underlay wrap">
 			<div className="orderform">
@@ -18,6 +25,7 @@ export const OrderForm = () => {
 
 				<Schedule />
 				<Program />
+				<Book />
 
 			</div>
 		</div>
@@ -26,7 +34,7 @@ export const OrderForm = () => {
 }
 
 const Tabs = () => {
-
+	const currentTab = useSelector(state => state.selected.tabs)[0]
 	const dispatch = useDispatch()
 
 	let tabs = [
@@ -47,7 +55,12 @@ const Tabs = () => {
 	return(
 		<div className="tabs">
 			{tabs.map(el =>
-				<span onClick={dispatch(switch_tab(el.action))}>{el.label}</span>
+				<span
+						className={el.action == currentTab ? 'active': null}
+						key={uuidv4()}
+						onClick={() => dispatch(switch_tab([el.action, el.action == 'book' ? 'customer': null ]))}>
+					{el.label}
+				</span>
 			)}
 		</div>
 	)
@@ -55,14 +68,19 @@ const Tabs = () => {
 }
 
 const Schedule = () => {
+	const currentTab = useSelector(state => state.selected.tabs)[0]
+
+	const[curOpen, setCurOpen] = useState(false)
+	
+	if(currentTab == 'schedule')
 	return(
 		<div className='schedule'>
 		<div className="head">
 			<span>Дата</span>
 			<span>Время</span>
 			<span>Мест</span>
-			<div className="currency">
-				<div className="head">
+			<div className={`currency ${curOpen ? 'open': null}`}>
+				<div className="head" onClick={()=>setCurOpen(!curOpen)}>
 					<span>BYN</span>
 					<img src="/assets/img/icons/tr.svg" width="10" height="5"/>
 				</div>
@@ -75,15 +93,25 @@ const Schedule = () => {
 		</div>
 		<div className="body">
 			<div className="row">
-				<input type="radio" />
-				<span>22.01</span>
+				<div className="date">
+					<label className="radio">
+						<input type="radio" name="radio"/>
+						<span></span>	
+					</label>
+					<span>22.01</span>
+				</div>
 				<span>10:00</span>
 				<span>много</span>
 				<span>120</span>
 			</div>
 			<div className="row">
-				<input type="radio" />
-				<span>22.01</span>
+			<div className="date">
+					<label className="radio">
+						<input type="radio" name="radio"/>
+						<span></span>	
+					</label>
+					<span>22.01</span>
+				</div>
 				<span>11:00</span>
 				<span>32</span>
 				<span>100</span>
@@ -94,7 +122,19 @@ const Schedule = () => {
 }
 
 const Program = () => {
+	const currentTab = useSelector(state => state.selected.tabs)[0]
+	
+	if(currentTab == 'program')
 	return(
 		<p>Программа и прочее</p>
+	)
+}
+
+const Book = () => {
+	const currentTab = useSelector(state => state.selected.tabs)[0]
+	
+	if(currentTab == 'book')
+	return(
+		<p>Бронирование</p>
 	)
 }
