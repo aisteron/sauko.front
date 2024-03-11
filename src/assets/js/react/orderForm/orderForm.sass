@@ -8,7 +8,7 @@ $green_hover: invert(38%) sepia(97%) saturate(646%) hue-rotate(122deg) brightnes
 	height: 100%
 	background-color: #0000005e
 	display: flex
-	align-items: center
+	//align-items: center
 	justify-content: center
 	color: #111
 	.orderform
@@ -17,6 +17,9 @@ $green_hover: invert(38%) sepia(97%) saturate(646%) hue-rotate(122deg) brightnes
 		border-radius: 6px
 		border: 1px solid $green
 		box-shadow: 2px 2px 46px #03433182
+		align-self: baseline
+		margin-top: 3rem
+
 		>.header
 			background-color: #E0F1ED
 			font-size: 18px
@@ -45,9 +48,11 @@ $green_hover: invert(38%) sepia(97%) saturate(646%) hue-rotate(122deg) brightnes
 			background-color: #EFF8F6
 			span
 				padding: 11px 20px
+				border: 1px solid transparent
 				border-bottom: 1px solid #74C2AC
 				width: 100%
 				cursor: pointer
+				
 				@media(hover:hover)
 					&:hover
 						background-color: #daf1eb
@@ -60,6 +65,10 @@ $green_hover: invert(38%) sepia(97%) saturate(646%) hue-rotate(122deg) brightnes
 						background-color: #fff
 				&:first-of-type
 					border-left: none
+				&:last-of-type
+					text-align: center	
+					&.active
+						border-right: none
 
 		>.schedule
 
@@ -76,12 +85,35 @@ $green_hover: invert(38%) sepia(97%) saturate(646%) hue-rotate(122deg) brightnes
 					text-align: right
 
 				.currency
-					cursor: pointer
+					position: relative
+					.head
+						cursor: pointer
 					&.open
 						.head img
 							transform: rotate(180deg)
 						ul
-							display: block
+							display: flex
+							text-align: right
+							//padding-right: 1rem
+							border: 1px solid #7CC5B1
+							flex-direction: column
+							gap: 10px
+							//width: 30px
+							padding: 10px 0
+							position: absolute
+							right: -1px
+							top: 30px
+							background-color: #fff
+							
+							li
+								padding: 0 1rem
+								color: #5F606B
+								font-weight: 500
+								cursor: pointer
+								&:hover
+									color: $green
+
+
 					.head
 						display: flex
 						gap: 10px
@@ -140,3 +172,274 @@ $green_hover: invert(38%) sepia(97%) saturate(646%) hue-rotate(122deg) brightnes
 							font-weight: 500
 							color: #F0572C
 							padding-right: 1rem
+		>.program
+			color: #2D2D2D
+			padding: 1.5rem 20px
+			a
+				color: $green
+				text-decoration: underline
+				&:hover
+					text-decoration: none
+			.dsc .head, .prg .head
+				font-size: 18px
+			.dsc
+				>.row
+					&:first-of-type
+						margin-top: 21px
+					&:nth-of-type(2)
+						margin: 21px 0
+					p
+						margin: 0
+						&:first-of-type
+							font-weight: 500
+							margin-bottom: 5px
+						&:last-of-type
+							color: #5F606B
+				ul.stats
+					li
+						display: flex
+						justify-content: space-between
+						align-items: center
+						line-height: 160%
+						span
+							font-weight: 500
+							&:first-of-type
+								color: #2D2D2D
+							&:last-of-type
+								color: #484848	
+							&[byn], .cur
+								color: #F0572C
+							&.edit
+								display: flex
+								align-items: center
+								gap: 10px
+								img
+									filter: $green_hover
+									cursor: pointer
+			.prg
+				.head
+					display: block
+					margin: 21px 0
+				ul
+					padding-left: 28px
+					li
+						color: #028F68
+						font-weight: 500
+						position: relative
+						line-height: 190%
+						&:before
+							content: url(/assets/img/icons/sradio.svg)
+							position: absolute
+							left: -28px
+							top: 3px
+						ul
+							padding-left: 10px
+							margin: 5px 0
+							li
+								font-weight: normal
+								font-size: 15px
+								color: #484848
+								line-height: 130%
+								&:not(:last-child)
+									margin-bottom: 3px
+								&:before
+									content: ''	
+		>.book
+			ul.subtabs
+				display: flex
+				justify-content: space-between
+				color: #5F606B
+				padding: 12px 20px
+				border-bottom: 1px solid #74C2AC
+				padding-bottom: 0
+				padding-right: 10px
+				li
+					border-bottom: 1px solid transparent
+					padding-bottom: 7px
+					cursor: pointer
+					&:hover
+						color: $green
+					&.active
+						border-color: $green
+						color: $green
+					&.send
+						border: 1px solid #F6997F
+						padding: 5px
+						padding-top: 6px
+						border-radius: 6px
+						cursor: pointer
+						transform: translateY(-5px)
+						background-color: #FEF4F1
+						&:hover
+							background-color: #d3735847
+						svg path
+							fill: #CD0202
+						&.disabled
+							background-color: #FBFBFB
+							border-color: #C9C9C9
+							cursor: not-allowed
+							svg path
+								fill: #909090
+			.customer
+				padding: 1.5rem 20px
+				.fields
+					display: flex
+					flex-direction: column
+					gap: 20px
+					label
+						color: #696F7B
+						position: relative
+					span
+						position: absolute
+						left: 0
+						top: 6px
+						font-size: 15px
+						cursor: text
+						transition: all 0.3s ease 
+						@media(max-width:420px)
+							font-size: 17px
+						&.comment
+							top: 36px
+							font-size: 12px
+					input
+						border: none
+						border-bottom: 1px solid #A9A9A9	
+						width: 100%
+						padding: 7px
+						@media(max-width:420px)
+							font-size: 17px
+						&:focus, &:valid
+							outline: none
+							background-color: #eff8f6
+							border-color: $green
+							& ~ span
+								top: -13px
+								font-size: 12px
+								&.comment
+									top: 36px
+				.messengers
+					margin: 30px 0
+					margin-top: 45px
+				.messengers, .pay
+					label
+						display: flex
+						gap: 10px
+						align-items: center
+						font-size: 15px
+						color: #484848
+						cursor: pointer
+						@media(hover:hover)
+							&:hover
+								color: $green
+					span.square
+						border: 1px solid $green
+						width: 20px
+						height: 20px
+						border-radius: 3px
+						display: block
+						position: relative
+					input
+						display: none
+						&:checked ~ span
+							color: $green
+						&:checked ~ span.square
+							&:before
+								content: ''
+								display: block
+								position: absolute
+								width: 10px
+								height: 10px
+								background-color: $green
+								top: 4px
+								left: 4px
+								border-radius: 3px
+				.messengers, .pay
+					display: flex
+					flex-direction: column
+					gap: 1rem		
+			.tourists
+				padding: 20px 1.5rem
+				.row
+					display: flex
+					flex-direction: column
+					gap: 1rem
+					.buttons
+						display: flex
+						gap: 14px
+						button
+							padding: 10px 1.4rem
+							border: none
+							cursor: pointer
+							font-family: Roboto
+							border-radius: 4px
+							font-size: 1rem
+							transition: all 0.3s ease
+							&:focus
+								outline: none
+							&.add
+								background-color: #C7E8E0	
+								color: $green
+								&:hover
+									background-color: darken(#C7E8E0, 5%)
+							&.remove
+								background-color: #EEEEEE
+								&:hover
+									background-color: darken(#eee, 5%)
+					label.age
+						display: flex
+						gap: 10px
+						align-items: center
+						cursor: pointer
+						//margin: 10px 0
+						align-self: flex-start
+						&:hover
+							color: $green
+							.square
+								background-color: #eff8f6
+						input
+							display: none
+							&:checked ~ span.square:before
+								content: ''
+								width: 10px
+								height: 10px
+								display: block
+								background-color: $green
+								position: absolute
+								top: 4px
+								left: 4px
+								border-radius: 3px
+						span.square
+							display: block
+							width: 20px
+							height: 20px
+							border: 1px solid $green	
+							position: relative
+							border-radius: 4px
+					label.t
+						position: relative
+						align-self: flex-start
+						input
+							border: none
+							border-bottom: 1px solid #A9A9A9
+							padding: 5px
+							@media(max-width:420px)
+								font-size: 17px
+							&:focus, &:valid
+								outline: none
+								background-color: #daf1eb
+								border-color: $green
+								~ span
+									font-size: 12px
+									top: -14px
+						span
+							position: absolute
+							top: 2px
+							left: 0
+							color: #696F7B
+							cursor: text
+							transition: all 0.3s ease
+							font-size: 15px
+							color: #696F7B
+							@media(max-width:420px)
+								font-size: 17px
+

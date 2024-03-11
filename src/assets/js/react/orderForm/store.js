@@ -8,7 +8,7 @@ const orderFormSlice = createSlice({
 		open: true,
 		selected:{
 			exid: null,
-			tabs:['schedule', null],
+			tabs:['book', 'tourists'],
 			currency: 'BYN',
 			schedule_id: null
 		},
