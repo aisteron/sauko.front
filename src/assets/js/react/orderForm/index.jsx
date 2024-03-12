@@ -1,28 +1,67 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { store,switch_tab } from './store';
+import {
+	store,
+	switch_tab,
+	add_tourist,
+	remove_tourist,
+	update_tourist,
+	update_customer,
+	update_customer_ch,
+	show
+} from './store';
 import { v4 as uuidv4 } from 'uuid';
+
 import './OrderForm.sass'
 
 export const OrderForm = () => {
 
-	store.subscribe(_ => {
-		console.log(store.getState())
+	const is_opened = useSelector(state => state.open)
+	const dispatch = useDispatch()
+	store.subscribe(_ => console.log(store.getState()))
 	
-	})
+	window.store = store
+	// useEffect(()=>{
 
-	return(
+	// 	function d(e) {
+	// 		console.log('d() dispatch open = '+ e.detail.open)
+	// 		dispatch(show({ ...e.detail}))
+	// 	}
+
+	// 	// document.listen('modalOrderOpen', e => {
+	// 	// 	dispatch(show({ open: true, ...e.detail}))
+	// 	// })
+	// 	!is_opened
+	// 	? document.addEventListener('modalOrderOpen', d)
+	// 	: document.removeEventListener('modalOrderOpen', d);
+
+	// 	return () => {
+	// 		console.log('unmount')
+	// 		document.removeEventListener('modalOrderOpen', d);
+	// 	}
+
+	// },[is_opened])
+
+
+	if(is_opened)
+	return (
 		<div className="underlay wrap">
+
 			<div className="orderform">
 
 				<div className="header">
 					<span>Сборная экскурсия:</span>
 					<span className="name">Исторические особенности..</span>
-					<img className="close" src="/assets/img/icons/close.svg" />
+					<img
+						className="close"
+						src="/assets/img/icons/close.svg"
+						onClick={()=>dispatch(show({open: false}))}
+
+						
+					/>
 				</div>
 
 				<Tabs/>
-
 				<Schedule />
 				<Program />
 				<Book />
@@ -229,13 +268,14 @@ const Book = () => {
 				<li className='send disabled'>
 					
 					<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 14 14">
-						<path fill="#000" fill-rule="evenodd" d="m10.015 3.985-4.62 3.208L.563 5.582A.823.823 0 0 1 .57 4.018L12.925.04a.824.824 0 0 1 1.035 1.035L9.982 13.43a.822.822 0 0 1-1.564.007L6.8 8.582l3.215-4.597Z" clip-rule="evenodd"/>
+						<path fill="#000" fillRule="evenodd" d="m10.015 3.985-4.62 3.208L.563 5.582A.823.823 0 0 1 .57 4.018L12.925.04a.824.824 0 0 1 1.035 1.035L9.982 13.43a.822.822 0 0 1-1.564.007L6.8 8.582l3.215-4.597Z" clipRule="evenodd"/>
 					</svg>
 				</li>
 			</ul>
 
 			<BookCustomer />
 			<BookTourists />
+			<BookPay />
 
 		</div>
 	)
@@ -244,6 +284,9 @@ const Book = () => {
 const BookCustomer = () => {
 
 	const currentTab = useSelector(state => state.selected.tabs)
+	const dispatch = useDispatch()
+	const m = useSelector(state => state.book.customer.messengers)
+	const p = useSelector(state => state.book.customer.pay)
 
 	const data = {
 		fields: [
@@ -265,7 +308,20 @@ const BookCustomer = () => {
 				comment: "Опционально"
 			}
 		],
-		messengers:['Viber', 'WhatsApp', 'Telegram'],
+		messengers:[
+			{
+				label: 'Viber',
+				name: 'viber'
+			},
+			{
+				label: 'WhatsApp',
+				name: 'wa'
+			},
+			{
+				label: 'Telegram',
+				name: 'tg'
+			}],
+
 		pay:[
 			{
 				label: "Наличные",
@@ -290,29 +346,36 @@ const BookCustomer = () => {
 
 			<div className="fields">
 				{data.fields.map(el =>
-					<label key={uuidv4()}>
-					<input type="text" name={el.name} required/>
-					<span>{el.label}</span>
-					{el.comment
-						? <span className='comment'>{el.comment}</span>
-						:null }
-					</label>
-					)}
+					<CustomerInput el={el} key={uuidv4()}/>
+				)}	
 			</div>
 
 			<div className="messengers">
 				{data.messengers.map(el => 
 					<label key={uuidv4()}>
-						<input type="checkbox"/>
+						<input type="checkbox"
+						defaultChecked={m.includes(el.name)}
+						onChange={e=>dispatch(update_customer_ch({
+							area: "messengers",
+							type: el.name
+						}))}
+						/>
 						<span className="square"></span>
-						<span>{el}</span>
+						<span>{el.label}</span>
 					</label>
 				)}
 			</div>
 			<div className="pay">
 				{data.pay.map(el => 
 					<label key={el.name}>
-						<input type="checkbox" name={el.name}/>
+						<input type="checkbox"
+						defaultChecked={p.includes(el.name)}
+						name={el.name}
+						onChange={e=>dispatch(update_customer_ch({
+							area: "pay",
+							type: el.name
+						}))}
+						/>
 						<span className="square"></span>
 						<span>{el.label}</span>
 					</label>
@@ -322,46 +385,132 @@ const BookCustomer = () => {
 		</div>
 	)
 }
+const CustomerInput = ({el}) => {
+
+	const customer = useSelector(state => state.book.customer)
+	const dispatch = useDispatch()
+
+	return(
+		<label>
+			<input
+				type="text"
+				name={el.name}
+				required
+				defaultValue={customer[el.name]}
+				onChange={e=>dispatch(update_customer({name:el.name, value:e.target.value}))}
+			/>
+			<span>{el.label}</span>
+			
+			{el.comment
+				? <span className='comment'>{el.comment}</span>
+				: null }
+			</label>
+	)
+}
 const BookTourists = () => {
 	const currentTab = useSelector(state => state.selected.tabs)
 	const tourists = useSelector(state => state.book.tourists)
+
 	
 	if(currentTab[1] == 'tourists')
 	return (
 		<div className="tourists">
-			{tourists.length
-				? tourists.map(el => <Tourist el={obj}/>)
-				: <Tourist/>
-			}
+			{tourists.map(el => <Tourist el={el} key={el.id}/>)}
 		</div>
 	)
 }
 
-const Tourist = ({obj}) => {
+const Tourist = ({el}) => {
+
+	const dispatch = useDispatch()
+	
+	
 	return(
 		<div className="row">
 
 			<label className='t'>
-				<input type="text" required/>
+				<input type="text"
+					required
+					defaultValue={el.name}
+					onChange={e=>dispatch(update_tourist({
+						id: el.id,
+						name: e.target.value
+					}))}
+				/>
 				<span>Ф.И.О. полностью</span>
 			</label>
 
 			<label className='t'>
-				<input type="text" required/>
+				<input type="text" required defaultValue={el.phone}
+				onChange={e=>dispatch(update_tourist({
+					id: el.id,
+					phone: e.target.value
+				}))}
+				/>
 				<span>Дата рождения</span>
 			</label>
 
 			<label className='age'>
-				<input type="checkbox" />
+				<input type="checkbox" defaultChecked={el.age18}
+					onChange={e=>dispatch(update_tourist({
+					id: el.id,
+					age18: e.target.checked
+				}))}
+				/>
 				<span className="square"></span>
 				<span className="label">Старше 18</span>
 			</label>
 
 			<div className="buttons">
-				<button className="add">Еще 1 чел</button>
-				<button className="remove">Удалить</button>
+				<button className="add" onClick={()=>dispatch(add_tourist())}>Еще 1 чел</button>
+				<button className="remove"onClick={()=>dispatch(remove_tourist(el.id))}>Удалить</button>
 			</div>
 		</div>
 	)
 }
 
+const BookPay = () => {
+
+	const currentTab = useSelector(state => state.selected.tabs)
+
+	
+	let obj = [
+		{
+			title: 'Для юридических лиц',
+			content:'<p>Для организованных групп оплата за экскурсии принимается по безналичному расчету.</p>'
+		},
+
+		{
+			title: 'Для физических лиц',
+			content:'<p>Оплатить туристические услуги Вы можете в любой системе, позволяющей проводить оплату через ЕРИП (пункты банковского обслуживания, </p><ul><li>Lorem ipsum dolor sit amet</li><li>Duis varius nunc porttitor ante mollis luctus. Pellentesque fringilla mi neque, nec posuere felis euismod quis.</li><li>Duis vitae tempus nunc. Sed ex risus, tincidunt a tincidunt ac, ultricies fringilla enim.</li></ul>'
+		},
+
+		{
+			title: 'Как оплатить банковской картой через систему WebPay*?',
+			content:'<p class="small">* Безопасный сервер WEBPAY устанавливает шифрованное соединение по защищенному протоколу TLS и конфиденциально принимает от клиента данные его платёжной карты (номер карты, имя держателя, дату окончания действия, и контрольный номер банковской карточке CVC/CVC2)</p>',
+			cls: 'abstract'
+		},
+	]
+
+	if(currentTab[1] == 'pay')
+	return (
+		<div className="pay">
+			{obj.map(el =><PayItem el={el} key={uuidv4()}/>)}
+		</div>
+	)
+	
+}
+
+const PayItem = ({el}) => {
+	const[open, setOpen] = useState(false)
+	
+	return(
+		<div  className={`item ${open ? "open":null}`}>
+			<div className="head" onClick={()=>setOpen(!open)}>
+				<span className="title">{el.title}</span>
+				<img className="btr" src="/assets/img/icons/btr.svg" width="10" height="6"/>
+				</div>
+			<div className="body" dangerouslySetInnerHTML={{__html: el.content}}></div>
+		</div>
+	)
+}

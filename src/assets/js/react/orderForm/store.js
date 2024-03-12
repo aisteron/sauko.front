@@ -1,5 +1,6 @@
 import {createSlice, configureStore,current} from '@reduxjs/toolkit'
-//import { xml,cfg, load_toast } from '../../libs'
+import { v4 as uuidv4 } from 'uuid';
+import { load_toast } from '../../libs'
 
 
 const orderFormSlice = createSlice({
@@ -8,9 +9,9 @@ const orderFormSlice = createSlice({
 		open: true,
 		selected:{
 			exid: null,
-			tabs:['book', 'tourists'],
+			timid: null,
+			tabs:['book', 'customer'],
 			currency: 'BYN',
-			schedule_id: null
 		},
 		schedule:[],
 
@@ -25,8 +26,22 @@ const orderFormSlice = createSlice({
 		},
 
 		book:{
-			customer:{},
-			tourists:[],
+			customer: {
+				name: '',
+				phone: '',
+				email: '',
+				city: '',
+				messengers: [],
+				pay: []
+			},
+			tourists:[
+				{
+					name: '',
+					phone: '',
+					age18: false,
+					id: uuidv4()
+				}
+			],
 			pay: null
 		}
   },
@@ -41,7 +56,64 @@ const orderFormSlice = createSlice({
 
 		switch_tab:(state, action) => {
 			state.selected.tabs = action.payload
+		},
+
+		update_customer:(state, action) => {
+			let n = action.payload.name
+			let v = action.payload.value
+			state.book.customer = {...state.book.customer, [n]:v}
+		},
+		update_customer_ch:(state, action) => {
+			const {area,type} = action.payload
+			let a = [...current(state).book.customer[area]]
+
+			a.includes(type)
+			? a = a.filter(el => el !== type)
+			: a.push(type)
+
+			state.book.customer[area] = a
+
+		},
+
+		add_tourist:(state) => {
+			let tourist_item = {
+				name: '',
+				phone: '',
+				age18: false,
+				id: uuidv4()
+			}
+			state.book.tourists = [...state.book.tourists, tourist_item]
+		},
+		update_tourist:(state,action) => {
+			let t = current(state).book.tourists
+			const {id, ...rest} = action.payload
+			const k = Object.keys(rest)[0]
+			const v = Object.values(rest)[0]	
+			
+			state.book.tourists = t.map(el => el.id == id ? el = {...el, [k]:v} : el)
+		},
+		remove_tourist:(state,action) =>{
+			let t = state.book.tourists
+			if(t.length > 1){
+				state.book.tourists = t.filter(el => el.id !== action.payload)
+			} else{
+				load_toast().then(_=>new Snackbar('Меньше 1 туриста нельзя'))
+			}
+		},
+
+		show:(state,action)=>{
+			const{open, exid,timid} = action.payload
+			//console.log(action.payload)
+			
+			console.log('reducer show open = '+action.payload.open)
+			state.open = action.payload.open
+			
+			state.selected.exid = exid ? exid : null
+			state.selected.timid = exid ? timid : null
+
+			
 		}
+
 
 
 		
@@ -50,11 +122,18 @@ const orderFormSlice = createSlice({
 
 export const { 
 	set_order,
-	switch_tab
+	switch_tab,
+	add_tourist,
+	update_tourist,
+	remove_tourist,
+	update_customer,
+	update_customer_ch,
+	show
  } = orderFormSlice.actions
 
-
+window.show = show
 export const store = configureStore({
   reducer: orderFormSlice.reducer
 })
+
 
