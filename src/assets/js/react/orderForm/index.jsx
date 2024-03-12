@@ -20,27 +20,24 @@ export const OrderForm = () => {
 	const dispatch = useDispatch()
 	store.subscribe(_ => console.log(store.getState()))
 	
-	window.store = store
-	// useEffect(()=>{
 
-	// 	function d(e) {
-	// 		console.log('d() dispatch open = '+ e.detail.open)
-	// 		dispatch(show({ ...e.detail}))
-	// 	}
+	useEffect(()=>{
 
-	// 	// document.listen('modalOrderOpen', e => {
-	// 	// 	dispatch(show({ open: true, ...e.detail}))
-	// 	// })
-	// 	!is_opened
-	// 	? document.addEventListener('modalOrderOpen', d)
-	// 	: document.removeEventListener('modalOrderOpen', d);
+		function d(e) {
+			//console.log('d() dispatch open = '+ e.detail.open)
+			dispatch(show({ ...e.detail}))
+		}
 
-	// 	return () => {
-	// 		console.log('unmount')
-	// 		document.removeEventListener('modalOrderOpen', d);
-	// 	}
+		!is_opened
+			? document.addEventListener('modalOrderOpen', d)
+			: document.removeEventListener('modalOrderOpen', d);
 
-	// },[is_opened])
+		return () => {
+			console.log('%c Unmounted','color: #666')
+			document.removeEventListener('modalOrderOpen', d);
+		}
+
+	},[is_opened])
 
 
 	if(is_opened)

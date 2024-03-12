@@ -6,7 +6,7 @@ import { load_toast } from '../../libs'
 const orderFormSlice = createSlice({
   name: 'ofs',
   initialState: {
-		open: true,
+		open: false,
 		selected:{
 			exid: null,
 			timid: null,
@@ -103,13 +103,13 @@ const orderFormSlice = createSlice({
 
 		show:(state,action)=>{
 			const{open, exid,timid} = action.payload
-			//console.log(action.payload)
-			
-			console.log('reducer show open = '+action.payload.open)
+
 			state.open = action.payload.open
 			
 			state.selected.exid = exid ? exid : null
 			state.selected.timid = exid ? timid : null
+
+			// call async function to fill state with server data
 
 			
 		}
@@ -131,7 +131,6 @@ export const {
 	show
  } = orderFormSlice.actions
 
-window.show = show
 export const store = configureStore({
   reducer: orderFormSlice.reducer
 })
