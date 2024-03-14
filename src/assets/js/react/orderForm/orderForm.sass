@@ -1,7 +1,7 @@
 $green: #028F68
 $green_hover: invert(38%) sepia(97%) saturate(646%) hue-rotate(122deg) brightness(87%) contrast(98%)
 .underlay.wrap
-	position: absolute
+	position: fixed
 	top: 0
 	left: 0
 	width: 100%
@@ -20,7 +20,6 @@ $green_hover: invert(38%) sepia(97%) saturate(646%) hue-rotate(122deg) brightnes
 		box-shadow: 2px 2px 46px #03433182
 		align-self: baseline
 		margin-top: 3rem
-
 		>.header
 			background-color: #E0F1ED
 			font-size: 18px
@@ -73,6 +72,9 @@ $green_hover: invert(38%) sepia(97%) saturate(646%) hue-rotate(122deg) brightnes
 						border-right: none
 
 		>.schedule
+			>.body
+				max-height: 70dvh
+				overflow-y: auto
 
 			>.head
 				display: grid
@@ -135,7 +137,7 @@ $green_hover: invert(38%) sepia(97%) saturate(646%) hue-rotate(122deg) brightnes
 				padding: 20px 0
 				display: flex
 				flex-direction: column
-				gap: 20px
+				//gap: 20px
 				.row
 					display: grid
 					grid-template-columns: 80px 47px 50px 80px
@@ -143,6 +145,13 @@ $green_hover: invert(38%) sepia(97%) saturate(646%) hue-rotate(122deg) brightnes
 					font-size: 16px
 					color: #5F606B
 					align-items: center
+					cursor: pointer
+					padding: 10px 0
+					&.selected
+						background-color: #eff8f6
+					@media(hover:hover)
+						&:hover
+							background-color: #eff8f6
 					.date
 						display: flex
 						align-items: center
@@ -177,6 +186,8 @@ $green_hover: invert(38%) sepia(97%) saturate(646%) hue-rotate(122deg) brightnes
 		>.program
 			color: #2D2D2D
 			padding: 1.5rem 20px
+			max-height: 70dvh
+			overflow-y: auto
 			a
 				color: $green
 				text-decoration: underline
@@ -225,27 +236,37 @@ $green_hover: invert(38%) sepia(97%) saturate(646%) hue-rotate(122deg) brightnes
 				ul
 					padding-left: 28px
 					li
-						color: #028F68
-						font-weight: 500
-						position: relative
-						line-height: 190%
-						&:before
-							content: url(/assets/img/icons/sradio.svg)
-							position: absolute
-							left: -28px
-							top: 3px
-						ul
-							padding-left: 10px
-							margin: 5px 0
-							li
+						&:not(:last-child)
+							margin-bottom: 1rem
+						span.title
+							color: #028F68
+							font-weight: 500
+							position: relative
+							line-height: 190%
+							&:before
+								content: url(/assets/img/icons/sradio.svg)
+								position: absolute
+								left: -28px
+								top: -2px
+						.dsc
+							p
 								font-weight: normal
 								font-size: 15px
 								color: #484848
 								line-height: 130%
-								&:not(:last-child)
-									margin-bottom: 3px
-								&:before
-									content: ''	
+								margin: 5px 0	
+							ul
+								padding-left: 10px
+								margin: 5px 0
+								li
+									font-weight: normal
+									font-size: 15px
+									color: #484848
+									line-height: 130%
+									&:not(:last-child)
+										margin-bottom: 3px
+									&:before
+										content: ''	
 		>.book
 			ul.subtabs
 				display: flex
@@ -363,6 +384,8 @@ $green_hover: invert(38%) sepia(97%) saturate(646%) hue-rotate(122deg) brightnes
 					gap: 1rem		
 			.tourists
 				padding: 20px 1.5rem
+				max-height: 70dvh
+				overflow-y: auto
 				.row
 					display: flex
 					flex-direction: column

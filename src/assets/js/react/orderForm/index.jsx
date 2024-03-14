@@ -8,7 +8,9 @@ import {
 	update_tourist,
 	update_customer,
 	update_customer_ch,
-	show
+	show,
+	get_ex_thunk,
+	select_ex_time
 } from './store';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -19,26 +21,37 @@ export const OrderForm = () => {
 	const is_opened = useSelector(state => state.open)
 	const dispatch = useDispatch()
 	store.subscribe(_ => console.log(store.getState()))
+	const name = useSelector(state => state.program.name)
 	
 
 	useEffect(()=>{
 
-		function d(e) {
-			//console.log('d() dispatch open = '+ e.detail.open)
+		function displayModal(e) {
+
 			dispatch(show({ ...e.detail}))
+			e.detail.open && dispatch(get_ex_thunk({exid:e.detail.exid}))
 		}
 
 		!is_opened
-			? document.addEventListener('modalOrderOpen', d)
-			: document.removeEventListener('modalOrderOpen', d);
+			? document.addEventListener('modalOrderOpen', displayModal)
+			: document.removeEventListener('modalOrderOpen', displayModal);
 
 		return () => {
 			console.log('%c Unmounted','color: #666')
-			document.removeEventListener('modalOrderOpen', d);
+			document.removeEventListener('modalOrderOpen', displayModal);
 		}
 
 	},[is_opened])
 
+	if(is_opened){
+		document.body.style.position = 'fixed';
+		document.body.style.top = `-${window.scrollY}px`;
+	} else {
+		const scrollY = document.body.style.top;
+		document.body.style.position = '';
+		document.body.style.top = '';
+		window.scrollTo(0, parseInt(scrollY || '0') * -1);
+	}
 
 	if(is_opened)
 	return (
@@ -48,13 +61,11 @@ export const OrderForm = () => {
 
 				<div className="header">
 					<span>Сборная экскурсия:</span>
-					<span className="name">Исторические особенности..</span>
+					<span className="name">{name}</span>
 					<img
 						className="close"
 						src="/assets/img/icons/close.svg"
-						onClick={()=>dispatch(show({open: false}))}
-
-						
+						onClick={()=>dispatch(show({open: false}))}	
 					/>
 				</div>
 
@@ -105,6 +116,7 @@ const Tabs = () => {
 
 const Schedule = () => {
 	const currentTab = useSelector(state => state.selected.tabs)[0]
+	const schedule = useSelector(state => state.schedule)
 
 	const[curOpen, setCurOpen] = useState(false)
 	
@@ -130,6 +142,7 @@ const Schedule = () => {
 			</div>
 		</div>
 		<div className="body">
+			{schedule.map(el => <ScheduleRow el={el} key={el.MIGX_id}/>)}
 			<div className="row">
 				<div className="date">
 					<label className="radio">
@@ -159,8 +172,58 @@ const Schedule = () => {
 	)
 }
 
+const ScheduleRow = ({el}) => {
+
+	const selectedTimid = useSelector(state => state.selected.timid)
+	const dispatch = useDispatch()
+
+	const is_selected = (timid) =>{
+		
+		if(!selectedTimid && !el.MIGX_id){
+			return true
+		}
+
+		if(selectedTimid == timid){
+			//console.log(timid)
+			return true
+		}
+
+		return false
+
+	}
+	
+	return(
+		<div className={`row ${is_selected(el.timid) ? 'selected': ''}`} onClick={()=>dispatch(select_ex_time(+el.timid))}>
+				<div className="date">
+					<label className="radio">
+						<input
+							type="radio"
+							name="radio"
+							onChange={()=>dispatch(select_ex_time(+el.timid))}
+							checked={is_selected(el.timid)}
+						/>
+						<span></span>	
+					</label>
+					<span>{el.date.split(".")[0]}.{el.date.split(".")[1]}</span>
+				</div>
+				<span>{el.time}</span>
+				<span>{el.seats}</span>
+				<span byn={el.price.split(",")[0]}>{el.price.split(",")[0]}</span>
+			</div>
+	)
+}
+
 const Program = () => {
+	const dispatch = useDispatch()
 	const currentTab = useSelector(state => state.selected.tabs)[0]
+	const program = useSelector(state => state.program)
+	const selectedTimid = useSelector(state => state.selected.timid)
+	const schedule = useSelector(state => state.schedule)
+
+	let current = schedule.find(el => +el.timid == selectedTimid)
+	let price = current?.price.split(",")
+	
+
 	
 	if(currentTab == 'program')
 	return(
@@ -170,60 +233,70 @@ const Program = () => {
 
 				<div className="row">
 					<p>Название экскурсии:</p>
-					<p>Мирский и Несвижский замки</p>
+					<p>{program.name}</p>
 				</div>
 
 				<div className="row">
 					<p>Место выезда:</p>
-					<p>г. Минск, центральный ж/д вокзал, 1 этаж (центральный эскалатор)</p>
+					<p>__ add "from" from server</p>
 				</div>
 
 				<ul className="stats">
 					<li>
 						<span>Дата выезда:</span>
 						<span className='edit'>
-							<img src="/assets/img/icons/edit_note.svg" width="24" height="24"/>
-							<span>24.02.24</span>
+							<img src="/assets/img/icons/edit_note.svg" width="24" height="24"
+							onClick={() => dispatch(switch_tab(['schedule',null ]))}
+							/>
+							<span>{current?.date}</span>
 						</span>
 					</li>
+
 					<li>
 						<span>Время выезда:</span>
-						<span>10:00</span>
+						<span>{current?.time}</span>
+					</li>
+					<li>
+						<span>Мест осталось:</span>
+						<span>{current?.seats}</span>
 					</li>
 					
 					<li>
 						<span>Взрослый билет:</span>
-						<span byn="60">60 <span className="cur">BYN</span></span>
+						<span byn={price[0]}>{price[0]} <span className="cur">BYN</span></span>
 					</li>
 					
 					<li>
 						<span>Детский билет:</span>
-						<span byn="50">50 <span className="cur">BYN</span></span>
+						<span byn={price[1]}>{price[1]} <span className="cur">BYN</span></span>
 					</li>
 
 					<li>
 						<span>Продолжительность:</span>
-						<span>3 часа</span>
+						<span>{program.duration} ч</span>
+					</li>
+
+					<li>
+						<span>Протяженность:</span>
+						<span>{program.distance} км</span>
 					</li>
 				</ul>
 
 			</div>
 
 			<div className="prg">
+
 				<span className="head">Программа</span>
+				
 				<ul>
-					<li>Сбор группы, выезд из Минска</li>
-					<li>Видзы</li>
-					<li>
-						<a href="#">Браслав</a>
-						<ul>
-							<li><a href="#">Замковая гора</a></li>
-							<li>Успен­ская цер­ковь</li>
-							<li>Ко­стел Рож­де­ства Наи­свя­тей­шей Де­вы Ма­рии</li>
-						</ul>
+					{program.txt ? program.txt.map(el => 
+
+						<li key={uuidv4()}>
+							<span className='title'>{el.title}</span>
+							<div className="dsc" dangerouslySetInnerHTML={{__html: el.description}}></div>
 						</li>
 
-					<li>Возвращение в Минск</li>
+						): <p>Программы нет..</p>}
 				</ul>
 			</div>
 			

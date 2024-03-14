@@ -1,6 +1,7 @@
 import {createSlice, configureStore,current} from '@reduxjs/toolkit'
 import { v4 as uuidv4 } from 'uuid';
 import { load_toast } from '../../libs'
+import { service } from '../../services';
 
 
 const orderFormSlice = createSlice({
@@ -104,14 +105,25 @@ const orderFormSlice = createSlice({
 		show:(state,action)=>{
 			const{open, exid,timid} = action.payload
 
-			state.open = action.payload.open
+			state.open = open
 			
 			state.selected.exid = exid ? exid : null
 			state.selected.timid = exid ? timid : null
-
-			// call async function to fill state with server data
-
 			
+		},
+
+		set_ex:(state,action) => {
+			const{schedule, program, book} = action.payload
+			state.schedule = schedule
+			state.book.pay = book.pay
+
+			state.program.name = program.name
+			state.program.duration = program.duration
+			state.program.distance = program.distance
+			state.program.txt = program.txt
+		},
+		select_ex_time:(state, action) => {
+			state.selected.timid = action.payload
 		}
 
 
@@ -128,11 +140,23 @@ export const {
 	remove_tourist,
 	update_customer,
 	update_customer_ch,
-	show
+	show,
+	set_ex,
+	select_ex_time
  } = orderFormSlice.actions
 
 export const store = configureStore({
   reducer: orderFormSlice.reducer
 })
+
+
+export const get_ex_thunk = ({exid}) => {
+
+	return async function fetchTodoByIdThunk(dispatch,getState){
+		const res = await service.get_ex({exid})
+		dispatch(set_ex(res))
+		
+	}
+}
 
 

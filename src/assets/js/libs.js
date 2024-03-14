@@ -1,6 +1,10 @@
 import "regenerator-runtime/runtime.js";
 Node.prototype.listen = Node.prototype.addEventListener;
 
+export const cfg = {
+	host: "http://new.sauko.by"
+}
+
 export let doc=document,
     qsa=(s,o=doc)=>o?.querySelectorAll(s),
     qs=(s,o=doc)=>o?.querySelector(s);
