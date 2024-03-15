@@ -137,7 +137,8 @@ $green_hover: invert(38%) sepia(97%) saturate(646%) hue-rotate(122deg) brightnes
 				padding: 20px 0
 				display: flex
 				flex-direction: column
-				//gap: 20px
+				p.nf404
+					padding-left: 1rem	
 				.row
 					display: grid
 					grid-template-columns: 80px 47px 50px 80px
@@ -149,6 +150,7 @@ $green_hover: invert(38%) sepia(97%) saturate(646%) hue-rotate(122deg) brightnes
 					padding: 10px 0
 					&.selected
 						background-color: #eff8f6
+					
 					@media(hover:hover)
 						&:hover
 							background-color: #eff8f6
@@ -256,8 +258,10 @@ $green_hover: invert(38%) sepia(97%) saturate(646%) hue-rotate(122deg) brightnes
 								line-height: 130%
 								margin: 5px 0	
 							ul
-								padding-left: 10px
+								padding-left: 1rem
 								margin: 5px 0
+								margin-top: 7px
+								list-style-type: disc
 								li
 									font-weight: normal
 									font-size: 15px

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	store,
@@ -123,51 +123,33 @@ const Schedule = () => {
 	if(currentTab == 'schedule')
 	return(
 		<div className='schedule'>
-		<div className="head">
-			<span>Дата</span>
-			<span>Время</span>
-			<span>Мест</span>
+		
+			<div className="head">
+				<span>Дата</span>
+				<span>Время</span>
+				<span>Мест</span>
 
-			<div className={`currency ${curOpen ? 'open': null}`}>
-				<div className="head" onClick={()=>setCurOpen(!curOpen)}>
-					<span>BYN</span>
-					<img src="/assets/img/icons/tr.svg" width="10" height="5"/>
+				<div className={`currency ${curOpen ? 'open': null}`}>
+					<div className="head" onClick={()=>setCurOpen(!curOpen)}>
+						<span>BYN</span>
+						<img src="/assets/img/icons/tr.svg" width="10" height="5"/>
+					</div>
+					<ul>
+						<li>BYN</li>
+						<li>USD</li>
+						<li>EUR</li>
+						<li>RUB</li>
+					</ul>
 				</div>
-				<ul>
-					<li>BYN</li>
-					<li>USD</li>
-					<li>EUR</li>
-					<li>RUB</li>
-				</ul>
 			</div>
-		</div>
-		<div className="body">
-			{schedule.map(el => <ScheduleRow el={el} key={el.MIGX_id}/>)}
-			<div className="row">
-				<div className="date">
-					<label className="radio">
-						<input type="radio" name="radio"/>
-						<span></span>	
-					</label>
-					<span>22.01</span>
-				</div>
-				<span>10:00</span>
-				<span>много</span>
-				<span>120</span>
+
+			<div className="body">
+				{schedule.length
+					? schedule.map(el => <ScheduleRow el={el} key={el.MIGX_id}/>)
+					: <p className='nf404'>Нет расписания</p>
+				}
 			</div>
-			<div className="row">
-			<div className="date">
-					<label className="radio">
-						<input type="radio" name="radio"/>
-						<span></span>	
-					</label>
-					<span>22.01</span>
-				</div>
-				<span>11:00</span>
-				<span>32</span>
-				<span>100</span>
-			</div>
-		</div>
+
 		</div>
 	)
 }
@@ -176,6 +158,12 @@ const ScheduleRow = ({el}) => {
 
 	const selectedTimid = useSelector(state => state.selected.timid)
 	const dispatch = useDispatch()
+	const selectedRef = useRef();
+
+	useEffect(()=>{
+		const {current} = selectedRef
+		current && current.scrollIntoView({behavior: "smooth"})
+	},[])
 
 	const is_selected = (timid) =>{
 		
@@ -193,7 +181,10 @@ const ScheduleRow = ({el}) => {
 	}
 	
 	return(
-		<div className={`row ${is_selected(el.timid) ? 'selected': ''}`} onClick={()=>dispatch(select_ex_time(+el.timid))}>
+		<div
+			ref={is_selected(el.timid) ? selectedRef : null}
+			className={`row ${is_selected(el.timid) ? 'selected': ''}`}
+			onClick={()=>dispatch(select_ex_time(+el.timid))}>
 				<div className="date">
 					<label className="radio">
 						<input
@@ -221,9 +212,9 @@ const Program = () => {
 	const schedule = useSelector(state => state.schedule)
 
 	let current = schedule.find(el => +el.timid == selectedTimid)
-	let price = current?.price.split(",")
-	
+	let price = current?.price?.split(",") || []
 
+	
 	
 	if(currentTab == 'program')
 	return(
@@ -238,7 +229,7 @@ const Program = () => {
 
 				<div className="row">
 					<p>Место выезда:</p>
-					<p>__ add "from" from server</p>
+					<p>{current?.from}</p>
 				</div>
 
 				<ul className="stats">

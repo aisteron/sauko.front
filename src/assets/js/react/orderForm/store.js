@@ -108,7 +108,7 @@ const orderFormSlice = createSlice({
 			state.open = open
 			
 			state.selected.exid = exid ? exid : null
-			state.selected.timid = exid ? timid : null
+			state.selected.timid = exid ? +timid : null
 			
 		},
 
@@ -117,10 +117,14 @@ const orderFormSlice = createSlice({
 			state.schedule = schedule
 			state.book.pay = book.pay
 
+
 			state.program.name = program.name
-			state.program.duration = program.duration
-			state.program.distance = program.distance
+			state.program.duration = +program.duration
+			state.program.distance = +program.distance
 			state.program.txt = program.txt
+
+
+
 		},
 		select_ex_time:(state, action) => {
 			state.selected.timid = action.payload
