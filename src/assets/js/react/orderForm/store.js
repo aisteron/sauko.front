@@ -18,9 +18,6 @@ const orderFormSlice = createSlice({
 
 		program:{
 			name: null,
-			from: null,
-			time: null,
-			price: null,
 			duration: null,
 			txt: null,
 
@@ -128,6 +125,11 @@ const orderFormSlice = createSlice({
 		},
 		select_ex_time:(state, action) => {
 			state.selected.timid = action.payload
+		},
+		set_loading:(state,action) => {
+			action.payload === false
+			? delete state?.loading
+			: state.loading = action.payload
 		}
 
 
@@ -146,7 +148,8 @@ export const {
 	update_customer_ch,
 	show,
 	set_ex,
-	select_ex_time
+	select_ex_time,
+	set_loading
  } = orderFormSlice.actions
 
 export const store = configureStore({

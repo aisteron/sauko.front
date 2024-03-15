@@ -10,11 +10,13 @@ import {
 	update_customer_ch,
 	show,
 	get_ex_thunk,
-	select_ex_time
+	select_ex_time,
+	set_loading
 } from './store';
 import { v4 as uuidv4 } from 'uuid';
 
 import './OrderForm.sass'
+import { cfg, load_toast, qs, xml } from '../../libs';
 
 export const OrderForm = () => {
 
@@ -43,19 +45,17 @@ export const OrderForm = () => {
 
 	},[is_opened])
 
+
 	if(is_opened){
-		document.body.style.position = 'fixed';
-		document.body.style.top = `-${window.scrollY}px`;
+		document.body.style.overflow = 'hidden';
 	} else {
-		const scrollY = document.body.style.top;
-		document.body.style.position = '';
-		document.body.style.top = '';
-		window.scrollTo(0, parseInt(scrollY || '0') * -1);
+		document.body.style.overflow = '';
+
 	}
 
 	if(is_opened)
 	return (
-		<div className="underlay wrap">
+		<div className="underlay wrap" onClick={e=>close_by_underlay_click(e)}>
 
 			<div className="orderform">
 
@@ -78,6 +78,13 @@ export const OrderForm = () => {
 		</div>
 		
 	)
+
+	function close_by_underlay_click(e){
+		const orderform = qs('.orderform')
+		if(orderform.contains(e.target)) return
+		dispatch(show({open: false}))
+
+	}
 }
 
 const Tabs = () => {
@@ -162,7 +169,7 @@ const ScheduleRow = ({el}) => {
 
 	useEffect(()=>{
 		const {current} = selectedRef
-		current && current.scrollIntoView({behavior: "smooth"})
+		current && current.scrollIntoView()
 	},[])
 
 	const is_selected = (timid) =>{
@@ -298,6 +305,15 @@ const Program = () => {
 const Book = () => {
 	const currentTab = useSelector(state => state.selected.tabs)
 	const dispatch = useDispatch()
+	const book = {...useSelector(state => state.book)}
+	const selected = useSelector(state => state.selected)
+	const schedule = useSelector(state => state.schedule)
+	const program = useSelector(state => state.program)
+	const loading = useSelector(state => state?.loading)
+	const customer_phone = book.customer.phone
+
+	const icon_tg = <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 14 14"><path fill="#000" fillRule="evenodd" d="m10.015 3.985-4.62 3.208L.563 5.582A.823.823 0 0 1 .57 4.018L12.925.04a.824.824 0 0 1 1.035 1.035L9.982 13.43a.822.822 0 0 1-1.564.007L6.8 8.582l3.215-4.597Z" clipRule="evenodd"/></svg>
+	const icon_loading = <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 14 14"><path fill="#909090" d="M6.7 13.3c-1 0-1.8-.1-2.6-.5A6.8 6.8 0 0 1 0 6.7 6.4 6.4 0 0 1 2 2a6.8 6.8 0 0 1 4.7-2c.2 0 .3 0 .4.2.2.1.2.3.2.5s0 .3-.2.4c0 .2-.2.2-.4.2-1.5 0-2.8.6-3.8 1.6S1.3 5.2 1.3 6.7C1.3 8 2 9.4 3 10.4S5.2 12 6.7 12c1.4 0 2.7-.5 3.7-1.6 1-1 1.6-2.3 1.6-3.7 0-.2 0-.4.2-.5l.5-.2c.2 0 .3 0 .4.2.2.1.2.3.2.5 0 .9-.1 1.7-.5 2.5a6.8 6.8 0 0 1-6.1 4.1Z"/></svg>
 	const subtabs = [
 		{
 			label: 'О заказчике',
@@ -312,6 +328,7 @@ const Book = () => {
 			name:"pay"
 		}
 	]
+
 	if(currentTab[0] == 'book')
 	return(
 		<div className="book">
@@ -325,12 +342,13 @@ const Book = () => {
 					>
 						{el.label}
 					</li>
-					)}
-				<li className='send disabled'>
+				)}
+
+				<li
+					className={`send ${!customer_phone ? 'disabled': ''} ${loading ? 'loading': ''}`}
+					onClick={()=>to_server()}>
+					{!loading ? icon_tg: icon_loading}
 					
-					<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 14 14">
-						<path fill="#000" fillRule="evenodd" d="m10.015 3.985-4.62 3.208L.563 5.582A.823.823 0 0 1 .57 4.018L12.925.04a.824.824 0 0 1 1.035 1.035L9.982 13.43a.822.822 0 0 1-1.564.007L6.8 8.582l3.215-4.597Z" clipRule="evenodd"/>
-					</svg>
 				</li>
 			</ul>
 
@@ -340,6 +358,38 @@ const Book = () => {
 
 		</div>
 	)
+
+	async function to_server(){
+		
+		if(!customer_phone){
+			await load_toast()
+			new Snackbar('Заполните номер телефона Заказчика')
+			return
+		}
+
+		let current = schedule.find(el => el.timid == selected.timid)
+		
+		delete book.pay
+
+		let obj = {
+			ex:{
+				exid: selected.exid,
+				name: program.name,
+				date: current?.date,	
+				time: current?.time,
+			},
+			book: book
+		}
+		
+		process.env.NODE_ENV == 'production' && (cfg.host = '')
+		
+		dispatch(set_loading(true))
+		const res = await xml("sbor_order", obj,cfg.host+'/api/')
+		dispatch(set_loading(false))
+
+
+
+	}
 }
 
 const BookCustomer = () => {
@@ -455,10 +505,11 @@ const CustomerInput = ({el}) => {
 		<label>
 			<input
 				type="text"
+				
 				name={el.name}
 				required
 				defaultValue={customer[el.name]}
-				onChange={e=>dispatch(update_customer({name:el.name, value:e.target.value}))}
+				onBlur={e=>dispatch(update_customer({name:el.name, value:e.target.value}))}
 			/>
 			<span>{el.label}</span>
 			
@@ -484,6 +535,13 @@ const BookTourists = () => {
 const Tourist = ({el}) => {
 
 	const dispatch = useDispatch()
+
+	const[added, setAdded] = useState(false)
+
+	const add = () => {
+		dispatch(add_tourist())
+		setAdded(true)
+	}
 	
 	
 	return(
@@ -523,7 +581,11 @@ const Tourist = ({el}) => {
 			</label>
 
 			<div className="buttons">
-				<button className="add" onClick={()=>dispatch(add_tourist())}>Еще 1 чел</button>
+				{!added
+					? <button className="add" onClick={()=>add()}>Еще 1 чел</button>
+					: null
+				}
+				
 				<button className="remove"onClick={()=>dispatch(remove_tourist(el.id))}>Удалить</button>
 			</div>
 		</div>

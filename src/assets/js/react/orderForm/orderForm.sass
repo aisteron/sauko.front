@@ -301,12 +301,20 @@ $green_hover: invert(38%) sepia(97%) saturate(646%) hue-rotate(122deg) brightnes
 							background-color: #d3735847
 						svg path
 							fill: #CD0202
-						&.disabled
+						&.disabled, &.loading
 							background-color: #FBFBFB
 							border-color: #C9C9C9
 							cursor: not-allowed
 							svg path
 								fill: #909090
+						&.loading
+							svg
+								animation: rotating 2s linear infinite
+								@keyframes rotating
+									from
+										transform: rotate(0deg)
+									to
+										transform: rotate(360deg)			
 			.customer
 				padding: 1.5rem 20px
 				.fields
@@ -482,6 +490,9 @@ $green_hover: invert(38%) sepia(97%) saturate(646%) hue-rotate(122deg) brightnes
 								font-size: 17px
 			>.pay
 				margin: 10px 0
+				max-height: 70dvh
+				overflow-y: auto
+
 				.item
 					&:last-of-type
 						.head
