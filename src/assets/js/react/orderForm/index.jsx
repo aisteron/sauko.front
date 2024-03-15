@@ -11,7 +11,8 @@ import {
 	show,
 	get_ex_thunk,
 	select_ex_time,
-	set_loading
+	set_loading,
+	success_send_to_server
 } from './store';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -24,6 +25,7 @@ export const OrderForm = () => {
 	const dispatch = useDispatch()
 	store.subscribe(_ => console.log(store.getState()))
 	const name = useSelector(state => state.program.name)
+	const is_sended = useSelector(state => state?.success)
 	
 
 	useEffect(()=>{
@@ -45,6 +47,7 @@ export const OrderForm = () => {
 
 	},[is_opened])
 
+	if(is_sended) return <Sended/>
 
 	if(is_opened){
 		document.body.style.overflow = 'hidden';
@@ -55,7 +58,7 @@ export const OrderForm = () => {
 
 	if(is_opened)
 	return (
-		<div className="underlay wrap" onClick={e=>close_by_underlay_click(e)}>
+		<div className="underlay wrap" onClick={e=>close_by_underlay_click(e,dispatch)}>
 
 			<div className="orderform">
 
@@ -79,12 +82,7 @@ export const OrderForm = () => {
 		
 	)
 
-	function close_by_underlay_click(e){
-		const orderform = qs('.orderform')
-		if(orderform.contains(e.target)) return
-		dispatch(show({open: false}))
-
-	}
+	
 }
 
 const Tabs = () => {
@@ -384,7 +382,11 @@ const Book = () => {
 		process.env.NODE_ENV == 'production' && (cfg.host = '')
 		
 		dispatch(set_loading(true))
-		const res = await xml("sbor_order", obj,cfg.host+'/api/')
+		let res = await xml("sbor_order", obj,cfg.host+'/api/')
+		res = JSON.parse(res)
+		if(res.success){
+			dispatch(success_send_to_server())
+		}
 		dispatch(set_loading(false))
 
 
@@ -634,6 +636,47 @@ const PayItem = ({el}) => {
 				<img className="btr" src="/assets/img/icons/btr.svg" width="10" height="6"/>
 				</div>
 			<div className="body" dangerouslySetInnerHTML={{__html: el.content}}></div>
+		</div>
+	)
+}
+
+function close_by_underlay_click(e,dispatch){
+	const orderform = qs('.orderform')
+	
+	if(orderform.contains(e.target)) return
+	dispatch(show({open: false}))
+
+}
+
+const Sended = () => {
+	const dispatch = useDispatch()
+	return(
+		<div className="underlay wrap" onClick={e=>close_by_underlay_click(e)}>
+
+			<div className="orderform">
+
+				<div className="header">
+					<span>Успех!</span>
+					
+					<img
+						className="close"
+						src="/assets/img/icons/close.svg"
+						onClick={()=>dispatch(show({open: false}))}	
+					/>
+				</div>
+
+				<div className="success">
+					<div className="head">
+						<span>Ваша заявка принята!</span>
+						<span>Мы скоро с вами свяжемся ❤️</span>
+					</div>
+					<picture>
+						<source srcSet='/assets/img/pages/ex/cheers.avif' type="image/avif"/>
+						<img src="/assets/img/pages/ex/cheers.jpg" alt="успешный заказ" width="248" height="248" className='success'/>
+					</picture>
+				</div>
+
+			</div>
 		</div>
 	)
 }

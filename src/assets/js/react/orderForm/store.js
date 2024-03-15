@@ -106,6 +106,8 @@ const orderFormSlice = createSlice({
 			
 			state.selected.exid = exid ? exid : null
 			state.selected.timid = exid ? +timid : null
+
+			delete state?.success
 			
 		},
 
@@ -130,6 +132,9 @@ const orderFormSlice = createSlice({
 			action.payload === false
 			? delete state?.loading
 			: state.loading = action.payload
+		},
+		success_send_to_server:(state,action)=>{
+			state.success = true
 		}
 
 
@@ -149,7 +154,8 @@ export const {
 	show,
 	set_ex,
 	select_ex_time,
-	set_loading
+	set_loading,
+	success_send_to_server
  } = orderFormSlice.actions
 
 export const store = configureStore({
