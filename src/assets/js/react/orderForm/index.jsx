@@ -124,6 +124,28 @@ const Schedule = () => {
 	const schedule = useSelector(state => state.schedule)
 
 	const[curOpen, setCurOpen] = useState(false)
+	let cur_fromlS = localStorage.getItem('cur')
+	let defaultCur = 
+		(cur_fromlS && JSON.parse(cur_fromlS).selected)
+		? JSON.parse(cur_fromlS).selected
+		: 'BYN'
+		
+	const[selectedCur, selectCur] = useState(defaultCur)
+	
+
+	const curList = ['USD','EUR','RUB','BYN'];
+	const change_cur = (cur) => {
+
+		const c = new CustomEvent("change_currency", {
+			detail: {
+				selected: cur,
+			},
+		});
+
+		setCurOpen(false)
+		selectCur(cur)
+		document.dispatchEvent(c)
+	}
 	
 	if(currentTab == 'schedule')
 	return(
@@ -135,16 +157,18 @@ const Schedule = () => {
 				<span>Мест</span>
 
 				<div className={`currency ${curOpen ? 'open': null}`}>
+					
 					<div className="head" onClick={()=>setCurOpen(!curOpen)}>
-						<span>BYN</span>
+						<span>{selectedCur}</span>
 						<img src="/assets/img/icons/tr.svg" width="10" height="5"/>
 					</div>
+					
 					<ul>
-						<li>BYN</li>
-						<li>USD</li>
-						<li>EUR</li>
-						<li>RUB</li>
+						{curList.map(el => 
+							<li onClick={()=>change_cur(el)} key={uuidv4()}>{el}</li>
+							)}
 					</ul>
+
 				</div>
 			</div>
 

@@ -1,11 +1,15 @@
 import { qs, sw,fancy, load_swiped } from "../libs";
+import { currency } from "../services";
 
 export function Ui(){
+	
 	swipes()
 	fancy.init()
 	toggle_aside_nav()
 	mobile_menu()
 	load_swiped()
+
+	currency.init()
 }
 
 async function swipes(){
