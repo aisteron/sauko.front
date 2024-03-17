@@ -12,12 +12,14 @@ import {
 	get_ex_thunk,
 	select_ex_time,
 	set_loading,
-	success_send_to_server
+	success_send_to_server,
+	set_currency
 } from './store';
 import { v4 as uuidv4 } from 'uuid';
 
 import './OrderForm.sass'
 import { cfg, load_toast, qs, xml } from '../../libs';
+import { currency } from '../../services';
 
 export const OrderForm = () => {
 
@@ -122,18 +124,23 @@ const Tabs = () => {
 const Schedule = () => {
 	const currentTab = useSelector(state => state.selected.tabs)[0]
 	const schedule = useSelector(state => state.schedule)
-
+	const selected_currency = useSelector(state => state.selected.currency)
 	const[curOpen, setCurOpen] = useState(false)
-	let cur_fromlS = localStorage.getItem('cur')
-	let defaultCur = 
-		(cur_fromlS && JSON.parse(cur_fromlS).selected)
-		? JSON.parse(cur_fromlS).selected
-		: 'BYN'
-		
-	const[selectedCur, selectCur] = useState(defaultCur)
-	
+	const dispatch = useDispatch()
 
-	const curList = ['USD','EUR','RUB','BYN'];
+	let cur_from_lS = localStorage.getItem('cur')
+	let curList = []
+	if(cur_from_lS){
+		cur_from_lS = JSON.parse(cur_from_lS)
+		curList = Object.entries(cur_from_lS)
+			.filter((k,v) => (k[0] !== 'selected' && k[0] !== 'now'))
+			.map(el => el[0].toUpperCase())
+		curList.push('BYN')	
+	} else {
+		curList = ['USD','EUR','RUB','BYN'];
+	}
+
+	
 	const change_cur = (cur) => {
 
 		const c = new CustomEvent("change_currency", {
@@ -143,7 +150,7 @@ const Schedule = () => {
 		});
 
 		setCurOpen(false)
-		selectCur(cur)
+		dispatch(set_currency(cur))
 		document.dispatchEvent(c)
 	}
 	
@@ -159,7 +166,7 @@ const Schedule = () => {
 				<div className={`currency ${curOpen ? 'open': null}`}>
 					
 					<div className="head" onClick={()=>setCurOpen(!curOpen)}>
-						<span>{selectedCur}</span>
+						<span>{selected_currency}</span>
 						<img src="/assets/img/icons/tr.svg" width="10" height="5"/>
 					</div>
 					
@@ -188,6 +195,7 @@ const ScheduleRow = ({el}) => {
 	const selectedTimid = useSelector(state => state.selected.timid)
 	const dispatch = useDispatch()
 	const selectedRef = useRef();
+	const selected_currency = useSelector(state => state.selected.currency)
 
 	useEffect(()=>{
 		const {current} = selectedRef
@@ -208,7 +216,12 @@ const ScheduleRow = ({el}) => {
 		return false
 
 	}
-	
+
+	let price = +el.price.split(",")[0]
+	if(selected_currency !== 'BYN'){
+		price = currency.calc(price, selected_currency)
+	}
+
 	return(
 		<div
 			ref={is_selected(el.timid) ? selectedRef : null}
@@ -228,8 +241,8 @@ const ScheduleRow = ({el}) => {
 				</div>
 				<span>{el.time}</span>
 				<span>{el.seats}</span>
-				<span byn={el.price.split(",")[0]}>{el.price.split(",")[0]}</span>
-			</div>
+				<span byn={price}>{price}</span>
+		</div>
 	)
 }
 
@@ -239,9 +252,13 @@ const Program = () => {
 	const program = useSelector(state => state.program)
 	const selectedTimid = useSelector(state => state.selected.timid)
 	const schedule = useSelector(state => state.schedule)
+	const selected_currency = useSelector(state => state.selected.currency)
 
 	let current = schedule.find(el => +el.timid == selectedTimid)
 	let price = current?.price?.split(",") || []
+
+	let adult = selected_currency == 'BYN' ? price[0]: currency.calc(price[0], selected_currency)
+	let child = selected_currency == 'BYN' ? price[1]: currency.calc(price[1], selected_currency)
 
 	
 	
@@ -283,12 +300,16 @@ const Program = () => {
 					
 					<li>
 						<span>Взрослый билет:</span>
-						<span byn={price[0]}>{price[0]} <span className="cur">BYN</span></span>
+						<span byn={adult}>{adult} 
+							<span className="cur">{selected_currency !=='BYN'?selected_currency:'BYN'}</span>
+						</span>
 					</li>
 					
 					<li>
 						<span>Детский билет:</span>
-						<span byn={price[1]}>{price[1]} <span className="cur">BYN</span></span>
+						<span byn={child}>{child} 
+						<span className="cur">{selected_currency !=='BYN'?selected_currency:'BYN'}</span>
+						</span>
 					</li>
 
 					<li>

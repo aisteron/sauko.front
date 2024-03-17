@@ -82,7 +82,28 @@ export const currency = {
 			
 			cur_from_lS.selected = e.detail.selected
 			localStorage.setItem('cur', JSON.stringify(cur_from_lS))
-			
+
 		})
+	},
+	calc(price, target_currency){
+		let cur_from_lS = localStorage.getItem("cur")
+		
+		if(!cur_from_lS){
+			console.log('%c Ошибка пересчета! В localStorage отсутствует валюта!','color: red')
+			this.get_from_nbrb
+		}
+
+		cur_from_lS = JSON.parse(cur_from_lS)
+
+		let value = Object.entries(cur_from_lS)
+			.find(el => el[0] == target_currency.toLowerCase())[1]
+
+		switch(target_currency){
+			case 'USD':
+			case 'EUR':
+				return (price / value).toFixed(2)
+			case 'RUB':
+				return (price / value * 100).toFixed(2)
+		}
 	}
 }

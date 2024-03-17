@@ -3,7 +3,10 @@ import { v4 as uuidv4 } from 'uuid';
 import { load_toast } from '../../libs'
 import { service } from '../../services';
 
-
+let cur_from_lS = localStorage.getItem('cur')
+if(cur_from_lS){
+	cur_from_lS = JSON.parse(cur_from_lS)?.selected
+}
 const orderFormSlice = createSlice({
   name: 'ofs',
   initialState: {
@@ -12,7 +15,7 @@ const orderFormSlice = createSlice({
 			exid: null,
 			timid: null,
 			tabs:['book', 'customer'],
-			currency: 'BYN',
+			currency: cur_from_lS ? cur_from_lS : 'BYN',
 		},
 		schedule:[],
 
@@ -135,6 +138,9 @@ const orderFormSlice = createSlice({
 		},
 		success_send_to_server:(state,action)=>{
 			state.success = true
+		},
+		set_currency:(state,action) => {
+			state.selected.currency = action.payload
 		}
 
 
@@ -155,7 +161,8 @@ export const {
 	set_ex,
 	select_ex_time,
 	set_loading,
-	success_send_to_server
+	success_send_to_server,
+	set_currency
  } = orderFormSlice.actions
 
 export const store = configureStore({
