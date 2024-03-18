@@ -62,7 +62,8 @@ const orderFormSlice = createSlice({
 		update_customer:(state, action) => {
 			let n = action.payload.name
 			let v = action.payload.value
-			state.book.customer = {...state.book.customer, [n]:v}
+			//state.book.customer = {...state.book.customer, [n]:v}
+			state.book.customer[n] = v
 		},
 		update_customer_ch:(state, action) => {
 			const {area,type} = action.payload

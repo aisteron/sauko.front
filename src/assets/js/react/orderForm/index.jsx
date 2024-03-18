@@ -199,7 +199,7 @@ const ScheduleRow = ({el}) => {
 
 	useEffect(()=>{
 		const {current} = selectedRef
-		current && current.scrollIntoView()
+		current && current.scrollIntoView({block: "center"})
 	},[])
 
 	const is_selected = (timid) =>{
@@ -504,13 +504,13 @@ const BookCustomer = () => {
 
 			<div className="fields">
 				{data.fields.map(el =>
-					<CustomerInput el={el} key={uuidv4()}/>
+					<CustomerInput el={el} key={el.name}/>
 				)}	
 			</div>
 
 			<div className="messengers">
 				{data.messengers.map(el => 
-					<label key={uuidv4()}>
+					<label key={el.name}>
 						<input type="checkbox"
 						defaultChecked={m.includes(el.name)}
 						onChange={e=>dispatch(update_customer_ch({
@@ -548,15 +548,17 @@ const CustomerInput = ({el}) => {
 	const customer = useSelector(state => state.book.customer)
 	const dispatch = useDispatch()
 
+
 	return(
 		<label>
 			<input
 				type="text"
-				
 				name={el.name}
 				required
 				defaultValue={customer[el.name]}
-				onBlur={e=>dispatch(update_customer({name:el.name, value:e.target.value}))}
+
+				onChange={e=>dispatch(update_customer({name:el.name, value:e.target.value}))}
+
 			/>
 			<span>{el.label}</span>
 			
@@ -696,7 +698,7 @@ function close_by_underlay_click(e,dispatch){
 const Sended = () => {
 	const dispatch = useDispatch()
 	return(
-		<div className="underlay wrap" onClick={e=>close_by_underlay_click(e)}>
+		<div className="underlay wrap" onClick={()=>dispatch(show({open: false}))}>
 
 			<div className="orderform">
 
