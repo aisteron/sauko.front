@@ -1,5 +1,6 @@
 import { qs, sw,fancy, load_swiped } from "../libs";
 import { currency } from "../services";
+import { Filter } from "./filter";
 
 export function Ui(){
 	
@@ -10,6 +11,7 @@ export function Ui(){
 	load_swiped()
 
 	currency.init()
+	Filter()
 }
 
 async function swipes(){
