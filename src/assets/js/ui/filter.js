@@ -6,18 +6,19 @@ export function Filter(){
 	let input = qs('.table.sbor .table .thead input')
 
 
-	async function onMouseMove(e){
-		//console.log(e.target.value)
+	async function onSearch(e){
+	
 		if(e.target.value.length < 3){
 			await load_toast()
 			new Snackbar('Меньше 2 знаков нельзя')
 			return 
 		}
 
-		await service.search_ex(e.target.value)
+		const res = await service.search_ex(e.target.value)
+		console.log(Object.entries(res))
 
 	}
 
-	var debouncedInput = debounce(onMouseMove, 500);
+	var debouncedInput = debounce(onSearch, 500);
 	input.listen("keyup", debouncedInput)
 }

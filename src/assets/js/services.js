@@ -15,7 +15,7 @@ export const service = {
 	async search_ex(query){
 		process.env.NODE_ENV == 'production' && (cfg.host = '')
 		const res = await xml("search_ex", {query}, cfg.host+'/api/')
-		//return JSON.parse(res)
+		return JSON.parse(res)
 	}
 }
 
