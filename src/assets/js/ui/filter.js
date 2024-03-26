@@ -1,8 +1,17 @@
-import { debounce, load_toast, qs } from "../libs";
+import { debounce, load_toast, qs, qsa } from "../libs";
 import { service } from "../services";
 
 export function Filter(){
+
+	by_input()
+	by_period()
+
+	set_current_month()
 	
+	
+}
+
+function by_input(){
 	let input = qs('.table.sbor .table .thead input')
 
 
@@ -75,4 +84,76 @@ export function Filter(){
 
 	var debouncedInput = debounce(onSearch, 500);
 	input.listen("keyup", debouncedInput)
+}
+
+function by_period(){
+
+}
+
+function set_current_month(){
+
+	let label = qs('.item.month .label')
+	let prev_arrow = label.previousElementSibling
+
+	const month = ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"];
+	let d = new Date();
+	let name = month[d.getMonth()];
+	let year = d.getFullYear()
+	
+	draw_month(name,year)
+
+	// switch month
+	qsa('.item.month img').forEach(el => {
+		el.listen("click", e => set_month(e.target.classList[0]) )
+	})
+
+	function set_month(dir){
+		let m = +label.getAttribute('m')
+		let y = +label.getAttribute('y')
+
+		
+
+		if(dir == 'next'){
+
+			m == 11 && (y++, m = -1)
+			console.log(m,y)
+			draw_month(month[m+1],y)
+		}
+
+		if(dir == 'prev'){
+			if(prev_arrow.classList.contains('disabled')) return
+			m == 0 && (m=12, y--)
+			draw_month(month[m-1],y)
+			
+		}
+
+		
+	}
+
+	function draw_month(name,year){
+		
+		label.setAttribute('m', month.indexOf(name))
+		label.setAttribute('y', year)
+		label.innerHTML = `${name}, ${year}`;
+
+		// prev arrow disable
+		let d = new Date();
+		let current_m = month[d.getMonth()];
+		let current_year = d.getFullYear()
+		
+
+		if(current_m == name && year == current_year){
+			prev_arrow.classList.add('disabled')
+		} else {
+			prev_arrow.classList.remove('disabled')
+		}
+	}
+
+	// to server
+	label.listen("click", e => {
+		let m = +label.getAttribute('m')
+		let y = +label.getAttribute('y')
+		
+		console.log(e.target)
+	})
 }
