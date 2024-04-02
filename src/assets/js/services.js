@@ -3,6 +3,7 @@ import { xml,cfg } from "./libs"
 export const service = {
 	
 	async get_ex(obj){
+
 		// получение инфы экскурсии по ее id
 		// exid, ~ timid
 
@@ -12,9 +13,9 @@ export const service = {
 		return JSON.parse(res)
 	},
 
-	async search_ex(query){
+	async search_ex(obj){
 		process.env.NODE_ENV == 'production' && (cfg.host = '')
-		const res = await xml("search_ex", {query}, cfg.host+'/api/')
+		const res = await xml("search_ex", obj, cfg.host+'/api/')
 		return JSON.parse(res)
 	}
 }

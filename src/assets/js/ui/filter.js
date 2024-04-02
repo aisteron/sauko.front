@@ -1,21 +1,33 @@
 import { debounce, load_toast, qs, qsa } from "../libs";
 import { service } from "../services";
 
+let state = {
+	period: null,
+	query: null
+}
+
 export function Filter(){
+	
+	onPageLoad()
 
 	by_input()
 	by_period()
 
 	set_current_month()
+
 	
 	
 }
 
 function by_input(){
 	let input = qs('.table.sbor .table .thead input')
+	
+	state.query && (input.value = state.query)
 
 
 	async function onSearch(e){
+
+		const url = new URL(location);
 	
 		if(e.target.value.length < 3){
 			await load_toast()
@@ -23,7 +35,20 @@ function by_input(){
 			return 
 		}
 
-		const res = await service.search_ex(e.target.value)
+		
+		url.searchParams.set("query", e.target.value);
+		history.replaceState({}, "", url);
+
+		let obj = {
+			query: e.target.value
+		}
+		let period = url.searchParams.get("period")
+		period && (obj.period = period)
+
+		const res = await service.search_ex({...obj})
+
+		console.log(res)
+		return
 		
 		let s = [];
 		res.forEach(el => el.schedule.map(e => {
@@ -84,6 +109,26 @@ function by_input(){
 
 	var debouncedInput = debounce(onSearch, 500);
 	input.listen("keyup", debouncedInput)
+
+	// reset by cross click
+
+	let cross = qs('section.table .name .close')
+	if(cross){
+
+		cross.listen("click", async e => {
+
+			url.searchParams.delete('query');
+			history.replaceState({}, "", url);
+			input.value = ''
+			
+			
+			
+			//await service.search_ex()
+
+		})
+	}
+
+	
 }
 
 function by_period(){
@@ -111,12 +156,10 @@ function set_current_month(){
 		let m = +label.getAttribute('m')
 		let y = +label.getAttribute('y')
 
-		
 
 		if(dir == 'next'){
 
 			m == 11 && (y++, m = -1)
-			console.log(m,y)
 			draw_month(month[m+1],y)
 		}
 
@@ -150,10 +193,31 @@ function set_current_month(){
 	}
 
 	// to server
-	label.listen("click", e => {
-		let m = +label.getAttribute('m')
+	label.listen("click", async e => {
+
+		let m = +label.getAttribute('m') < 10 ? '0'+(+label.getAttribute('m')+1) : +label.getAttribute('m')
 		let y = +label.getAttribute('y')
+
+		const url = new URL(location);
+		url.searchParams.set("period", `${m}.${y}`);
+		history.replaceState({}, "", url);
+
+
+
 		
-		console.log(e.target)
+		let query = url.searchParams.get("query");
+
+		let obj = { period: `${m}.${y}` }
+		query && (obj.query = query)
+
+		const res = await service.search_ex({...obj})
+
+
 	})
+}
+
+function onPageLoad(){
+	const url = new URL(location);
+	state.query = url.searchParams.get('query')
+	state.period = url.searchParams.get('period')
 }
