@@ -178,3 +178,13 @@ export function debounce(func, wait, immediate) {
     if (callNow) func.apply(context, args);
   }
 }
+
+export function isEmpty(obj) {
+  for (var prop in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, prop)) {
+      return false;
+    }
+  }
+
+  return true
+}

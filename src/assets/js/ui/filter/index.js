@@ -1,13 +1,22 @@
-import { debounce, load_toast, qs, qsa } from "../../libs";
+import { debounce, load_toast, qs, qsa,isEmpty } from "../../libs";
 import { service } from "../../services";
 import { store, search_thunk } from "./store";
 
 
 export function Filter(){
 
-	store.subscribe(_ => console.log(store.getState()))
+	store.subscribe(_ => {
+		let state = store.getState()
+		console.log(state)
 
-	//store.dispatch(set_order())
+		let tbody = qs('section.table .table .tbody')
+		state.loading
+			? tbody.classList.add('loading')
+			: tbody.classList.remove('loading')
+
+			!isEmpty(state.results) && draw(state.results)
+	})
+
 	
 	// onPageLoad()
 	
@@ -131,17 +140,25 @@ function onPageLoad(){
 }
 
 
-function draw(){
+function draw(obj){
+	// obj.ex[], obj.schedule[]
+
+	obj = JSON.parse(JSON.stringify(obj));
+	let {ex, schedule} = obj
 	let s = [];
-	res.forEach(el => el.schedule.map(e => {
-		e.exid = el.exid
-		e.name = el.name
-		e.distance = el.distance
-		e.duration = el.duration
-		e.uri = el.uri
-		return s.push(e)
-	}))
-	
+
+	s = schedule.map(el => {
+		let t = ex.find(e => e.exid == el.exid)
+
+		el.name = t.name
+		el.distance = t.distance
+		el.duration = t.duration
+		el.uri = t.uri
+
+		return el
+		
+	})
+
 	let r = s.reduce((acc, current) => {
 
 		if(!acc[current.date]){
@@ -152,13 +169,14 @@ function draw(){
 	},[])
 
 	let ordered = []
-	let z = Object.keys(r)
+	Object.keys(r)
 		.sort((a,b) => Date.parse(a) - Date.parse(b))
 		.forEach(k=>ordered[k] = r[k])
+	
 	let str = ``
 	Object.keys(ordered).forEach(k => {
 		let date = k.split('.')
-		console.log(date)
+		//console.log(date)
 		date = `${date[0]}.${date[1]}`
 		str += `<div class="row"> <span class="date">${date}</span>`
 		

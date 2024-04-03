@@ -7,15 +7,23 @@ const filterSlice = createSlice({
   initialState: {
 		period: null,
 		query: null,
-		result: [],
+		results: {},
 		loading: false
   },
   
 	reducers: {
 
 		search:(state,action) => {
-			console.log(action.payload)
-			state.query = 1
+			state.results = action.payload
+			state.loading = false
+		},
+		set_loading:(state,action)=>{
+			state.loading = action.payload
+		},
+		set_filter:(state,action) => {
+			let obj = Object.entries(action.payload)[0]
+			state[obj[0]] = obj[1]
+			
 		}
 		
   }
@@ -23,7 +31,8 @@ const filterSlice = createSlice({
 
 export const { 
 	search,
-
+	set_loading,
+	set_filter
  } = filterSlice.actions
 
 export const store = configureStore({
@@ -33,7 +42,9 @@ export const store = configureStore({
 
 export const search_thunk = (obj) => {
 
-	console.log(obj)
+
+	store.dispatch(set_filter(obj))
+	store.dispatch(set_loading(true))
 
 	return async function fetchTodoByIdThunk(dispatch,getState){
 		const res = await service.search_ex({...obj})
