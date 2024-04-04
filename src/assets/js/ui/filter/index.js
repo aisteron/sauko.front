@@ -1,5 +1,4 @@
-import { debounce, load_toast, qs, qsa,isEmpty } from "../../libs";
-import { service } from "../../services";
+import { debounce, load_toast, qs, qsa, isEmpty } from "../../libs";
 import { store, search_thunk } from "./store";
 
 
@@ -9,16 +8,43 @@ export function Filter(){
 		let state = store.getState()
 		console.log(state)
 
+		// SIDE EFFECTS
+
+		!isEmpty(state.results) && draw(state.results)
+
 		let tbody = qs('section.table .table .tbody')
 		state.loading
 			? tbody.classList.add('loading')
 			: tbody.classList.remove('loading')
+		
 
-			!isEmpty(state.results) && draw(state.results)
+		let input = qs('.table.sbor .table .thead input')
+		state.query == null && (input.value = '')
+
+		qsa('.item.active').forEach(el => el.classList.remove('active'))
+
+		state.period?.includes('.')
+			? qs('.item.month').classList.add('active')
+			: qs('.item.'+state.period)?.classList.add('active')
+		
+		// URL search params
+		
+		const url = new URL(location);
+		
+		state.period
+			? url.searchParams.set("period", state.period)
+			: url.searchParams.delete("period")
+		
+		state.query
+			? url.searchParams.set("query", state.query)
+			: url.searchParams.delete("query")	
+		
+		history.replaceState({}, "", url);	
+
+
+			
 	})
 
-	
-	// onPageLoad()
 	
 	set_current_month()
 	by_input()
@@ -26,6 +52,8 @@ export function Filter(){
 
 
 	reset_query_cross()
+
+	total_reset()
 
 	
 	
@@ -52,25 +80,40 @@ function by_input(){
 }
 
 function by_period(){
+
+
+	// < Апрель >
 	
-	let label = qs('.item.month .label')
+	let month = qs('.item.month .label')
 	
-	label.listen("click", async e => {
+	month.listen("click", e => {
 
-		let y = +label.getAttribute('y')
-		let m = +label.getAttribute('m') < 10
-			? '0'+(+label.getAttribute('m')+1)
-			: +label.getAttribute('m')
-
-		//const url = new URL(location);
-		//url.searchParams.set("period", `${m}.${y}`);
-		//history.replaceState({}, "", url);
-
-		let obj = { period: `${m}.${y}` }
+		let y = +month.getAttribute('y')
+		let m = +month.getAttribute('m') < 10
+			? '0'+(+month.getAttribute('m')+1)
+			: +month.getAttribute('m')
+		let item = e.target.closest('.item')
+		let period = item.classList.contains('active') ? null : `${m}.${y}`
+		
+		let obj = { period: period }
 		store.dispatch(search_thunk(obj))
 
+	});
 
+
+	let today = qs('.item.today .label');
+	let tomorrow = qs('.item.tomorrow .label');
+	let week = qs('.item.week .label');
+
+	[today, tomorrow, week].forEach(el => {
+		el.listen("click", e => {
+			let item = e.target.closest('.item')
+			let period = item.classList.contains('active') ? null : item.classList[1]
+			store.dispatch(search_thunk({period: period}))
+		})
 	})
+
+
 }
 
 function set_current_month(){
@@ -99,14 +142,18 @@ function set_current_month(){
 
 			m == 11 && (y++, m = -1)
 			draw_month(month[m+1],y)
+			store.dispatch(search_thunk({ period: `${m+2}.${y}` }))
 		}
 
 		if(dir == 'prev'){
 			if(prev_arrow.classList.contains('disabled')) return
 			m == 0 && (m=12, y--)
 			draw_month(month[m-1],y)
+			store.dispatch(search_thunk({ period: `${m}.${y}` }))
 			
 		}
+
+		
 
 		
 	}
@@ -133,15 +180,13 @@ function set_current_month(){
 	
 }
 
-function onPageLoad(){
-	const url = new URL(location);
-	state.query = url.searchParams.get('query')
-	state.period = url.searchParams.get('period')
-}
-
 
 function draw(obj){
 	// obj.ex[], obj.schedule[]
+	if(obj?.success == false){
+		qs('.table .tbody').innerHTML = '<h3 class="nf404">Экскурсии не найдены</h4>'
+		return;
+	}
 
 	obj = JSON.parse(JSON.stringify(obj));
 	let {ex, schedule} = obj
@@ -217,16 +262,13 @@ function reset_query_cross(){
 	let cross = qs('section.table .name .close')
 	if(!cross) return
 
-		cross.listen("click", async e => {
+	cross.listen("click", e => {
+		store.dispatch(search_thunk({query: null}))
+	})
 
-			url.searchParams.delete('query');
-			history.replaceState({}, "", url);
-			input.value = ''
-			
-			
-			
-			//await service.search_ex()
+}
 
-		})
-
+function total_reset(){
+	let reset = qs('.filter .reset')
+	reset.listen("click", _ => store.dispatch(search_thunk({})))
 }

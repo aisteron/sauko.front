@@ -1,5 +1,6 @@
 import {createSlice, configureStore} from '@reduxjs/toolkit'
 import { service } from '../../services'
+import { isEmpty } from '../../libs'
 
 
 const filterSlice = createSlice({
@@ -16,13 +17,21 @@ const filterSlice = createSlice({
 		search:(state,action) => {
 			state.results = action.payload
 			state.loading = false
+			
 		},
 		set_loading:(state,action)=>{
 			state.loading = action.payload
 		},
 		set_filter:(state,action) => {
-			let obj = Object.entries(action.payload)[0]
-			state[obj[0]] = obj[1]
+
+			if(isEmpty(action.payload)){
+				state.period = null
+				state.query = null
+			} else {
+				let obj = Object.entries(action.payload)[0]
+				state[obj[0]] = obj[1]
+			}
+			
 			
 		}
 		
@@ -47,7 +56,28 @@ export const search_thunk = (obj) => {
 	store.dispatch(set_loading(true))
 
 	return async function fetchTodoByIdThunk(dispatch,getState){
-		const res = await service.search_ex({...obj})
+
+		let state = getState();
+		
+		if(obj.period){
+			state.query ? obj.query = state.query : null
+		}
+
+		if(obj.query){
+			state.period ? obj.period = state.period : null
+		}
+
+		obj.query == null
+			&& (delete obj.query, state.period
+				&& (obj.period = state.period) )
+
+		obj.period == null
+		 && (delete obj.period, state.query
+				&& (obj.query = state.query)) 
+
+		
+
+		const res = await service.search_ex({...obj});
 		dispatch(search(res))
 		
 	}
