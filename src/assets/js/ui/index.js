@@ -1,6 +1,7 @@
 import { qs, sw,fancy, load_swiped, xml, cfg, load_toast, debounce } from "../libs";
 import { currency } from "../services";
 import { Filter } from "./filter";
+import { widget_review_send } from "./review";
 
 export function Ui(){
 	
@@ -21,6 +22,9 @@ export function Ui(){
 
 	// aside поиск
 	aside_search()
+
+	// виджет отправки отзыва
+	widget_review_send()
 }
 
 async function swipes(){

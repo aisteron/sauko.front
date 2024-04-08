@@ -279,7 +279,7 @@ aside
 			border-top: 0
 			padding: 1rem
 			max-height: 290px
-			overflow-y: auto 
+			overflow-y: auto
 
 			ul
 				li
@@ -290,7 +290,7 @@ aside
 						text-decoration: none
 						&:hover
 							color: $green
-							text-decoration: underline	
+							text-decoration: underline
 	nav
 		a
 			text-decoration: none
@@ -615,12 +615,15 @@ aside
 					font-weight: 500
 					font-family: Roboto
 					border-radius: 4px
-					background-image: url(/assets/img/icons/hut.svg)
+					background-image: url(/assets/img/icons/send.svg)
 					background-repeat: no-repeat
 					transition: all 0.3s ease
 					cursor: pointer
 					padding: 12px 17px 10px 51px
-					background-position: 1rem 12px
+					background-position: 20px 8px
+					&.loading
+
+						background-image: url(/assets/img/icons/hourglass.svg)
 					&:hover
 						background-color: darken(#E0F1ED,5%)
 					&:disabled
