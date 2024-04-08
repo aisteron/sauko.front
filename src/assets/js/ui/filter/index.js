@@ -4,6 +4,8 @@ import { store, search_thunk } from "./store";
 
 export function Filter(){
 
+	if(!qs('.exlist-page')) return
+
 	store.subscribe(_ => {
 		let state = store.getState()
 		console.log(state)

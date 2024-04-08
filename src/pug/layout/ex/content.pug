@@ -32,7 +32,19 @@ section.content
 			img(src="/assets/img/pages/ex/beenhere.svg" width="16" heigth="16")
 			span Забронировать место
 	button.get_to_know_price.mt1 Узнать цену
-
+	dialog#cb_dialog()
+		.head
+			span Оставьте свой номер<br> и я перезвоню
+			<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path d="M1.4 14L0 12.6L5.6 7L0 1.4L1.4 0L7 5.6L12.6 0L14 1.4L8.4 7L14 12.6L12.6 14L7 8.4L1.4 14Z" />
+			</svg>
+		.body
+			input(type="text" placeholder="Ваш телефон")
+			button(type="submit")
+				<svg width="19" height="16" viewBox="0 0 19 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M0 16V0L19 8L0 16ZM2 13L13.85 8L2 3V6.5L8 8L2 9.5V13Z" fill="#028F68" />
+				</svg>
+				span Отправить
 	ul.tags.mt1
 		li
 			img(src="/assets/img/pages/ex/flag.svg" width="24" height="24")

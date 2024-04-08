@@ -272,6 +272,25 @@ aside
 				font-size: 17px
 				font-weight: 500
 				color: #6A707C
+		.results
+			border: 1px solid #ccc
+			border-bottom-right-radius: 6px
+			border-bottom-left-radius: 6px
+			border-top: 0
+			padding: 1rem
+			max-height: 290px
+			overflow-y: auto 
+
+			ul
+				li
+					&:not(:last-child)
+						margin-bottom: 10px
+					a
+						color: #484848
+						text-decoration: none
+						&:hover
+							color: $green
+							text-decoration: underline	
 	nav
 		a
 			text-decoration: none

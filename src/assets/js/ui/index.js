@@ -1,4 +1,4 @@
-import { qs, sw,fancy, load_swiped } from "../libs";
+import { qs, sw,fancy, load_swiped, xml, cfg, load_toast, debounce } from "../libs";
 import { currency } from "../services";
 import { Filter } from "./filter";
 
@@ -8,10 +8,19 @@ export function Ui(){
 	fancy.init()
 	toggle_aside_nav()
 	mobile_menu()
-	load_swiped()
+
 
 	currency.init()
 	Filter()
+	
+	// слушать свайпы на телефоне
+	load_swiped()
+
+	// снять / опубликовать ресурс с фронта
+	front_pub()
+
+	// aside поиск
+	aside_search()
 }
 
 async function swipes(){
@@ -98,4 +107,75 @@ function drawer(el, status){
 	status 
 	? el.classList.add('move')
 	: el.classList.remove('move')
+}
+
+function front_pub(){
+	qs('#edit_panel label.pub input')?.listen("change", async e =>{
+
+		let obj = {
+			exid: qs('body')?.getAttribute("exid"),
+			checked: e.target.checked
+		}
+		
+		if(!obj.exid){
+			await load_toast()
+			new Snackbar("У body отсутствует exid")	
+			return
+		}
+		process.env.NODE_ENV == 'production' && (cfg.host = '')
+		let res = await xml("front_pub",obj, cfg.host+'/api/')
+		res = JSON.parse(res)
+		
+		await load_toast()
+		
+		res.success
+			? new Snackbar(`Успешно ${e.target.checked ? 'опубликовано':'снято с публикации'}`)
+			: new Snackbar('Что-то пошло не так')
+
+	})
+}
+
+function aside_search(){
+
+	async function onSearch(e){
+		
+		if(e.target.value.length < 3){
+			await load_toast()
+			new Snackbar("Меньше 2 знаков нельзя")
+			qs('aside .search .results')?.remove()
+			return;
+		}
+
+		process.env.NODE_ENV == 'production' && (cfg.host = '')
+		let res =  await xml('aside_search', {query: e.target.value}, cfg.host+'/api/')
+		res = JSON.parse(res)
+		
+		if(!res.length && !res?.success){
+			await load_toast()
+			res.message 
+				? new Snackbar(res.message)
+				: new Snackbar('Ошибка поиска')
+			return	
+		}
+
+		draw(res)
+	}
+
+	let input = qs('aside .search input')
+	let debouncedInput = debounce(onSearch, 500);
+	input.listen("keyup", debouncedInput)
+
+
+	function draw(res){
+		let str = `<div class="results"><ul>`;
+		
+		res.forEach(el => {
+			str += `<li><a href="${el.uri}">${el.pagetitle}</a></li>`
+		})
+
+		str +=`</ul></div>`
+		qs('aside .search .results')?.remove()
+		qs('aside .search').insertAdjacentHTML('beforeend', str)
+	}
+	
 }
