@@ -188,3 +188,15 @@ export function isEmpty(obj) {
 
   return true
 }
+
+export function declension(number, declensions, cases = [2, 0, 1, 1, 1, 2]) {
+
+	//const result = declension(10, ['монета', 'монеты', 'монет'])
+	// https://gist.github.com/ShepetaAndrey/d3507a1ac72ff3544cdb734fd1a80178
+
+  return declensions[
+    number % 100 > 4 && number % 100 < 20
+      ? 2
+      : cases[number % 10 < 5 ? number % 10 : 5]
+  ];
+}

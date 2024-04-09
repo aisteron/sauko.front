@@ -1,10 +1,12 @@
 import { debounce, load_toast, qs, qsa, isEmpty } from "../../libs";
 import { store, search_thunk } from "./store";
+import { exlist_open_modal } from '../../pages/index'
 
 
 export function Filter(){
 
-	if(!qs('.exlist-page')) return
+	if(!qs('section.table.sbor')) return // only sbor
+	
 
 	store.subscribe(_ => {
 		let state = store.getState()
@@ -20,7 +22,7 @@ export function Filter(){
 			: tbody.classList.remove('loading')
 		
 
-		let input = qs('.table.sbor .table .thead input')
+		let input = qs('section.table .table .thead input')
 		state.query == null && (input.value = '')
 
 		qsa('.item.active').forEach(el => el.classList.remove('active'))
@@ -65,6 +67,7 @@ function by_input(){
 
 	async function onSearch(e){
 		
+		if(!e.target.value) return
 		if(e.target.value.length < 3){
 			await load_toast()
 			new Snackbar('Меньше 2 знаков нельзя')
@@ -75,9 +78,9 @@ function by_input(){
 
 	}
 
-	let input = qs('.table.sbor .table .thead input')
+	let input = qs('section.table .table .thead input')
 	let debouncedInput = debounce(onSearch, 500);
-	input.listen("keyup", debouncedInput)
+	input?.listen("keyup", debouncedInput)
 	
 }
 
@@ -88,7 +91,7 @@ function by_period(){
 	
 	let month = qs('.item.month .label')
 	
-	month.listen("click", e => {
+	month?.listen("click", e => {
 
 		let y = +month.getAttribute('y')
 		let m = +month.getAttribute('m') < 10
@@ -108,7 +111,7 @@ function by_period(){
 	let week = qs('.item.week .label');
 
 	[today, tomorrow, week].forEach(el => {
-		el.listen("click", e => {
+		el?.listen("click", e => {
 			let item = e.target.closest('.item')
 			let period = item.classList.contains('active') ? null : item.classList[1]
 			store.dispatch(search_thunk({period: period}))
@@ -121,7 +124,8 @@ function by_period(){
 function set_current_month(){
 
 	let label = qs('.item.month .label')
-	let prev_arrow = label.previousElementSibling
+	if(!label) return
+	let prev_arrow = label?.previousElementSibling
 
 	const month = ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"];
 	let d = new Date();
@@ -251,17 +255,15 @@ function draw(obj){
 	})
 
 	qs('.table .tbody').innerHTML = str
+	exlist_open_modal()
 }
 
 function reset_query_cross(){
 
-	// reset by cross click
-
-	//const url = new URL(location);
-	// url.searchParams.set("query", e.target.value);
-	// history.replaceState({}, "", url);
+	// reset search by cross click
 
 	let cross = qs('section.table .name .close')
+	
 	if(!cross) return
 
 	cross.listen("click", e => {
@@ -272,5 +274,5 @@ function reset_query_cross(){
 
 function total_reset(){
 	let reset = qs('.filter .reset')
-	reset.listen("click", _ => store.dispatch(search_thunk({})))
+	reset?.listen("click", _ => store.dispatch(search_thunk({})))
 }

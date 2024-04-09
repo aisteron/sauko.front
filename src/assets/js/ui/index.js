@@ -1,4 +1,4 @@
-import { qs, sw,fancy, load_swiped, xml, cfg, load_toast, debounce } from "../libs";
+import { qs, sw,fancy, load_swiped, xml, cfg, load_toast, debounce, qsa, declension } from "../libs";
 import { currency } from "../services";
 import { Filter } from "./filter";
 import { widget_review_send } from "./review";
@@ -25,6 +25,17 @@ export function Ui(){
 
 	// виджет отправки отзыва
 	widget_review_send()
+
+	// виджет сборных экскурсий
+	widget_sbor()
+
+	// рейтинг экскурсии, эмуляция
+	aside_ex_rating()
+
+	// поиск по огранизованным экскурсиям только на фронте
+	org_search()
+
+
 }
 
 async function swipes(){
@@ -182,4 +193,135 @@ function aside_search(){
 		qs('aside .search').insertAdjacentHTML('beforeend', str)
 	}
 	
+}
+
+function widget_sbor(){
+	qsa('.widget.sbor .price')?.forEach(el => {
+		el.listen("click", e => {
+
+			let exid = +e.target.getAttribute('exid')
+			let timid = +e.target.getAttribute('timid')
+			
+			
+			const modalOrder = new CustomEvent("modalOrderOpen", {
+				detail: {
+					exid: exid,
+					timid: timid,
+					open: true
+				},
+			});
+			
+			document.dispatchEvent(modalOrder)
+		})
+	})
+}
+
+function aside_ex_rating(){
+
+	qsa('.widget.star input')?.forEach(el => {
+		el.listen("change", e => {
+
+			let votes = +qs('.widget.star .votes').innerHTML
+			save(+e.target.value, votes+1)
+
+		})
+	})
+
+	
+	function save(rating, votes){
+		let ratinglS = localStorage.getItem('rating')
+
+		if(!ratinglS){
+			let obj = []
+			obj.push({
+				uri: document.location.href,
+				rating,
+				votes
+			})
+
+			localStorage.setItem('rating', JSON.stringify(obj))
+			
+			let str = `Рейтинг экскурсии <br> на основе <span class="votes">${votes}</span> ${votes % 10 == 1 ? 'голоса': 'голосов'}`
+			qs('.widget.star .count').innerHTML = str
+			return;
+		}
+
+		ratinglS = JSON.parse(ratinglS)
+		let s = ratinglS.find(el => el.uri == document.location.href)
+		
+		if(s){
+			
+			ratinglS = ratinglS.map(el => {
+				if(el.uri == document.location.href){
+					el.rating = rating
+					return el
+				}
+				return el
+			})
+
+			localStorage.setItem('rating', JSON.stringify(ratinglS))
+		} else {
+
+			let obj = {
+				uri: document.location.href,
+				rating,
+				votes
+			}
+
+			ratinglS.push(obj)
+			localStorage.setItem('rating', JSON.stringify(ratinglS))
+		}
+
+		
+	}
+
+	// on page load
+
+	let ratinglS = localStorage.getItem('rating')
+
+	if(ratinglS){
+		
+		ratinglS = JSON.parse(ratinglS)
+		
+		let s = ratinglS.find(el => el.uri == document.location.href)
+		
+		if(s){
+			qs(`.widget.star input[value="${s.rating}"]`).checked = true
+			let str = `Рейтинг экскурсии <br> на основе <span class="votes">${s.votes}</span> ${s.votes % 10 == 1 ? 'голоса': 'голосов'}`
+			qs('.widget.star .count').innerHTML = str
+		}
+
+	}
+	
+}
+
+function org_search(){
+	let input = qs('section.table .thead input')
+	let arr = []
+	
+	qsa('section.table .tbody .row')?.forEach(el => arr.push({
+		name: qs('a', el).innerHTML,
+		url: qs('a', el).href,
+		img: qs('img',el).src,
+		duration: +qs('.duration', el).innerHTML,
+		distance: +qs('.distance', el).innerHTML,
+	}))
+
+	
+	input?.listen("keyup", e => {
+		let q = e.target.value.toLowerCase()
+		if(!q) return
+		
+		let res = arr.map(el => el.name.toLowerCase().indexOf(q) !== -1)
+		draw(res)
+	})
+
+	function draw(res){
+		
+		if(!res){
+			qs('section.table .tbody').innerHTML = '<h3 class="nf404">Экскурсии не найдены</h3>'
+			return
+		}
+
+	}
 }

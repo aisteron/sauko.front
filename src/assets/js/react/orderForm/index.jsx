@@ -253,6 +253,7 @@ const Program = () => {
 	const selectedTimid = useSelector(state => state.selected.timid)
 	const schedule = useSelector(state => state.schedule)
 	const selected_currency = useSelector(state => state.selected.currency)
+	const from = useSelector(state => state.selected.from)
 
 	let current = schedule.find(el => +el.timid == selectedTimid)
 	let price = current?.price?.split(",") || []
@@ -275,7 +276,7 @@ const Program = () => {
 
 				<div className="row">
 					<p>Место выезда:</p>
-					<p>{current?.from}</p>
+					<p>{from}</p>
 				</div>
 
 				<ul className="stats">

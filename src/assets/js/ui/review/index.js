@@ -6,7 +6,7 @@ import { review_thunk, set_value, store } from "./store"
 export function widget_review_send(){
 
 	let submit_button = qs('.widget.review_form input[type="submit"]')
-	console.log(submit_button)
+	
 
 	store.subscribe(_ => {
 		let state = store.getState()

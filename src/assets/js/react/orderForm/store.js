@@ -104,7 +104,8 @@ const orderFormSlice = createSlice({
 		},
 
 		show:(state,action)=>{
-			const{open, exid,timid} = action.payload
+			const{open, exid,timid,tab} = action.payload
+
 
 			state.open = open
 			
@@ -112,13 +113,16 @@ const orderFormSlice = createSlice({
 			state.selected.timid = exid ? +timid : null
 
 			delete state?.success
+
+			tab && (state.selected.tabs = [tab, null])
 			
 		},
 
 		set_ex:(state,action) => {
-			const{schedule, program, book} = action.payload
+			const{schedule, program, book, from} = action.payload
 			state.schedule = schedule
 			state.book.pay = book.pay
+			state.selected.from = from
 
 
 			state.program.name = program.name

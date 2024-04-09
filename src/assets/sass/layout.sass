@@ -725,6 +725,8 @@ aside
 								z-index: 2
 								cursor: pointer
 								transition: $tr
+								>*
+									pointer-events: none
 								&:hover
 									background-color: darken(#D5E1EF, 5%)
 								span[byn]
@@ -803,6 +805,7 @@ aside
 				background-size: 15px auto
 				background-repeat: repeat-x
 				font-size: inherit
+				cursor: pointer
 				&:focus
 					outline: none
 				&:checked, &:hover
@@ -1251,7 +1254,8 @@ body.ex-page
 					font-weight: 500
 					font-size: 14px
 					cursor: pointer
-
+					>*
+						pointer-events: none
 					&:hover
 						text-decoration: underline
 			ul.tags

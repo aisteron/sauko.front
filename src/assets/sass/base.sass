@@ -348,16 +348,31 @@ section.table
 							border-bottom: 1px solid $green
 							~ img
 								filter: $green_hover
+						&:valid ~ img.close
+							display: block		
 					img
 						position: absolute
-						left: 13px
-						top: 7px
-						filter: invert(45%) sepia(7%) saturate(1007%) hue-rotate(186deg) brightness(95%) contrast(86%)
+						&.close
+							left: 204px
+							top: 13px
+							cursor: pointer
+							display: none
+							&:hover
+								filter: $red_hover
+						&.loupe
+							left: 13px
+							top: 7px
+							filter: invert(45%) sepia(7%) saturate(1007%) hue-rotate(186deg) brightness(95%) contrast(86%)
+
 			.tbody
 				padding: 20px
 				display: flex
 				flex-direction: column
 				gap: 20px
+				.nf404
+					font-weight: normal
+					font-size: 36px
+					text-align: center
 				.row
 					font-size: 1rem
 					font-weight: 500
@@ -659,14 +674,14 @@ button.get_to_know_price
 		border-bottom-right-radius: 6px
 		input
 			&[type="text"]
-				padding-top: 9px
-				padding-bottom: 7px
+				padding-top: 12px
+				padding-bottom: 9px
 				padding-left: 1rem
 				border: none
 				border-bottom: 1px solid transparent
 				&::placeholder
 					font-family: 'Roboto'
-					font-size: 15px
+					font-size: 16px
 				&:focus
 					outline: none
 					border-color: #6CBDA7

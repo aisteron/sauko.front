@@ -10,8 +10,13 @@ export const Pages = () => {
 	ex_page_know_price()
 
 	// клик по ссылке "Заказать звонок" в хидере
+	// и в футере
 	call_order()
 	
+	// страница экскурсии. клик по ссылкам
+	// "Программа сборной экскурсии"
+	// "Забронировать место"
+	ex_page_top_links_book()
 }
 
 async function ex_page_swiper() {
@@ -40,7 +45,7 @@ async function ex_page_swiper() {
 	qsa('[data-src]', ex_swiper).forEach(el => el.src = el.dataset.src)
 }
 
-function exlist_open_modal(){
+export function exlist_open_modal(){
 	// открывает попап по кнопке "Бронь"
 	// в таблице сборных экскурсий
 	
@@ -110,5 +115,34 @@ function ex_page_know_price(){
 function call_order(){
 	qs('header li.cb')?.listen("click", _ => {
 		qs('#cb_dialog')?.showModal()
+	})
+
+	qs('footer li.cb')?.listen("click", _ => {
+		qs('#cb_dialog')?.showModal()
+	})
+}
+
+function ex_page_top_links_book(){
+	qsa('.ex-page section.content ul.sbor li')?.forEach(el => {
+
+		el.listen("click", e => {
+
+			let exid = +e.target.getAttribute('exid')
+			let timid = +e.target.getAttribute('timid')
+			let tab = e.target.getAttribute('tab')
+
+			let detail = {
+				exid: exid,
+				timid: timid,
+				open: true
+			}
+
+			tab && (detail.tab = tab)
+			
+			
+			const modalOrder = new CustomEvent("modalOrderOpen", {detail});
+			
+			document.dispatchEvent(modalOrder)
+		})
 	})
 }
