@@ -35,6 +35,9 @@ export function Ui(){
 	// поиск по огранизованным экскурсиям только на фронте
 	org_search()
 
+	// переключение валют в хидере
+	currency_head()
+
 
 }
 
@@ -296,7 +299,8 @@ function aside_ex_rating(){
 }
 
 function org_search(){
-	let input = qs('section.table .thead input')
+	let input = qs('section.table.org .thead input')
+	if(!input) return
 	let arr = []
 	
 	qsa('section.table .tbody .row')?.forEach(el => arr.push({
@@ -310,18 +314,95 @@ function org_search(){
 	
 	input?.listen("keyup", e => {
 		let q = e.target.value.toLowerCase()
-		if(!q) return
+		if(!q){
+			draw(arr)
+			return
+		}
 		
-		let res = arr.map(el => el.name.toLowerCase().indexOf(q) !== -1)
+		let res = arr.filter(el => el.name.toLowerCase().indexOf(q) !== -1)
 		draw(res)
 	})
 
 	function draw(res){
+
 		
-		if(!res){
+		if(!res.length){
 			qs('section.table .tbody').innerHTML = '<h3 class="nf404">Экскурсии не найдены</h3>'
 			return
 		}
 
+		let str = ''
+		res.forEach(el => {
+			str += `
+			<div class="row">
+				<div class="name">
+					<img src="${el.img}" width="36" height="36">
+					<a href="${el.url}">${el.name}</a>
+				</div>
+				<span class="duration">${el.duration}</span>
+				<span class="distance">${el.distance}</span>
+      </div>
+			`
+		})
+
+		qs('section.table.org .tbody').innerHTML = str
+
+
 	}
+
+	// reset by cross
+	let cross = input.nextElementSibling
+	cross.listen("click", e => {
+		input.value = ''
+		draw(arr)
+	})
+}
+
+function currency_head(){
+
+	qs('header .currency .head')?.listen("click", e=> {
+		e.target.closest('.currency').classList.toggle('open')
+	})
+
+	// dispatch
+	qsa('header .currency ul li').forEach(el => {
+		
+		el.listen('click', e => {
+			let cur_str = e.target.innerHTML.toUpperCase()
+
+			const c = new CustomEvent("change_currency", {
+				detail: { selected: cur_str },
+			});
+	
+			document.dispatchEvent(c)
+
+			qs('header .currency .head span').innerHTML = cur_str
+			qs('header .currency').classList.remove('open')
+
+		})
+	})
+
+	// on load
+	let currency_lS = localStorage.getItem('cur')
+
+	if(!currency_lS){
+
+		const intervalId = setInterval(function() {
+			if(localStorage.getItem('cur')){
+				clearInterval(intervalId)
+				draw(localStorage.getItem('cur'))
+			}
+		}, 200)
+	} else {
+		draw(currency_lS)
+	}
+
+	function draw(lS){
+		lS = JSON.parse(lS)
+		if(lS.selected && lS.selected !== 'BYN'){
+			
+			qs('header .currency .head span').innerHTML = lS.selected
+		}
+	}
+
 }

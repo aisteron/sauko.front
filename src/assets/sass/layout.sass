@@ -79,6 +79,9 @@ header
 					color: #4B4B4B
 		.currency
 			margin-left: auto
+			position: relative
+			&.open ul
+				display: block
 			.head
 				display: flex
 				align-items: center
@@ -91,6 +94,21 @@ header
 						filter: $green_hover
 			ul
 				display: none
+				position: absolute
+				top: 34px
+				left: -11px
+				background-color: #fff
+				border: 1px solid $green
+				padding-top: 5px
+				padding-bottom: 5px
+				li
+					text-transform: uppercase
+					font-weight: 500
+					padding: 5px 15px
+					cursor: pointer
+					&:hover
+						color: $green
+
 footer
 	background-color: #028F68
 	color: #fff
