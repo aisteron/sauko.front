@@ -1,5 +1,5 @@
 import { qs, sw,fancy, load_swiped, xml, cfg, load_toast, debounce, qsa, declension } from "../libs";
-import { currency } from "../services";
+import { currency, service } from "../services";
 import { Filter } from "./filter";
 import { widget_review_send } from "./review";
 
@@ -38,6 +38,11 @@ export function Ui(){
 	// переключение валют в хидере
 	currency_head()
 
+	// переключение валют в таблице списка экскурсий
+	currency_table()
+
+	// пересчет валют/цен в таблице списка экскурсий
+	currency_table_recalc()
 
 }
 
@@ -359,50 +364,115 @@ function org_search(){
 }
 
 function currency_head(){
+	const head = qs('header .currency .head') 
+	
+	// show / hide
 
-	qs('header .currency .head')?.listen("click", e=> {
-		e.target.closest('.currency').classList.toggle('open')
+	head?.listen("click", e => {
+		head.closest('.currency').classList.toggle('open')
+	})
+
+	// subscribe
+
+	document.listen("change_currency", e => {
+			
+		let c = e.detail.selected
+		qs('span', head).innerHTML = c
+
 	})
 
 	// dispatch
-	qsa('header .currency ul li').forEach(el => {
+	qsa('li', head.closest('.currency')).forEach(el => {
 		
 		el.listen('click', e => {
-			let cur_str = e.target.innerHTML.toUpperCase()
+			let c = e.target.innerHTML.toUpperCase()
 
-			const c = new CustomEvent("change_currency", {
-				detail: { selected: cur_str },
+			const ev = new CustomEvent("change_currency", {
+				detail: { selected: c },
 			});
 	
-			document.dispatchEvent(c)
+			document.dispatchEvent(ev)
 
-			qs('header .currency .head span').innerHTML = cur_str
-			qs('header .currency').classList.remove('open')
+			// side
+
+			qs('span', head).innerHTML = c
+			head.classList.remove('open')
 
 		})
 	})
 
 	// on load
-	let currency_lS = localStorage.getItem('cur')
+	let selected = JSON.parse(localStorage.getItem('cur'))?.selected
+	if(selected) qs('span', head).innerHTML = selected
 
-	if(!currency_lS){
+}
 
-		const intervalId = setInterval(function() {
-			if(localStorage.getItem('cur')){
-				clearInterval(intervalId)
-				draw(localStorage.getItem('cur'))
-			}
-		}, 200)
-	} else {
-		draw(currency_lS)
-	}
+function currency_table(){
+	let head = qs('section.table .table .thead .price .head')
+	
+	// open / hide
+	head?.listen("click", e =>{
+		e.target.closest('.price').classList.toggle('open')
+	})
 
-	function draw(lS){
-		lS = JSON.parse(lS)
-		if(lS.selected && lS.selected !== 'BYN'){
-			
-			qs('header .currency .head span').innerHTML = lS.selected
-		}
+	// dispatch
+	qsa('li', head.closest('.price')).forEach(el =>{
+		el.listen("click", e => {
+			let c = e.target.innerHTML.toUpperCase()
+			const ev = new CustomEvent("change_currency", {
+				detail: { selected: c },
+			});
+	
+			document.dispatchEvent(ev)
+
+			// side
+			head.closest('.price').classList.remove('open')
+			qs('span', head).innerHTML = c
+		})
+	})
+
+	// subscribe
+
+	document.listen("change_currency", e => {
+		console.log(3)
+		let c = e.detail.selected
+		qs('span', head).innerHTML = c
+	})
+
+
+	// on load
+
+	let selected = JSON.parse(localStorage.getItem('cur'))?.selected
+	if(selected) qs('span', head).innerHTML = selected
+
+	
+
+
+}
+
+function currency_table_recalc(){
+
+	// on load
+	let selected = JSON.parse(localStorage.getItem('cur'))?.selected
+	if(!selected || selected == 'BYN') return
+		draw(selected)
+	
+	
+	// subscribe
+
+	document.listen("change_currency", e => {
+		console.log(1)
+		draw(e.detail.selected)
+	})
+
+	function draw(cur){
+		console.log(0)
+		qsa('section.table .tbody [byn]').forEach(el =>{
+			const b = +el.getAttribute('byn')
+			el.innerHTML = cur == 'BYN'
+				? b
+				: currency.calc(b, cur)
+		})	
 	}
 
 }

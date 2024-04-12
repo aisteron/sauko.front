@@ -38,13 +38,22 @@ export const OrderForm = () => {
 			e.detail.open && dispatch(get_ex_thunk({exid:e.detail.exid}))
 		}
 
+		function change_cur(e){
+			dispatch(set_currency(e.detail.selected))
+		}
+
 		!is_opened
 			? document.addEventListener('modalOrderOpen', displayModal)
 			: document.removeEventListener('modalOrderOpen', displayModal);
 
+		!is_opened
+			? document.addEventListener('change_currency', change_cur)
+			: document.removeEventListener('change_currency', change_cur);
+
 		return () => {
 			console.log('%c Unmounted','color: #666')
 			document.removeEventListener('modalOrderOpen', displayModal);
+			document.removeEventListener('change_currency', change_cur);
 		}
 
 	},[is_opened])

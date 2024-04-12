@@ -1,4 +1,5 @@
 import { xml,cfg } from "./libs"
+import {createSlice, configureStore} from '@reduxjs/toolkit'
 
 export const service = {
 	
@@ -114,3 +115,5 @@ export const currency = {
 		}
 	}
 }
+
+

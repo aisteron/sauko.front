@@ -349,7 +349,7 @@ section.table
 							~ img
 								filter: $green_hover
 						&:valid ~ img.close
-							display: block		
+							display: block
 					img
 						position: absolute
 						&.close
@@ -503,12 +503,35 @@ section.table
 							background-color: #f5fefb
 							border-bottom-color: $green
 				.price
+					position: relative
 					.head
 						display: inline-flex
 						align-items: center
 						gap: 5px
+						cursor: pointer
+						&:hover
+							color: $green
+							img
+								filter: $green_hover
 					ul
 						display: none
+					&.open ul
+						display: block
+						position: absolute
+						background-color: #f9fafc
+						border: 1px solid #e8e9ed
+						z-index: 3
+						padding: 5px 0
+						top: 28px
+						left: 40px
+						li
+							line-height: 180%
+							padding: 0 10px
+							text-transform: uppercase
+							cursor: pointer
+							&:hover
+								color: $green
+
 			.tbody
 				transition: opacity 0.3s ease
 				.nf404
@@ -617,7 +640,7 @@ section.table
 		span
 			font-weight: 500
 			color: #4B4B4B
-			cursor: pointer		
+			cursor: pointer
 	ul
 		display: flex
 		gap: 1rem
@@ -647,7 +670,7 @@ button.get_to_know_price
 	width: 309px
 	border: 1px solid #dddddd
 	border-radius: 6px
-	&:backdrop 
+	&:backdrop
 		background: rgba(0, 255, 76, 0.25)
 	.head
 		display: flex
