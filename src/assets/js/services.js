@@ -55,7 +55,7 @@ export const currency = {
 
 	async init(){
 
-		this.select_currency()
+		this.subscribe()
 
 		let cur_from_lS = localStorage.getItem("cur")
 		
@@ -76,24 +76,22 @@ export const currency = {
 		}
 	},
 
-	select_currency(){
-		let cur_from_lS = localStorage.getItem("cur")
-		
-		if(!cur_from_lS){
-			console.log('%c В локальном хранилище нет валюты, это плохо','color: red')
-			return;
-		}
+	subscribe(){
 
-		cur_from_lS = JSON.parse(cur_from_lS)
+		
 
 		document.listen("change_currency", e => {
-			
-			cur_from_lS.selected = e.detail.selected
-			localStorage.setItem('cur', JSON.stringify(cur_from_lS))
+
+			let currency_lS = JSON.parse(localStorage.getItem("cur"))
+
+			currency_lS.selected = e.detail.selected
+			localStorage.setItem('cur', JSON.stringify(currency_lS))
 
 		})
 	},
 	calc(price, target_currency){
+		if(target_currency == 'BYN') return;
+
 		let cur_from_lS = localStorage.getItem("cur")
 		
 		if(!cur_from_lS){
@@ -102,7 +100,7 @@ export const currency = {
 		}
 
 		cur_from_lS = JSON.parse(cur_from_lS)
-
+		
 		let value = Object.entries(cur_from_lS)
 			.find(el => el[0] == target_currency.toLowerCase())[1]
 
@@ -111,7 +109,7 @@ export const currency = {
 			case 'EUR':
 				return (price / value).toFixed(2)
 			case 'RUB':
-				return (price / value * 100).toFixed(2)
+				return (price / value * 100).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ')
 		}
 	}
 }

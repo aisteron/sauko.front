@@ -204,6 +204,8 @@ function aside_search(){
 }
 
 function widget_sbor(){
+
+	// open modal
 	qsa('.widget.sbor .price')?.forEach(el => {
 		el.listen("click", e => {
 
@@ -222,6 +224,32 @@ function widget_sbor(){
 			document.dispatchEvent(modalOrder)
 		})
 	})
+
+	// subscribe for change currency
+
+	document.listen("change_currency", e => draw(e.detail.selected) )
+
+	// on load
+	let selected = JSON.parse(localStorage.getItem('cur'))?.selected
+	draw(selected)
+
+	function draw(selected){
+		if(!selected) return
+
+		qsa('.widget.sbor [byn]')?.forEach(el => {
+			let b = +el.getAttribute('byn')
+			
+			el.innerHTML = 
+				selected == 'BYN'
+					? b
+					: currency.calc(b, selected)
+			
+			el.nextElementSibling.innerHTML = selected.toUpperCase()
+
+
+		})
+	}
+
 }
 
 function aside_ex_rating(){
@@ -386,7 +414,6 @@ function currency_head(){
 		
 		el.listen('click', e => {
 			let c = e.target.innerHTML.toUpperCase()
-
 			const ev = new CustomEvent("change_currency", {
 				detail: { selected: c },
 			});
@@ -396,7 +423,8 @@ function currency_head(){
 			// side
 
 			qs('span', head).innerHTML = c
-			head.classList.remove('open')
+
+			head.closest('.currency').classList.remove('open')
 
 		})
 	})
@@ -409,6 +437,7 @@ function currency_head(){
 
 function currency_table(){
 	let head = qs('section.table .table .thead .price .head')
+	if(!head) return
 	
 	// open / hide
 	head?.listen("click", e =>{
@@ -416,7 +445,7 @@ function currency_table(){
 	})
 
 	// dispatch
-	qsa('li', head.closest('.price')).forEach(el =>{
+	qsa('li', head?.closest('.price')).forEach(el =>{
 		el.listen("click", e => {
 			let c = e.target.innerHTML.toUpperCase()
 			const ev = new CustomEvent("change_currency", {
@@ -434,7 +463,7 @@ function currency_table(){
 	// subscribe
 
 	document.listen("change_currency", e => {
-		console.log(3)
+		
 		let c = e.detail.selected
 		qs('span', head).innerHTML = c
 	})
@@ -454,19 +483,20 @@ function currency_table_recalc(){
 
 	// on load
 	let selected = JSON.parse(localStorage.getItem('cur'))?.selected
-	if(!selected || selected == 'BYN') return
-		draw(selected)
+	draw(selected)
 	
 	
 	// subscribe
 
 	document.listen("change_currency", e => {
-		console.log(1)
+
 		draw(e.detail.selected)
 	})
 
 	function draw(cur){
-		console.log(0)
+
+		if(!cur) return
+
 		qsa('section.table .tbody [byn]').forEach(el =>{
 			const b = +el.getAttribute('byn')
 			el.innerHTML = cur == 'BYN'

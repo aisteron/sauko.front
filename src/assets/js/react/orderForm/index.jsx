@@ -120,7 +120,7 @@ const Tabs = () => {
 			{tabs.map(el =>
 				<span
 						className={el.action == currentTab ? 'active': null}
-						key={uuidv4()}
+						key={el.label}
 						onClick={() => dispatch(switch_tab([el.action, el.action == 'book' ? 'customer': null ]))}>
 					{el.label}
 				</span>
@@ -190,7 +190,7 @@ const Schedule = () => {
 
 			<div className="body">
 				{schedule.length
-					? schedule.map(el => <ScheduleRow el={el} key={el.MIGX_id}/>)
+					? schedule.map(el => <ScheduleRow el={el} key={el.timid}/>)
 					: <p className='nf404'>Нет расписания</p>
 				}
 			</div>
