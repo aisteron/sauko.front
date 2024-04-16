@@ -16,6 +16,11 @@ html(lang='ru')
 			main
 				include ../../ui/aside
 				article
-					include ./content
-					include ../../ui/table
+					section.content
+						include ./content
+					section.sidebar
+						include ../../ui/widgets/sights
+						include ../../ui/widgets/sbor	
+
+
 			include ../../ui/footer

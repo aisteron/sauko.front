@@ -50,6 +50,8 @@ async function swipes(){
 
 	let reviews_swiper = qs('.widget.reviews')
 	let person_swiper = qs('.person-swiper')
+
+	let content_swipes = qsa('.block.gallery')
 	
 	if(reviews_swiper){
 		await sw.load()
@@ -64,6 +66,7 @@ async function swipes(){
 		sw.init(qs(".swiper", reviews_swiper), options);
 		
 	}
+
 	if(person_swiper){
 		await sw.load()
 
@@ -75,6 +78,23 @@ async function swipes(){
 		};
 		sw.init(qs(".swiper", person_swiper), options);
 		
+	}
+
+	if(content_swipes){
+
+		await sw.load()
+
+		content_swipes.forEach(el => {
+
+			let options = {
+				slidesPerView: 'auto',
+				navigation: {
+        	nextEl: qs(".next",el),
+        	prevEl: qs(".prev",el),
+      	},
+			};
+			sw.init(qs(".swiper", el), options);
+		})
 	}
 }
 

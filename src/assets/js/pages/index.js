@@ -11,12 +11,16 @@ export const Pages = () => {
 
 	// клик по ссылке "Заказать звонок" в хидере
 	// и в футере
+	// и на странице контактов
 	call_order()
+
 	
 	// страница экскурсии. клик по ссылкам
 	// "Программа сборной экскурсии"
 	// "Забронировать место"
 	ex_page_top_links_book()
+
+
 }
 
 async function ex_page_swiper() {
@@ -120,6 +124,11 @@ function call_order(){
 	qs('footer li.cb')?.listen("click", _ => {
 		qs('#cb_dialog')?.showModal()
 	})
+
+	qs('.contacts-page .fake-masonry li.cb')?.listen("click", _ => {
+		qs('#cb_dialog')?.showModal()
+	})
+
 }
 
 function ex_page_top_links_book(){

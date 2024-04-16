@@ -1309,3 +1309,98 @@ body.exlist-page
 			display: none
 		article
 			padding-left: 1rem
+body.article-page
+	main
+		article
+			display: flex
+			gap: 20px
+			@media(max-width:1250px)
+				flex-wrap: wrap
+			section.sidebar
+				margin-top: 100px
+				min-width: 309px
+				display: flex
+				gap: 1rem
+				flex-direction: column
+				@media(max-width:1250px)
+					min-width: auto
+					margin-top: 0
+					flex-direction: row
+					flex-wrap: wrap	
+			.block
+				border: 1px solid rgba(2, 143, 104, 0.52)
+				padding: 20px
+				border-radius: 6px
+				color: #2D2D2D
+				> *:first-child
+					margin-top: 0	
+				p
+					line-height: 140%
+					font-size: 15px
+				ul
+					font-size: 15px
+					line-height: 180%
+					li
+						position: relative
+						&:before
+							content: '\2022'
+							font-size: 20px
+							margin-right: 10px
+							top: 1px
+							position: relative
+							color: $green
+						
+				h2
+					font-weight: 500
+					font-size: 20px
+				h3
+					font-weight: 500
+					font-size: 18px
+				&.gallery
+					.head
+						display: flex
+						justify-content: space-between
+						margin-bottom: 1rem
+						span
+							font-weight: 500
+							font-size: 20px	
+						.arrows
+							display: flex
+							gap: 20px
+							align-items: center
+							img
+								cursor: pointer
+								&.prev
+									transform: rotate(180deg)
+								&.swiper-button-disabled
+									cursor: not-allowed
+									opacity: 0.6	
+					.body
+						margin: -20px
+						margin-top: 0
+						.swiper-slide
+							img
+								width: 100%
+								border-bottom-left-radius: 5px		
+								border-bottom-right-radius: 5px
+							
+				&.map
+					.head
+						span
+							font-weight: 500
+							font-size: 20px	
+					.body
+						margin: -20px
+						margin-top: 18px
+						margin-bottom: -24px
+						border-bottom-left-radius: 5px		
+						border-bottom-right-radius: 5px	
+						iframe
+							border-bottom-left-radius: 5px		
+							border-bottom-right-radius: 5px		
+
+	@media(max-width:760px)
+		aside
+			display: none
+		article
+			padding-left: 1rem
