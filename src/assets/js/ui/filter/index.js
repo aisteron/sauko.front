@@ -15,7 +15,10 @@ export function Filter(){
 
 		// SIDE EFFECTS
 
-		!isEmpty(state.results) && draw(state.results)
+		if(!isEmpty(state.results)){
+			draw(state.results)
+			
+		}
 
 		let tbody = qs('section.table .table .tbody')
 		state.loading
@@ -60,6 +63,7 @@ export function Filter(){
 
 	total_reset()
 
+	// сегодня: 0, завтра:2, Эта неделя: 12
 	count_ex_for_periods()
 
 	
@@ -301,7 +305,29 @@ function total_reset(){
 	reset?.listen("click", _ => store.dispatch(search_thunk({})))
 }
 
-async function count_ex_for_periods(){
+
+export async function count_ex_for_periods(){
+	const url = new URL(location);
+	const q = url.searchParams.get("query")
+	let obj = q ? {query:q}: null
+
 	let host = process.env.NODE_ENV == 'development' ? 'http://new.sauko.by': ''
-	await xml('count_ex_for_periods', null, host+'/api/')
+	let res = await xml('count_ex_for_periods',obj, host+'/api/')
+
+	try {
+		res = JSON.parse(res)
+	} catch(e){
+		console.log(e)
+		res = {success:false}
+	}
+
+	draw_count_ex_for_periods(res)
+}
+
+async function draw_count_ex_for_periods(res){
+
+	if(res?.success === false) return;
+	qs('.item.today .count').innerHTML = res.today
+	qs('.item.tomorrow .count').innerHTML = res.tomorrow
+	qs('.item.week .count').innerHTML = res.week
 }

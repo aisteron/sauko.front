@@ -1,13 +1,17 @@
 import {createSlice, configureStore} from '@reduxjs/toolkit'
 import { service } from '../../services'
 import { isEmpty } from '../../libs'
+import { count_ex_for_periods } from '.';
 
+const url = new URL(location);
+const q = url.searchParams.get("query");
+const p = url.searchParams.get("period");
 
 const filterSlice = createSlice({
   name: 'fS',
   initialState: {
-		period: null,
-		query: null,
+		period: p || null,
+		query:  q || null,
 		results: {},
 		loading: false
   },
@@ -79,6 +83,7 @@ export const search_thunk = (obj) => {
 
 		const res = await service.search_ex({...obj});
 		dispatch(search(res))
+		count_ex_for_periods()
 		
 	}
 }
