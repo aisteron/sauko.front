@@ -250,7 +250,17 @@ function widget_sbor(){
 	document.listen("change_currency", e => draw(e.detail.selected) )
 
 	// on load
-	let selected = JSON.parse(localStorage.getItem('cur'))?.selected
+	//let selected = JSON.parse(localStorage.getItem('cur'))?.selected
+	
+	let selected;
+	try {
+		selected = JSON.parse(localStorage.getItem('cur'))
+	} catch(e){
+		console.log('ERROR: not valid value in lS')
+		return;
+	}
+	selected = selected?.selected
+	
 	draw(selected)
 
 	function draw(selected){
@@ -502,7 +512,16 @@ function currency_table(){
 function currency_table_recalc(){
 
 	// on load
-	let selected = JSON.parse(localStorage.getItem('cur'))?.selected
+	
+	let selected = localStorage.getItem('cur')
+	try {
+		selected = JSON.parse(selected)
+	} catch(e){
+		console.log(e)
+		return
+	}
+	selected = selected?.selected
+	
 	draw(selected)
 	
 	

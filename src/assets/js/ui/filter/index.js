@@ -1,6 +1,7 @@
-import { debounce, load_toast, qs, qsa, isEmpty } from "../../libs";
+import { debounce, load_toast, qs, qsa, isEmpty, xml } from "../../libs";
 import { store, search_thunk } from "./store";
 import { exlist_open_modal } from '../../pages/index'
+import { currency } from "../../services";
 
 
 export function Filter(){
@@ -37,7 +38,7 @@ export function Filter(){
 		
 		state.period
 			? url.searchParams.set("period", state.period)
-			: url.searchParams.delete("period")
+			: (url.searchParams.delete("period"), set_current_month())
 		
 		state.query
 			? url.searchParams.set("query", state.query)
@@ -58,6 +59,8 @@ export function Filter(){
 	reset_query_cross()
 
 	total_reset()
+
+	count_ex_for_periods()
 
 	
 	
@@ -95,7 +98,7 @@ function by_period(){
 
 		let y = +month.getAttribute('y')
 		let m = +month.getAttribute('m') < 10
-			? '0'+(+month.getAttribute('m')+1)
+			? +month.getAttribute('m')+1
 			: +month.getAttribute('m')
 		let item = e.target.closest('.item')
 		let period = item.classList.contains('active') ? null : `${m}.${y}`
@@ -198,6 +201,7 @@ function draw(obj){
 	let {ex, schedule} = obj
 	let s = [];
 
+	// flat
 	s = schedule.map(el => {
 		let t = ex.find(e => e.exid == el.exid)
 
@@ -210,6 +214,7 @@ function draw(obj){
 		
 	})
 
+	// group
 	let r = s.reduce((acc, current) => {
 
 		if(!acc[current.date]){
@@ -219,13 +224,29 @@ function draw(obj){
 		return acc
 	},[])
 
+	// sort
 	let ordered = []
 	Object.keys(r)
-		.sort((a,b) => Date.parse(a) - Date.parse(b))
+		.sort((a,b) => {
+			
+			var pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
+			a = new Date(a.replace(pattern,'$3-$2-$1'));
+			a = Date.parse(a)
+			
+			b = new Date(b.replace(pattern,'$3-$2-$1'));
+			b = Date.parse(b)
+
+			return a - b
+		})
 		.forEach(k=>ordered[k] = r[k])
-	
+		
+
 	let str = ``
+	let current = currency.current()
+	
+
 	Object.keys(ordered).forEach(k => {
+		
 		let date = k.split('.')
 		//console.log(date)
 		date = `${date[0]}.${date[1]}`
@@ -233,6 +254,9 @@ function draw(obj){
 		
 		ordered[k].forEach(el => {
 			let adult = el.price.split(',')[0]
+			if(current !== 'BYN')
+				adult = currency.calc(adult, current)
+			
 			str +=`
 			<div class="record">
 				<span class="time">${el.time}</span>
@@ -275,4 +299,9 @@ function reset_query_cross(){
 function total_reset(){
 	let reset = qs('.filter .reset')
 	reset?.listen("click", _ => store.dispatch(search_thunk({})))
+}
+
+async function count_ex_for_periods(){
+	let host = process.env.NODE_ENV == 'development' ? 'http://new.sauko.by': ''
+	await xml('count_ex_for_periods', null, host+'/api/')
 }

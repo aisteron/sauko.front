@@ -4,9 +4,15 @@ import { load_toast } from '../../libs'
 import { service } from '../../services';
 
 let cur_from_lS = localStorage.getItem('cur')
-if(cur_from_lS){
-	cur_from_lS = JSON.parse(cur_from_lS)?.selected
-}
+
+
+try {
+  cur_from_lS = JSON.parse(cur_from_lS)?.selected
+} catch (e) {
+	cur_from_lS = false
+  //throw new Error('Error occured: ', e);
+ }
+
 const orderFormSlice = createSlice({
   name: 'ofs',
   initialState: {

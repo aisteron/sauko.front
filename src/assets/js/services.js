@@ -57,15 +57,16 @@ export const currency = {
 
 		this.subscribe()
 
-		let cur_from_lS = localStorage.getItem("cur")
-		
-		if(!cur_from_lS){
+		let cur_from_lS = localStorage.getItem("cur") // if undefined ??
+
+		try {
+			cur_from_lS = JSON.parse(cur_from_lS)
+		} catch (e) {
 			const res = await this.get_from_nbrb()
 			localStorage.setItem('cur',JSON.stringify(res))
 			return
-		}
+		 }
 
-		cur_from_lS = JSON.parse(cur_from_lS)
 		let now = new Date().getTime()
 
 		if((now - cur_from_lS.now)/1000 > 3600){
@@ -77,8 +78,6 @@ export const currency = {
 	},
 
 	subscribe(){
-
-		
 
 		document.listen("change_currency", e => {
 
@@ -110,6 +109,18 @@ export const currency = {
 				return (price / value).toFixed(2)
 			case 'RUB':
 				return (price / value * 100).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ')
+		}
+	},
+
+	current(){
+		let currency_lS = localStorage.getItem("cur")
+		try {
+			currency_lS = JSON.parse(currency_lS)
+			return currency_lS?.selected ? currency_lS?.selected : 'BYN'
+		} catch(e){
+			this.init()
+			console.log(e)
+			return 'BYN';
 		}
 	}
 }
