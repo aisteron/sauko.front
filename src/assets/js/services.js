@@ -64,16 +64,16 @@ export const currency = {
 		} catch (e) {
 			const res = await this.get_from_nbrb()
 			localStorage.setItem('cur',JSON.stringify(res))
-			return
+			return;
 		 }
 
-		let now = new Date().getTime()
+		let now = new Date().getTime();
 
-		if((now - cur_from_lS.now)/1000 > 3600){
+		if((now - cur_from_lS?.now)/1000 > 3600){
 			console.log('currency is outdated')
 			const res = await this.get_from_nbrb()
 			localStorage.setItem('cur',JSON.stringify(res))
-			return
+
 		}
 	},
 

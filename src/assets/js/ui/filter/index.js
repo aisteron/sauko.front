@@ -66,6 +66,11 @@ export function Filter(){
 	// сегодня: 0, завтра:2, Эта неделя: 12
 	count_ex_for_periods()
 
+
+	// переключение валют в фильтре
+	// в мобильной версии
+	currency_table_mobile()
+
 	
 	
 }
@@ -134,12 +139,19 @@ function set_current_month(){
 	if(!label) return
 	let prev_arrow = label?.previousElementSibling
 
+
+
 	const month = ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"];
 	let d = new Date();
 	let name = month[d.getMonth()];
 	let year = d.getFullYear()
 	
-	draw_month(name,year)
+	// on load
+	// if back do not draw it yet
+	!label.hasAttribute('y') && draw_month(name,year)
+	
+
+
 
 	// switch month
 	qsa('.item.month img').forEach(el => {
@@ -330,4 +342,51 @@ async function draw_count_ex_for_periods(res){
 	qs('.item.today .count').innerHTML = res.today
 	qs('.item.tomorrow .count').innerHTML = res.tomorrow
 	qs('.item.week .count').innerHTML = res.week
+}
+
+function currency_table_mobile(){
+	
+	let head = qs('.filter .currency .head')
+	head?.listen("click", e => {
+		head.closest('.currency').classList.toggle('open')
+	})
+
+	// subscribe
+	document.listen("change_currency", e => {
+		let c = e.detail.selected
+		qs('span', head).innerHTML = c
+	})
+
+	// dispatch
+	qsa('.filter .currency ul li').forEach(el => {
+		el.listen("click", e => {
+
+			let c = e.target.innerHTML.toUpperCase()
+			const ev = new CustomEvent("change_currency", {
+				detail: { selected: c },
+			});
+	
+			document.dispatchEvent(ev)
+			
+			// side
+			qs('span', head).innerHTML = c
+			head.closest('.currency')
+				.classList.toggle('open')
+		})
+	})
+
+	// on load
+
+	let currency_lS = localStorage.getItem('cur')
+	try{
+		currency_lS = JSON.parse(currency_lS)
+	} catch(e){
+		console.log(e)
+		return
+	}
+	 let sel = currency_lS?.selected;
+	
+	(sel && sel !== 'BYN')
+		&& (qs('span', head).innerHTML = sel)
+
 }

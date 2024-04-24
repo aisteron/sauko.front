@@ -44,6 +44,8 @@ export function Ui(){
 	// пересчет валют/цен в таблице списка экскурсий
 	currency_table_recalc()
 
+	
+
 }
 
 async function swipes(){
@@ -541,7 +543,13 @@ function currency_table_recalc(){
 			el.innerHTML = cur == 'BYN'
 				? b
 				: currency.calc(b, cur)
-		})	
+		})
+		
+		// vault
+		qsa('section.table .tbody .row .cur').forEach(el => {
+			el.innerHTML = cur
+			
+		})
 	}
 
 }
