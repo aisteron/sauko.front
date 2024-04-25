@@ -363,7 +363,7 @@ function aside_ex_rating(){
 	
 }
 
-function org_search(){
+export function org_search(){
 	let input = qs('section.table.org .thead input')
 	if(!input) return
 	let arr = []

@@ -1,5 +1,4 @@
 import { xml,cfg } from "./libs"
-import {createSlice, configureStore} from '@reduxjs/toolkit'
 
 export const service = {
 	
@@ -54,13 +53,20 @@ export const currency = {
 	},
 
 	async init(){
-
-		this.subscribe()
+		
 
 		let cur_from_lS = localStorage.getItem("cur") // if undefined ??
 
+		if(localStorage.getItem("cur") == null){
+			const res = await this.get_from_nbrb()
+			localStorage.setItem('cur',JSON.stringify(res))
+			return;
+		}
+
 		try {
+			
 			cur_from_lS = JSON.parse(cur_from_lS)
+			
 		} catch (e) {
 			const res = await this.get_from_nbrb()
 			localStorage.setItem('cur',JSON.stringify(res))
@@ -75,6 +81,9 @@ export const currency = {
 			localStorage.setItem('cur',JSON.stringify(res))
 
 		}
+
+		this.subscribe()
+
 	},
 
 	subscribe(){
