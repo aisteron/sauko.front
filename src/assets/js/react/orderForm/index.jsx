@@ -707,6 +707,7 @@ function close_by_underlay_click(e,dispatch){
 
 const Sended = () => {
 	const dispatch = useDispatch()
+	ym && ym(44704858,'reachGoal','sbor')
 	return(
 		<div className="underlay wrap" onClick={()=>dispatch(show({open: false}))}>
 

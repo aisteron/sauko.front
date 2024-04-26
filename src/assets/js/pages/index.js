@@ -112,6 +112,7 @@ function ex_page_know_price(){
 		if(res.success){
 			new Snackbar("✅ Успешно отправлено")
 			input.value = ''
+			ym(44704858,'reachGoal','lead')
 		} else {
 			new Snackbar("❌ Ошибка отправки")
 		}
