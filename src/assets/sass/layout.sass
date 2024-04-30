@@ -558,6 +558,154 @@ aside
 					gap: 1rem
 					img
 						filter: invert(68%) sepia(93%) saturate(3776%) hue-rotate(359deg) brightness(104%) contrast(107%)
+	&.extform
+		border-radius: 6px
+		background-color: rgba(224, 241, 237, 0.41)
+		container-type: inline-size
+		.head
+			background-color: #E0F1ED
+			color: $green
+		form.body
+			display: flex
+			flex-direction: column
+			gap: 1rem
+			.count
+				display: flex
+				align-items: center
+				width: 40%
+				.row
+					display: flex
+					flex-direction: column
+					gap: 3px
+				.arrows
+					display: flex
+					flex-direction: column
+					gap: 3px
+					position: relative
+					top: 8px
+					left: -24px
+					button
+						background: transparent
+						border: none
+						cursor: pointer
+						padding: 4px
+						img
+							min-width: 10px
+							min-heigth: 5px
+							pointer-events: none
+						&:focus, &:hover
+							img
+								filter: $green_hover
+						&:first-of-type
+							img
+								transform: rotate(180deg)		
+				span
+					font-size: 12px
+					color: #939393
+				input
+					border: none
+					border-bottom: 1px solid #6CBDA7
+					background-color: #fff
+					width: 100%
+					padding: 9px 1rem
+					font-family: 'Roboto'	
+					font-size: 1rem
+					font-weight: 500
+					&::-webkit-outer-spin-button,
+					&::-webkit-inner-spin-button
+						-webkit-appearance: none
+						margin: 0
+					&:focus, &:valid
+						outline: none
+						background-color: #E0F1ED
+					&::placeholder
+						font-family: 'Roboto'	
+						font-size: 1rem
+						font-weight: 500
+			button[type="submit"]
+				background-color: #E0F1ED
+				border: none
+				align-self: flex-start
+				display: flex
+				align-items: center
+				gap: 8px
+				padding: 6px 20px
+				border-radius: 3px
+				cursor: pointer
+				transition: background-color 0.3s ease
+				&:hover
+					background-color: darken(#E0F1ED,5% )
+				span
+					font-family: 'Roboto'
+					color: $green
+					text-transform: uppercase
+					font-size: 14px
+					font-weight: 500
+				svg
+					g path
+						fill: $green
+			.type
+				display: flex
+				flex-direction: column
+				gap: 10px
+				margin: 10px 0
+				input
+					display: none
+					&:checked ~ .l
+						color: $green
+					&:checked ~ .c
+						&:after
+							background-color: $green
+							content: ''
+							width: 8px
+							height: 8px
+							top: 4px
+							left: 4px
+							position: absolute
+							border-radius: 50%
+							
+				label
+					display: flex
+					gap: 6px
+					align-items: center
+					cursor: pointer
+
+				span
+					&.c
+						display: block
+						width: 18px
+						height: 18px
+						border: 1px solid $green
+						border-radius: 50%
+						position: relative
+					&.l
+						font-size: 15px
+			>label
+				position: relative
+				input
+					border: none
+					border-bottom: 1px solid #6CBDA7
+					background-color: #fff
+					width: 100%
+					padding: 9px 1rem
+					font-family: 'Roboto'	
+					font-size: 1rem
+					font-weight: 500
+					&:focus, &:valid
+						outline: none
+						background-color: #E0F1ED
+					&:focus ~ span, &:valid ~ span
+						font-size: 11px
+						top: -14px	
+				span
+					font-size: 15px
+					transition: all 0.3s ease
+					position: absolute
+					left: 11px
+					top: 8px
+					color: #939393
+					pointer-events: none
+
 	&.review_form
 		border-radius: 6px
 		background-color: rgba(224, 241, 237, 0.41)

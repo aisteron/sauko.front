@@ -1,4 +1,4 @@
-import { qs, sw,fancy, load_swiped, xml, cfg, load_toast, debounce, qsa, declension } from "../libs";
+import { qs, sw,fancy, load_swiped, xml, cfg, load_toast, debounce, qsa, declension, load_jq_assets, load_timepicker_assets } from "../libs";
 import { currency, service } from "../services";
 import { Filter } from "./filter";
 import { widget_review_send } from "./review";
@@ -43,6 +43,10 @@ export function Ui(){
 
 	// пересчет валют/цен в таблице списка экскурсий
 	currency_table_recalc()
+
+	// widget extform расширенной формы заказа экскурсии
+
+	widget_extform()
 
 	
 
@@ -552,4 +556,123 @@ function currency_table_recalc(){
 		})
 	}
 
+}
+
+
+async function widget_extform(){
+
+	if(!qs('.widget.extform')) return
+
+	await load_jq_assets()
+
+	$.datepicker.setDefaults( $.datepicker.regional[ "ru" ] )
+	$( "#datepicker" ).datepicker()
+
+	await load_timepicker_assets()
+
+	$('#datetimepicker2').datetimepicker({
+		datepicker:false,
+		format:'H:i'
+	});
+
+
+
+
+	//arrows count tourists
+	
+	
+	qsa('.widget.extform .arrows button').forEach(el => {
+
+		let input = qs('.widget.extform input[type="number"]')
+
+		el?.listen("click",e => {
+			let dir = e.target.classList[0]
+			
+			
+			if(dir == 'up'){
+				input.value = !input.value ? 2 : +input.value+1;
+			}
+			if(dir == 'down'){
+				if(input.value == 1) return
+				if(input.value < 1) {input.value = 1; return};
+				input.value = input.value-1;
+			}
+		})
+	})
+
+	// to server
+
+	qs('.widget.extform form').listen("submit", async e => {
+		e.preventDefault()
+		
+		let fields = [
+			{
+				name: 'name',
+				label: 'Имя',
+				el: qs('[name="name"]', e.target)
+			},
+			{
+				name: 'phone',
+				label: 'Телефон',
+				el: qs('[name="phone"]', e.target)
+			},
+			{
+				name: 'count',
+				label: 'Кол-во туристов',
+				el: qs('[name="count"]', e.target)
+			},
+			{
+				name: 'date',
+				label: 'Предпочитаемая дата',
+				el: qs('#datepicker', e.target),
+			},
+			{
+				name: 'time',
+				label: 'Предпочитаемое время',
+				el: qs('#datetimepicker2', e.target),
+			}
+		];
+
+		let obj = fields.map(el => {
+			el.value = el.el.value; 
+			return el
+		})
+		
+		obj = obj.map(a => {return {...a}})
+		obj = obj.map(a => {delete a.el; return a})
+
+
+
+		let radio = qs('span.l', 
+			qs('[type=radio]:checked', e.target).closest('label'))
+
+		obj.push({name:'type', value:radio.innerHTML, label:'Тип экскурсии'})
+		obj.push({name:'pagetitle', value:document.title, label:'Заголовок страницы'})
+
+		let path = process.env.NODE_ENV == 'development'
+			? 'http://new.sauko.by': ''	
+		
+		let res = await xml("get_extform_data", obj, path+'/api/');
+
+		await load_toast()
+
+		try {
+			res = JSON.parse(res)
+		} catch(e){
+			console.log(e)
+			new Snackbar('Неожиданный ответ сервера')
+			return
+		}
+
+		if(!res.success){
+			new Snackbar('Ошибка отправки')
+		} else {
+			new Snackbar('Успешно отправлено!')
+			fields.forEach(el => {
+				el.el.value = ''
+			})
+		}
+
+		
+	})
 }

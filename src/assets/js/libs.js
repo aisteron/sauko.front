@@ -210,3 +210,56 @@ export function runMetrika(number){
 	ym(number, "init", { clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true });
 
 }
+
+export async function load_jq_assets(){
+
+	var j371 = new Promise((resolve, reject)=>{
+		let script = document.createElement('script')
+		script.src = '/vendors/jq/jquery-3.7.1.js'
+		qs('.scripts-area').appendChild(script)
+		script.onload = () => resolve()
+	})
+
+	var jqui = new Promise((resolve, reject)=>{
+		let script = document.createElement('script')
+		script.src = '/vendors/jq/jquery-ui.js'
+		qs('.scripts-area').appendChild(script)
+		script.onload = () => resolve()
+	})
+
+	
+
+	var jstyles = new Promise((resolve, reject)=>{
+		var s = loadCSS('/vendors/jq/jquery-ui.css')
+		onloadCSS(s, () => resolve())
+	})
+
+	await Promise.all([j371, jqui, jstyles])
+	
+	return await new Promise((resolve, reject)=>{
+		let script = document.createElement('script')
+		script.src = '/vendors/jq/datepicker-ru.js'
+		qs('.scripts-area').appendChild(script)
+		script.onload = () => resolve()
+	})
+	
+
+
+}
+
+export async function load_timepicker_assets(){
+	
+	var j = new Promise((resolve, reject)=>{
+		let script = document.createElement('script')
+		script.src = '/vendors/jq/jquery.datetimepicker.full.js'
+		qs('.scripts-area').appendChild(script)
+		script.onload = () => resolve()
+	})
+
+	var style = new Promise((resolve, reject)=>{
+		var s = loadCSS('/vendors/jq/jquery.datetimepicker.min.css')
+		onloadCSS(s, () => resolve())
+	})
+
+	return await Promise.all([j,style])
+}
