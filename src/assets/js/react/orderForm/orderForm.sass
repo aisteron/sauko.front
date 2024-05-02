@@ -319,6 +319,54 @@ $green_hover: invert(38%) sepia(97%) saturate(646%) hue-rotate(122deg) brightnes
 										transform: rotate(360deg)
 			.customer
 				padding: 1.5rem 20px
+				.metoo
+					label
+						display: flex
+						align-items: center
+						gap: 12px
+						cursor: pointer
+						background-color: #eff8f6
+						padding: 10px
+					input
+						display: none
+						&:checked ~ .l
+							color: $green
+						&:checked ~ .s
+							&:after
+								position: absolute
+								content: ''
+								display: block
+								width: 10px
+								height: 10px
+								left: 4px
+								top: 4px
+								background-color: $green
+								border-radius: 2px
+					span
+						&.s
+							width: 20px
+							height: 20px
+							border: 1px solid $green
+							display: block
+							border-radius: 3px
+							position: relative
+						&.l
+							color: #484848
+							&:hover
+								color: $green
+
+
+				.warn
+					border-left: 6px solid rgba(2, 143, 104, 0.52)
+					font-size: 14px
+					padding: 1px 10px
+					background: rgba(224, 241, 237, 0.52)
+					line-height: 150%
+					a
+						color: $green
+						text-decoration: underline
+						&:hover
+							text-decoration: none
 				.fields
 					display: flex
 					flex-direction: column
@@ -356,7 +404,7 @@ $green_hover: invert(38%) sepia(97%) saturate(646%) hue-rotate(122deg) brightnes
 									top: 36px
 				.messengers
 					margin: 30px 0
-					margin-top: 45px
+					//margin-top: 45px
 				.messengers, .pay
 					label
 						display: flex
@@ -463,13 +511,27 @@ $green_hover: invert(38%) sepia(97%) saturate(646%) hue-rotate(122deg) brightnes
 							border-radius: 4px
 						span.label
 							font-size: 15px
+					textarea
+						height: 64px
+						padding: 10px
+						font-family: 'Roboto'
+						font-size: 1rem
+						border: 1px solid #a9a9a9
+						&:focus
+							outline: none
+							background-color: #daf1eb
+							border-color: $green
+						&::placeholder
+							font-family: 'Roboto'
+							font-size: 1rem
 					label.t
 						position: relative
-						align-self: flex-start
+						//align-self: flex-start
 						input
 							border: none
 							border-bottom: 1px solid #A9A9A9
 							padding: 5px
+							width: 100%
 							@media(max-width:420px)
 								font-size: 17px
 							&:focus, &:valid

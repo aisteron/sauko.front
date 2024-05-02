@@ -455,11 +455,13 @@ const BookCustomer = () => {
 	const dispatch = useDispatch()
 	const m = useSelector(state => state.book.customer.messengers)
 	const p = useSelector(state => state.book.customer.pay)
+	const cid = useSelector(state => state.book.customer.id)
+	const t = useSelector(state => state.book.tourists)
 
 	const data = {
 		fields: [
 			{
-				label: "Ваше имя",
+				label: "Ф.И.О заказчика",
 				name: "name"
 			},
 			{
@@ -471,9 +473,8 @@ const BookCustomer = () => {
 				name: "email"
 			},
 			{
-				label: "Родной город",
-				name: "city",
-				comment: "Опционально"
+				label: "Место жительства",
+				name: "city"
 			}
 		],
 		messengers:[
@@ -506,16 +507,39 @@ const BookCustomer = () => {
 		],
 	}
 
+	const is_me_too = () =>{
+		
+		return t.filter(el => el.id == cid).length ? true : false
+
+	}
+
 
 	if(currentTab[1] == 'customer')
 	return(
 
 		<div className="customer">
 
+			<div className="warn mb1">
+				<p>Согласно п.3 статьи 22 закона <a href="https://pravo.by/document/?guid=12551&p0=H12100129&p1=1&p5=0" target="_blank">О туризме № 129-З</a> в туристическом договоре требуется указать следующие данные:</p>
+			</div>
+
 			<div className="fields">
 				{data.fields.map(el =>
 					<CustomerInput el={el} key={el.name}/>
 				)}	
+			</div>
+
+			<div className="metoo mt2">
+				<label>
+					<input type="checkbox"
+						defaultChecked={is_me_too()} 
+						onChange={e=>dispatch(update_customer_ch({
+							area: "metoo",
+							add: e.target.checked
+						}))}/>
+					<span className="s"></span>
+					<span className="l">Заказчик тоже едет как турист</span>
+				</label>
 			</div>
 
 			<div className="messengers">
@@ -622,11 +646,31 @@ const Tourist = ({el}) => {
 				<input type="text" required defaultValue={el.phone}
 				onChange={e=>dispatch(update_tourist({
 					id: el.id,
-					phone: e.target.value
+					date: e.target.value
 				}))}
 				/>
 				<span>Дата рождения</span>
 			</label>
+
+			<label className='t'>
+				<input type="text" required defaultValue={el.city}
+				onChange={e=>dispatch(update_tourist({
+					id: el.id,
+					city: e.target.value
+				}))}
+				/>
+				<span>Место жительства</span>
+			</label>
+			<textarea
+			placeholder='Серия, номер паспорта, кем и когда выдан'
+			defaultValue={el.passport}
+			onChange={e=>dispatch(update_tourist({
+					id: el.id,
+					passport: e.target.value
+				}))}>
+
+			</textarea>
+
 
 			<label className='age'>
 				<input type="checkbox" defaultChecked={el.age18}

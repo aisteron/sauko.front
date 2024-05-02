@@ -163,6 +163,8 @@ function ex_page_top_links_book(){
 }
 
 async function fill_home_ex_table(){
+	console.log('fill_home_ex_table')
+	return;
 	if(!qs('section.table.home')) return;
 	qs('section.table.home .tabs .ex')?.classList.add('active')
 	qs('[rel="school"]')?.closest('li').classList.add('active')
@@ -177,6 +179,12 @@ async function fill_home_ex_table(){
 		console.log(e)
 		return;
 	}
+
+	if(res?.success == false){
+		qs('section.table .table .tbody').innerHTML = 'Не найдено'
+		return
+	}
+
 	let str = ''
 
 	res.forEach(el => {

@@ -39,12 +39,15 @@ const orderFormSlice = createSlice({
 				email: '',
 				city: '',
 				messengers: [],
-				pay: []
+				pay: [],
+				id: uuidv4()
 			},
 			tourists:[
 				{
 					name: '',
-					phone: '',
+					date: '',
+					city:'',
+					passport:'',
 					age18: false,
 					id: uuidv4()
 				}
@@ -72,13 +75,34 @@ const orderFormSlice = createSlice({
 			state.book.customer[n] = v
 		},
 		update_customer_ch:(state, action) => {
-			const {area,type} = action.payload
-			let a = [...current(state).book.customer[area]]
+			const {area,type,add} = action.payload
 
+			// если заказчик тоже турист (metoo)
+			if(area == 'metoo'){
+
+				if(add){
+					let obj = {
+						name: state.book.customer.name,
+						city: state.book.customer.city,
+						id: state.book.customer.id
+					}
+					state.book.tourists.unshift(obj)
+
+				} else{
+					state.book.tourists = 
+						current(state).book.tourists.filter(el => el.id !== state.book.customer.id)
+				}
+
+				return;
+			}
+
+			let a = [...current(state).book.customer[area]]
+			
+			
 			a.includes(type)
 			? a = a.filter(el => el !== type)
 			: a.push(type)
-
+			
 			state.book.customer[area] = a
 
 		},
@@ -102,6 +126,7 @@ const orderFormSlice = createSlice({
 		},
 		remove_tourist:(state,action) =>{
 			let t = state.book.tourists
+
 			if(t.length > 1){
 				state.book.tourists = t.filter(el => el.id !== action.payload)
 			} else{
