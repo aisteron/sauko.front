@@ -6,6 +6,9 @@ export const Pages = () => {
 
 	// table ex list open modal
 	exlist_open_modal()
+	
+	// на родительской странице смешанных экскурсий открытие попапа
+	mixed_exlist_open_modal()
 
 	// клик по красной кнопке "Узнать цену"
 	ex_page_know_price()
@@ -202,4 +205,30 @@ async function fill_home_ex_table(){
 	})
 	qs('section.table .table .tbody').innerHTML = str
 	org_search()
+}
+
+export function mixed_exlist_open_modal(){
+	
+	let carts = qsa('section.table .row.sbor li.cart')
+	if(!carts) return
+
+	carts.forEach(el => {
+		el.listen("click", e => {
+
+			let exid = +e.target.getAttribute('exid')
+			let timid = +e.target.getAttribute('timid')
+			
+			const modalOrder = new CustomEvent("modalOrderOpen", {
+				detail: {
+					exid: exid,
+					timid: timid,
+					open: true
+				},
+			});
+
+			document.dispatchEvent(modalOrder)
+
+		})
+	})
+
 }

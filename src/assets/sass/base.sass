@@ -455,6 +455,10 @@ section.table
 							border-bottom-left-radius: 6px
 							li
 								padding: 3px 0
+								span
+									&.cur
+										display: inline-block
+										margin-left: 2px
 								&:last-of-type
 									cursor: pointer
 									background-color: #D1F3EA
@@ -465,6 +469,7 @@ section.table
 									svg
 										padding: 0 5px
 										box-sizing: content-box
+										pointer-events: none
 					.name
 						display: grid
 						align-items: center
