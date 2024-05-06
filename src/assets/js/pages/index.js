@@ -21,8 +21,7 @@ export const Pages = () => {
 
 
 async function fill_home_ex_table(){
-	console.log('fill_home_ex_table')
-	return;
+
 	if(!qs('section.table.home')) return;
 	qs('section.table.home .tabs .ex')?.classList.add('active')
 	qs('[rel="school"]')?.closest('li').classList.add('active')

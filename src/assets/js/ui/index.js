@@ -379,7 +379,7 @@ export function org_search(){
 	if(!input) return
 	let arr = []
 	fill_arr(arr)
-	console.log(arr)
+	//console.log(arr)
 	
 	// subscribe
 	document.listen("change_currency", async e => {
