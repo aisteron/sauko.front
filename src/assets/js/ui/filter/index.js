@@ -1,6 +1,6 @@
 import { debounce, load_toast, qs, qsa, isEmpty, xml } from "../../libs";
 import { store, search_thunk } from "./store";
-import { exlist_open_modal } from '../../pages/index'
+import { open_modal } from '../../pages/exlist'
 import { currency } from "../../services";
 
 
@@ -295,7 +295,7 @@ function draw(obj){
 	})
 
 	qs('.table .tbody').innerHTML = str
-	exlist_open_modal()
+	open_modal()
 }
 
 function reset_query_cross(){

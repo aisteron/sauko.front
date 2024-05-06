@@ -1,6 +1,6 @@
 import { qs, sw,fancy, load_swiped, xml, cfg, load_toast, debounce, qsa, declension, load_jq_assets, load_timepicker_assets } from "../libs";
-import { mixed_exlist_open_modal } from "../pages";
-import { currency, service } from "../services";
+import { mixed_open_modal } from "../pages/exlist";
+import { currency } from "../services";
 import { Filter } from "./filter";
 import { widget_review_send } from "./review";
 
@@ -48,6 +48,12 @@ export function Ui(){
 	// widget extform расширенной формы заказа экскурсии
 
 	widget_extform()
+
+
+	// клик по ссылке "Заказать звонок" в хидере
+	// и в футере
+	// и на странице контактов
+	call_order()
 
 	
 
@@ -375,6 +381,14 @@ export function org_search(){
 	fill_arr(arr)
 	console.log(arr)
 	
+	// subscribe
+	document.listen("change_currency", async e => {
+
+		await new Promise((resolve) => setTimeout(()=>{resolve()},500))
+		arr = fill_arr([])
+		
+		console.log(arr)
+	})
 	
 	
 
@@ -415,7 +429,7 @@ export function org_search(){
             <li class="time">${el.sbor.time}</li>
             <li class="seats">${el.sbor.seats}</li>
             <li class="price">
-						<span byn="${el.sbor.price}">${el.sbor.byn}</span>
+						<span byn="${el.sbor.byn}">${el.sbor.price}</span>
 						<span class="cur">${el.sbor.cur}</span></li>
             
 						<li class="cart" exid="${el.sbor.exid}" timid="${el.sbor.timid}">
@@ -453,7 +467,7 @@ export function org_search(){
 
 		qs('section.table.org .tbody').innerHTML = str
 
-		mixed_exlist_open_modal()
+		mixed_open_modal()
 
 
 	}
@@ -468,10 +482,8 @@ export function org_search(){
 
 function fill_arr(arr){
 
-	
 
 	
-
 	function get_cur(el){
 		let currency_lS = localStorage.getItem('cur')
 		let src_cur = qs('.cur', el).innerHTML
@@ -525,6 +537,7 @@ function fill_arr(arr){
 			duration: +qs('.duration', el).innerHTML,
 			distance: +qs('.distance', el).innerHTML,
 		}
+	
 
 		if(el.classList.contains('sbor')){
 			obj.sbor = {
@@ -535,8 +548,8 @@ function fill_arr(arr){
 				date: qs('.date', el).innerHTML,
 				time: qs('.time', el).innerHTML,
 				seats: qs('.seats', el).innerHTML,
-				price: +qs('[byn]', el).innerHTML,
-				byn: get_price(el),
+				byn: +qs('[byn]', el).getAttribute('byn'),
+				price: get_price(el),
 				cur: get_cur(el),
 			}
 
@@ -808,4 +821,20 @@ async function widget_extform(){
 
 		
 	})
+}
+
+
+function call_order(){
+	qs('header li.cb')?.listen("click", _ => {
+		qs('#cb_dialog')?.showModal()
+	})
+
+	qs('footer li.cb')?.listen("click", _ => {
+		qs('#cb_dialog')?.showModal()
+	})
+
+	qs('.contacts-page .fake-masonry li.cb')?.listen("click", _ => {
+		qs('#cb_dialog')?.showModal()
+	})
+
 }
