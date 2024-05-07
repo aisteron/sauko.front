@@ -422,6 +422,7 @@ export function org_search(){
 					<img src="${el.img}" width="36" height="36">
 					<a href="${el.url}">${el.name}</a>
 					`;
+
 			if(el.sbor){
 				str += `
 				<ul class="schedule">
@@ -444,19 +445,18 @@ export function org_search(){
 					</li>
 				</ul>
 				`
-				if(el.sbor.tags){
-					str +=`<ul class="tags">`
-					el.sbor.tags.forEach(t => {
-						str +=`
-            
-							`
-						str += t.uri
-							? `<li class="link"><a href="${t.uri}">${t.label}</a></li>`
-							: `<li><span>${t.label}</span>`
+			}
 
-					})
-					str +=`</ul>`
-				}
+			if(el.tags){
+				str +=`<ul class="tags">`
+				el.tags.forEach(t => {
+
+					str += t.uri
+						? `<li class="link"><a href="${t.uri}">${t.label}</a></li>`
+						: `<li><span>${t.label}</span>`
+
+				})
+				str +=`</ul>`
 			}
 			str += `</div>
 				<span class="duration">${el.duration}</span>
@@ -537,6 +537,20 @@ function fill_arr(arr){
 			duration: +qs('.duration', el).innerHTML,
 			distance: +qs('.distance', el).innerHTML,
 		}
+
+		if(qsa('ul.tags li', el)){
+
+			obj.tags = []
+			qsa('ul.tags li',el).forEach(li => {
+				let o = {
+					label: qs('a',li)?.innerHTML || qs('span',li).innerHTML
+				}
+				if(qs('a',li)){
+					o.uri = qs('a',li).getAttribute('href')
+				}
+				obj.tags.push(o)
+			})
+		}
 	
 
 		if(el.classList.contains('sbor')){
@@ -553,18 +567,7 @@ function fill_arr(arr){
 				cur: get_cur(el),
 			}
 
-			if(qsa('ul.tags li', el)){
-				obj.sbor.tags = []
-				qsa('ul.tags li',el).forEach(li => {
-					let o = {
-						label: qs('a',li)?.innerHTML || qs('span',li).innerHTML
-					}
-					if(qs('a',li)){
-						o.uri = qs('a',li).getAttribute('href')
-					}
-					obj.sbor.tags.push(o)
-				})
-			}
+			
 		}
 
 		arr.push(obj)
