@@ -1,9 +1,10 @@
-section.table.sbor
+section.table.mt2.mb2.org
+
 	.tabs
 
-		.ex.active(href="/ex.html")
+		.ex.active
 			img(src="/assets/img/icons/list.svg" width="24" height="24")
-			a(href="/ex.html") Экскурсии
+			a(href="/mixed.html") Экскурсии
 		
 		.tours
 			img(src="/assets/img/icons/bus.svg" width="24" height="24")
@@ -12,106 +13,43 @@ section.table.sbor
 		.corp(href="/corp.html")
 			img(src="/assets/img/icons/cocktail.svg" width="24" height="24")
 			a(href="/corp.html") Корпоративы
-
+			
 	ul.tags.mt2.mb2
 		li.active
-			a(href="/ex/school.html" rel="school") Школьные 
+			a(href="/exlist.html" rel="school") Школьные 
 		li
-			a(href="/ex/school.html" rel="sbor") Сборные
+			a(href="/sbor.html" rel="sbor") Сборные
 		li.new
-			a(href="/ex/school.html" rel="ny") Новый год
-		li
-			a(href="/ex/school.html" rel="pan") Масленица
-		li
-			a(href="/ex/school.html" rel="factory") Производственные
-		li
-			a(href="/ex/school.html" rel="walk") Пешеходные
-		li
-			a(href="/ex/school.html" rel="castle") Замки
-		li
-			a(href="/ex/school.html" rel="graduate") Выпускные
-		li
-			a(href="/ex/school.html" rel="history") Исторические
+			a(href="/exlist.html" rel="factory") Производственные
 
-	.filter.mb1
-		.item.today
-			span.label Сегодня
-			span.count 5
-			//- .item.tm.active
-		.item.tomorrow
-			span.label Завтра
-			span.count 1
-		.item.week
-			span.label Эта неделя
-			span.count 0
-		.item.month
-			img.prev.disabled(src="/assets/img/icons/arrow.svg" width="16" height="16")
-			span.label ...
-			img.next(src="/assets/img/icons/arrow.svg" width="16" height="16")
-		
-		.reset
-			span Сброс
-			img(src="/assets/img/icons/restart.svg" width="24" height="24")
-		.currency(style="display: none")
-			.head
-				span BYN
-				img(src='/assets/img/icons/tr.svg' width='10' height='5')
-			ul
-				li byn
-				li rub
-				li usd
-				li eur
-	
 	.table
 		.thead
-			span.date Дата
-			span.time Время
 			.name
-				img.search(src="/assets/img/icons/search.svg" width="24" height="24")
+				img.thumb(class="loupe" src="/assets/img/icons/search.svg" width="24" height="24")
 				input(type="text" placeholder="Название экскурсии" required)
-				img.close(src="/assets/img/icons/close.svg" width="14" height="14")
-			span.seats Мест осталось	
-			.price
-				span Цена,
-				.head
-					span BYN
-					img(src="/assets/img/icons/tr.svg" width="10" height="5")
-				ul
-					li byn
-					li rub
-					li eur
-					li usd
-			.actions
+				img(class="close" src="/assets/img/icons/close.svg" width="14" height="14")
+			span.duration Продолжительность, часов
+			span.distance Расстояние, км
 		.tbody
+
 			.row
-				span.date 3 дек
-				.record
-					span.time 10:00
-					a(href="/ex.html") Обзорная экскурсия по Минску
-					span.seats много
-					.price
-						span(byn="60") 60
-						span.cur BYN
-					span.book
-						span(exid="8" timid="22381") Бронь
-				.record
-					span.time 12:00
-					a(href="/ex.html") Минск вечерний
-					span.seats 12
-					.price
-						span(byn="760") 760
-						span.cur BYN
-					span.book
-						span(exid="10" timid="41848") Бронь
+				.name
+					img.thumb(src="/assets/img/icons/table/02.jpg" width="36" height="36")
+					a(href="/ex.html") Экскурсия в Брест и Брестскую крепость
+				span.duration 12
+				span.distance 700
+
 			.row
-				span.date 4 дек
-				.record
-					span.time 10:00
-					a(href="/ex.html") Дворцы Восточной Беларуси
-					span.seats много
-					.price
-						span(byn="129") 129
-						span.cur BYN
-					span.book
-						span(exid="14" timid="23697") Бронь
+				.name
+					img.thumb(src="/assets/img/icons/table/01.jpg" width="36" height="36")
+					a(href="/ex.html") Дукорский маёнтак
+				span.duration 6
+				span.distance 120
+			
+			.row
+				.name
+					img.thumb(src="/assets/img/icons/table/03.jpg" width="36" height="36")
+					a(href="/ex.html") Великое княжество Сула
+				span.duration 8
+				span.distance 150
 

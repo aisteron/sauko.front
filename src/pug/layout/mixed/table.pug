@@ -1,0 +1,71 @@
+section.table.mt2.mb2.org.mixed
+	.tabs
+		.ex.active
+			img(src="/assets/img/icons/list.svg" width="24" height="24")
+			a(href="/mixed.html") Экскурсии
+		
+		.tours
+			img(src="/assets/img/icons/bus.svg" width="24" height="24")
+			a(href="/tours.html") Туры
+		
+		.corp(href="/corp.html")
+			img(src="/assets/img/icons/cocktail.svg" width="24" height="24")
+			a(href="/corp.html") Корпоративы
+	ul.tags.mt2.mb2
+		li
+			a(href="/exlist.html" rel="school") Школьные 
+		li
+			a(href="/sbor.html" rel="sbor") Сборные
+		li.new
+			a(href="/exlist.html" rel="factory") Производственные
+
+	.table
+		.thead
+			.name
+				img(class="loupe" src="/assets/img/icons/search.svg" width="24" height="24")
+				input(type="text" placeholder="Название экскурсии" required)
+				img(class="close" src="/assets/img/icons/close.svg" width="14" height="14")
+			span.duration Продолжительность, часов
+			span.distance Расстояние, км
+		.tbody
+			.row.sbor
+				.name
+					img.thumb(src="/assets/img/icons/table/01.jpg" width="36" height="36")
+					a(href="/ex.html") Обзорная экскурсия по Минску и Бресту
+					ul.schedule
+						li.date 3.12
+						li.time 10:00
+						li.seats мест много
+						li.price
+							span(byn="60") 60
+							span.cur BYN
+						li.cart(exid="13" timid="23952")
+							<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<mask id="mask0_774_611" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="18" height="18">
+									<rect width="18" height="18" fill="#D9D9D9" />
+								</mask>
+								<g mask="url(#mask0_774_611)">
+									<path d="M8.25 6.75V4.5H6V3H8.25V0.75H9.75V3H12V4.5H9.75V6.75H8.25ZM5.25 16.5C4.8375 16.5 4.48438 16.3531 4.19063 16.0594C3.89688 15.7656 3.75 15.4125 3.75 15C3.75 14.5875 3.89688 14.2344 4.19063 13.9406C4.48438 13.6469 4.8375 13.5 5.25 13.5C5.6625 13.5 6.01562 13.6469 6.30937 13.9406C6.60313 14.2344 6.75 14.5875 6.75 15C6.75 15.4125 6.60313 15.7656 6.30937 16.0594C6.01562 16.3531 5.6625 16.5 5.25 16.5ZM12.75 16.5C12.3375 16.5 11.9844 16.3531 11.6906 16.0594C11.3969 15.7656 11.25 15.4125 11.25 15C11.25 14.5875 11.3969 14.2344 11.6906 13.9406C11.9844 13.6469 12.3375 13.5 12.75 13.5C13.1625 13.5 13.5156 13.6469 13.8094 13.9406C14.1031 14.2344 14.25 14.5875 14.25 15C14.25 15.4125 14.1031 15.7656 13.8094 16.0594C13.5156 16.3531 13.1625 16.5 12.75 16.5ZM0.75 3V1.5H3.20625L6.39375 8.25H11.6438L14.5688 3H16.275L12.975 8.9625C12.8375 9.2125 12.6531 9.40625 12.4219 9.54375C12.1906 9.68125 11.9375 9.75 11.6625 9.75H6.075L5.25 11.25H14.25V12.75H5.25C4.6875 12.75 4.25937 12.5063 3.96562 12.0188C3.67188 11.5312 3.6625 11.0375 3.9375 10.5375L4.95 8.7L2.25 3H0.75Z" fill="#028F68" fill-opacity="0.84" />
+								</g>
+							</svg>
+					ul.tags
+						li.link
+							a(href="#") Сборная
+						li
+							span Автобусная
+						li.link
+							a(href="#") Историческая
+				span.duration 3
+				span.distance 60
+			.row
+				.name
+					img.thumb(src="/assets/img/icons/table/02.jpg" width="36" height="36")
+					a(href="/ex.html") Экскурсия в Брест и Брестскую крепость
+					ul.tags
+						li.link
+							a(href="#") Сборная
+						li
+							span Автобусная
+				span.duration 12
+				span.distance 700
+

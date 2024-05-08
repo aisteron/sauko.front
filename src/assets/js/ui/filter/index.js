@@ -260,6 +260,7 @@ function draw(obj){
 	let str = ``
 	let current = currency.current()
 	
+	
 
 	Object.keys(ordered).forEach(k => {
 		
@@ -280,8 +281,8 @@ function draw(obj){
 
 				<span class="seats">${el.seats}</span>
 					<div class="price">
-						<span byn="${adult}">${adult}</span>
-						<span class="cur">BYN</span>
+						<span byn="${el.price.split(',')[0]}">${adult}</span>
+						<span class="cur">${current}</span>
 					</div>
 					<span class="book">
 						<span exid="${el.exid}" timid="${el.timid}">Бронь</span>

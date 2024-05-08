@@ -115,9 +115,9 @@ export const currency = {
 		switch(target_currency){
 			case 'USD':
 			case 'EUR':
-				return (price / value).toFixed(2)
+				return Math.ceil(price / value)
 			case 'RUB':
-				return (price / value * 100).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ')
+				return Math.ceil(price / value * 100).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ')
 		}
 	},
 
