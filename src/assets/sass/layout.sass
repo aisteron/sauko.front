@@ -642,8 +642,8 @@ aside
 					font-size: 14px
 					font-weight: 500
 				svg
-					g path
-					fill: $green
+					path
+						fill: $green
 			.type
 				display: flex
 				flex-direction: column
@@ -1555,22 +1555,114 @@ body.article-page
 		article
 			padding-left: 1rem
 body.tours-page
+	@media(max-width:800px)
+		main
+			aside
+				display: none
+			article
+				padding-right: 0
+				padding-left: 1rem
 	section.table.tours
 		.table
+			container-type: inline-size
+			@media(max-width:480px)
+				margin: 0 -1rem
 			.tbody
 				.row
 					display: grid
 					grid-template-columns: 73px 1fr
 					column-gap: 1rem
-					.name
+					row-gap: 10px
+					padding: 7px 18px
+					@container(width < 470px)
+						grid-template-columns: 67px 1fr
+						column-gap: 10px
+						row-gap: 1rem
+					&:first-child
+						margin-top: 10px
+					&:not(:last-child)
+						margin-bottom: 10px
+					&:nth-of-type(2n)
+						background-color: #EEF7F5
+						.day
+							background-color: #E5EEEC !important
+
+					>.date
 						grid-column: 1
+						display: flex
+						flex-direction: column
+						gap: 5px
+						font-size: 15px
+						.day
+							background-color: #F4F4F4
+							border-radius: 4px
+							color: #9E9E9E
+							font-weight: 500
+							font-size: 14px
+							padding: 4px 11px
+							align-self: baseline
+						i
+							font-style: normal
+							color: $green
 					.record
 						grid-column: 2
+						display: grid
+						grid-template-columns: 66px 1fr 46px 96px 46px
+						gap: 1rem
+						font-size: 15px
+						color: #111723
+						@container(width < 606px)
+							grid-template-columns: 66px 100px 1fr 46px
+							font-size: 1rem
+							a
+								grid-column: 1 / 4 !important
+							.seats
+								grid-row: 2
+								grid-column: 2 !important
+								&:before
+									content: 'мест '
+							.price
+								grid-row: 2
+								grid-column: 3 / 5 !important
+								.cur
+									display: inline-block !important
+									margin-left: 5px
+						@container(width < 470px)
+							grid-template-columns: 37px 88px 1fr 46px
+							gap: 10px
+							row-gap: 5px
+							.book
+								grid-column: 4 !important
+							.time
+								grid-row: 2
+
+						.time
+							grid-column: 1
+						a
+							grid-column: 2
+							color: #111723
+							font-weight: 500
+							text-decoration: none
+							&:hover
+								text-decoration: underline
+								color: $green
+						.seats
+							grid-column: 3
+						.price
+							grid-column: 4
+							.cur
+								display: none
+						.book
+							grid-column: 5
+							font-weight: 500
+							color: $green
+							cursor: pointer
+							&:hover
+								text-decoration: underline
 			.thead
 				display: grid
-				grid-template-columns: 73px 46px 1fr 46px 96px 46px
+				grid-template-columns: 73px 66px 1fr 46px 96px 46px
 				gap: 1rem
-			.thead
 				border: 1px solid #E8E9ED
 				background-color: #F9FAFC
 				font-size: 15px
@@ -1579,8 +1671,56 @@ body.tours-page
 				border-radius: 4px
 				align-items: center
 				padding: 7px 18px
+				@container(width < 606px)
+					grid-template-columns: 73px 66px 100px 1fr 46px
+					padding-right: 0
+					.seats, .price
+						display: none
+					.name
+						grid-column: 2 / 4
+				@container(width < 470px)
+					grid-template-columns: 67px 100px 1fr 46px
+					gap: 10px
+					.time
+						display: none
 				.name
 					display: flex
+					align-items: center
+					position: relative
+					.search
+						position: absolute
+						top: 2px
+						left: 16px
+					.close
+						position: relative
+						top: 0
+						right: 27px
+						visibility: hidden
+						cursor: pointer
+						min-width: 14px
+						&:hover
+							path
+								fill: red
+					input
+						border: none
+						border-left: 1px solid #E8E9ED
+						border-right: 1px solid #E8E9ED
+						border-bottom: 1px solid transparent
+						padding: 7px 48px
+						font-family: inherit
+						font-weight: 500
+						display: block
+						margin: -7px 0
+						min-width: 137px
+						@media(max-width:1100px)
+							width: 100%
+							font-size: 1rem
+						&:focus, &:valid
+							outline: none
+							border-bottom-color: $green
+							& ~ .close
+								visibility: visible
+
 				.price
 					.head
 						display: inline-flex
