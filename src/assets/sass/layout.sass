@@ -1560,7 +1560,6 @@ body.tours-page
 			aside
 				display: none
 			article
-				padding-right: 0
 				padding-left: 1rem
 	section.table.tours
 		.table
@@ -1578,6 +1577,7 @@ body.tours-page
 						grid-template-columns: 67px 1fr
 						column-gap: 10px
 						row-gap: 1rem
+						padding: 7px
 					&:first-child
 						margin-top: 10px
 					&:not(:last-child)
@@ -1585,7 +1585,8 @@ body.tours-page
 					&:nth-of-type(2n)
 						background-color: #EEF7F5
 						.day
-							background-color: #E5EEEC !important
+							span
+								background-color: #E5EEEC !important
 
 					>.date
 						grid-column: 1
@@ -1593,17 +1594,21 @@ body.tours-page
 						flex-direction: column
 						gap: 5px
 						font-size: 15px
-						.day
-							background-color: #F4F4F4
-							border-radius: 4px
-							color: #9E9E9E
-							font-weight: 500
-							font-size: 14px
-							padding: 4px 11px
-							align-self: baseline
 						i
 							font-style: normal
 							color: $green
+						.day
+							display: flex
+							justify-content: space-between
+							span
+								background-color: #F4F4F4
+								border-radius: 4px
+								color: #9E9E9E
+								font-weight: 500
+								font-size: 14px
+								padding: 4px 7px
+								align-self: baseline
+
 					.record
 						grid-column: 2
 						display: grid
@@ -1681,6 +1686,7 @@ body.tours-page
 				@container(width < 470px)
 					grid-template-columns: 67px 100px 1fr 46px
 					gap: 10px
+					padding: 7px
 					.time
 						display: none
 				.name
@@ -1728,3 +1734,67 @@ body.tours-page
 						gap: 5px
 					ul
 						display: none
+body.corps-page
+	@media(max-width:800px)
+		main
+			aside
+				display: none
+			article
+				padding-left: 1rem
+	section.table
+		.table
+			width: 571px
+			@media(max-width:930px)
+				width: 100%
+			.thead
+				border: 1px solid #E8E9ED
+				background-color: #F9FAFC
+				border-top-left-radius: 6px
+				border-top-right-radius: 6px
+				display: flex
+				align-items: center
+				.search
+					display: flex
+					align-items: center
+					.search
+						transform: translateX(30px)
+					.close
+						visibility: hidden
+						text-align: left
+						transform: translateX(-30px)
+						cursor: pointer
+						&:hover
+							path
+								fill: red
+					input
+						border: none
+						border-left: 1px solid #E8E9ED
+						border-right: 1px solid #E8E9ED
+						border-bottom: 1px solid transparent
+						padding: 7px 38px
+						font-family: inherit
+						font-size: 1rem
+						&:focus, &:valid
+							outline: none
+							border-bottom-color: $green
+							& ~ .close
+								visibility: visible
+			.tbody
+				border: 1px solid #E8E9ED
+				border-bottom-left-radius: 6px
+				border-bottom-right-radius: 6px
+				border-top: none
+				padding: 1rem 0
+				.row
+					display: flex
+					align-items: center
+					gap: 1rem
+					padding-left: 22px
+					&:not(:last-child)
+						margin-bottom: 10px
+					a
+						color: #111723
+						font-weight: 500
+						text-decoration: none
+						&:hover
+							text-decoration: underline
